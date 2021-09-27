@@ -1,0 +1,27 @@
+{
+  "id": "e28d62da-ceb0-46e7-9e06-774bc46f4bac",
+  "name": "Data Editor Tool",
+  "publisher": "Volodymyr Dvernytskyi",
+  "version": "1.0.0.0",
+  "brief": "https://vld-nav.com/",
+  "description": "https://vld-nav.com/",
+  "privacyStatement": "https://vld-nav.com/",
+  "EULA": "https://vld-nav.com/",
+  "help": "https://vld-nav.com/",
+  "url": "https://vld-nav.com/",
+  "logo": "./logo.png",
+  "dependencies": [],
+  "screenshots": [],
+  "platform": "18.0.0.0",
+  "application": "18.0.0.0",
+  "idRanges": [
+    {
+      "from": 81000,
+      "to": 81100
+    }
+  ],
+  "contextSensitiveHelpUrl": "https://vld-nav.com/",
+  "showMyCode": true,
+  "runtime": "7.2",
+  "features": ["TranslationFile"]
+}
