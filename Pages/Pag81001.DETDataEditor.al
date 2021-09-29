@@ -20,8 +20,15 @@ page 81001 "DET Data Editor"
                     Caption = 'Source Table No.';
                     ShowMandatory = true;
                     trigger OnValidate()
+                    var
+                        AllObjWithCaption: Record AllObjWithCaption;
                     begin
-                        Error('');
+                        if SourceTableNo = 0 then begin
+                            SourceTableName := '';
+                            exit;
+                        end;
+                        AllObjWithCaption.Get(AllObjWithCaption."Object Type"::Table, SourceTableNo);
+                        SourceTableName := AllObjWithCaption."Object Name";
                     end;
 
                     trigger OnLookup(var Text: Text): Boolean
