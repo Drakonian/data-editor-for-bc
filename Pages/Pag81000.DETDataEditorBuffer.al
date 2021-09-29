@@ -6409,12 +6409,48 @@ page 81000 "DET Data Editor Buffer"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            action("DET Delete Selected")
+            {
+                ApplicationArea = All;
+                Image = Delete;
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedCategory = Process;
+                PromotedOnly = true;
+                Caption = 'Delete Selected';
+                ToolTip = 'Delete Selected';
+                trigger OnAction()
+                var
+                    DataEditorBuffer: Record "DET Data Editor Buffer";
+                begin
+                    DataEditorBuffer.CopyFilters(Rec);
+                    CurrPage.SetSelectionFilter(Rec);
+                    if Rec.FindSet() then
+                        repeat
+                            DeleteSourceRecord(Rec."Source Record ID");
+                            Rec.Delete();
+                        until Rec.Next() = 0;
+                    Rec.Reset();
+                    Rec.CopyFilters(DataEditorBuffer);
+                end;
+            }
+        }
+    }
 
     trigger OnDeleteRecord(): Boolean
+    begin
+        DeleteSourceRecord(Rec."Source Record ID");
+    end;
+
+    local procedure DeleteSourceRecord(SourceRecordID: RecordId)
     var
         SourceRecRef: RecordRef;
     begin
-        if SourceRecRef.Get(Rec."Source Record ID") then
+        if SourceRecRef.Get(SourceRecordID) then
             SourceRecRef.Delete(not WithoutValidate);
     end;
 
