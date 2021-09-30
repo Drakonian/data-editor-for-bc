@@ -413,7 +413,11 @@ table 81000 "DET Data Editor Buffer"
         field(398; "Text Value 397"; Text[2048]) { Caption = 'Value 397'; DataClassification = CustomerContent; CaptionClass = GetCaption(Rec.FieldNo("Text Value 397")); }
         field(399; "Text Value 398"; Text[2048]) { Caption = 'Value 398'; DataClassification = CustomerContent; CaptionClass = GetCaption(Rec.FieldNo("Text Value 398")); }
         field(400; "Text Value 399"; Text[2048]) { Caption = 'Value 399'; DataClassification = CustomerContent; CaptionClass = GetCaption(Rec.FieldNo("Text Value 399")); }
-
+        field(401; "Table Number"; Integer)
+        {
+            DataClassification = CustomerContent;
+            Caption = 'Table Number';
+        }
     }
     keys
     {

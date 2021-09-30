@@ -18,6 +18,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Buffer - Field Source Record ID - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1713748232 - Field 2089234503 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Table Number</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Buffer - Field Table Number - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1713748232 - Field 3572377161 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Value 10</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -4062,6 +4067,11 @@
           <source>Edit Value</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Edit Value - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1232699293 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Close Me</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Run Editor From Filter - Property Caption</note>
         </trans-unit>
         <trans-unit id="PermissionSet 751298128 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Data Editor Tool</source>
