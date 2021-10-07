@@ -60,6 +60,12 @@ page 81001 "DET Data Editor"
                     ToolTip = 'Without Validation';
                     Caption = 'Without Validation (Warning!)';
                 }
+                field(ExcludeFlowFieldsField; ExcludeFlowFields)
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Exclude FlowField''s from loading';
+                    Caption = 'Exclude FlowField''s';
+                }
             }
         }
 
@@ -77,12 +83,13 @@ page 81001 "DET Data Editor"
     var
         DataEditorBufferList: Page "DET Data Editor Buffer";
     begin
-        DataEditorBufferList.LoadRecords(SourceTableNo, WithoutValidation);
+        DataEditorBufferList.LoadRecords(SourceTableNo, WithoutValidation, ExcludeFlowFields);
         DataEditorBufferList.Run();
     end;
 
     var
         WithoutValidation: Boolean;
+        ExcludeFlowFields: Boolean;
         SourceTableNo: Integer;
         SourceTableName: Text;
 }

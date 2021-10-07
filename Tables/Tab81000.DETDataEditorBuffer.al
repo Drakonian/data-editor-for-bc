@@ -418,6 +418,16 @@ table 81000 "DET Data Editor Buffer"
             DataClassification = CustomerContent;
             Caption = 'Table Number';
         }
+        field(402; "Without Validate"; Boolean)
+        {
+            DataClassification = CustomerContent;
+            Caption = 'Without Validate';
+        }
+        field(403; "Exclude FlowFields"; Boolean)
+        {
+            DataClassification = CustomerContent;
+            Caption = 'Exclude FlowFields';
+        }
     }
     keys
     {

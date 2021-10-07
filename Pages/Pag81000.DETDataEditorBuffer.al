@@ -6454,9 +6454,10 @@ page 81000 "DET Data Editor Buffer"
             SourceRecRef.Delete(not WithoutValidate);
     end;
 
-    procedure LoadRecords(TableNo: Integer; inWithoutValidate: Boolean)
+    procedure LoadRecords(TableNo: Integer; inWithoutValidate: Boolean; inExcludeFlowFields: Boolean)
     begin
         WithoutValidate := inWithoutValidate;
+        ExcludeFlowFields := inExcludeFlowFields;
         OpenRecord(TableNo);
         InitVisibility();
         InitEditable();
@@ -6466,6 +6467,7 @@ page 81000 "DET Data Editor Buffer"
     local procedure OpenRecord(TableNo: Integer)
     var
         FieldRefVar: FieldRef;
+        SkipField: Boolean;
         Counter: Integer;
         FieldID: Integer;
         FieldInfoDictionaty: Dictionary of [Integer, Text];
@@ -6476,7 +6478,8 @@ page 81000 "DET Data Editor Buffer"
         StartBufferFieldNo := Rec.FieldNo("Text Value 2");
         for FieldID := 1 to RecRef.FieldCount() do begin
             FieldRefVar := RecRef.FieldIndex(FieldID);
-            if FieldRefVar.Class() <> FieldClass::FlowFilter then begin
+            SkipField := (FieldRefVar.Class() = FieldClass::FlowFilter) or ((FieldRefVar.Class() = FieldClass::FlowField) and ExcludeFlowFields);
+            if not SkipField then begin
                 Counter += 1;
                 FieldInfoDictionaty.Add(FieldRefVar.Number(), Format(FieldRefVar.Type()));
                 GenFieldInfoDict.Add(Counter, FieldInfoDictionaty);
@@ -7446,6 +7449,7 @@ page 81000 "DET Data Editor Buffer"
     var
         RecRef: RecordRef;
         WithoutValidate: Boolean;
+        ExcludeFlowFields: Boolean;
         GenFieldInfoDict: Dictionary of [Integer, Dictionary of [Integer, Text]];
         CaptionDictionary: Dictionary of [Integer, Text];
         RenamePKNotSuppErr: Label 'Changing the primary key is not supported.';

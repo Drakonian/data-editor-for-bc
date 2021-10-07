@@ -13,6 +13,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Buffer - Field Entry No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1713748232 - Field 2209029575 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Exclude FlowFields</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Buffer - Field Exclude FlowFields - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1713748232 - Field 2649378047 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Source Record ID</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -2013,10 +2018,25 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Buffer - Field Text Value 99 - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1713748232 - Field 2321533550 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Without Validate</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Buffer - Field Without Validate - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 2312685416 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Data Editor</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2312685416 - Control 3522160761 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Exclude FlowField's from loading</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control ExcludeFlowFieldsField - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2312685416 - Control 3522160761 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Exclude FlowField's</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control ExcludeFlowFieldsField - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2312685416 - Control 888177530 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Source Table Name</source>
