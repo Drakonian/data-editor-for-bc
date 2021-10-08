@@ -29,6 +29,8 @@ page 81001 "DET Data Editor"
                         end;
                         AllObjWithCaption.Get(AllObjWithCaption."Object Type"::Table, SourceTableNo);
                         SourceTableName := AllObjWithCaption."Object Name";
+                        CustomTableView := '';
+                        SetNumberOfRecords('');
                     end;
 
                     trigger OnLookup(var Text: Text): Boolean
@@ -45,6 +47,8 @@ page 81001 "DET Data Editor"
                         AllObjWithCaptionPage.GetRecord(AllObjWithCaption);
                         SourceTableNo := AllObjWithCaption."Object ID";
                         SourceTableName := AllObjWithCaption."Object Name";
+                        CustomTableView := '';
+                        SetNumberOfRecords('');
                     end;
                 }
                 field(SourceTableNameField; SourceTableName)
@@ -52,6 +56,24 @@ page 81001 "DET Data Editor"
                     ApplicationArea = All;
                     ToolTip = 'Source Table Name';
                     Caption = 'Source Table Name';
+                    Editable = false;
+                }
+                field(CustomTableViewField; CustomTableView)
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Set Initial Table Filter';
+                    Caption = 'Table Filter';
+                    Editable = false;
+                    trigger OnDrillDown()
+                    begin
+                        SetCustomFilter();
+                    end;
+                }
+                field(NumberOfRecordsField; NumberOfRecords)
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Number Of Filtered Records';
+                    Caption = 'Number Of Records';
                     Editable = false;
                 }
                 field(WithoutValidationField; WithoutValidation)
@@ -83,13 +105,41 @@ page 81001 "DET Data Editor"
     var
         DataEditorBufferList: Page "DET Data Editor Buffer";
     begin
-        DataEditorBufferList.LoadRecords(SourceTableNo, WithoutValidation, ExcludeFlowFields);
+        DataEditorBufferList.LoadRecords(SourceTableNo, CustomTableView, WithoutValidation, ExcludeFlowFields);
         DataEditorBufferList.Run();
+    end;
+
+    local procedure SetNumberOfRecords(TableView: Text)
+    var
+        RecRef: RecordRef;
+    begin
+        if SourceTableNo = 0 then
+            exit;
+        RecRef.Open(SourceTableNo);
+        if TableView <> '' then
+            RecRef.SetView(TableView);
+        NumberOfRecords := RecRef.Count();
+    end;
+
+    local procedure SetCustomFilter()
+    var
+        CustomFilterPageBuilder: FilterPageBuilder;
+    begin
+        if SourceTableNo = 0 then
+            exit;
+        CustomFilterPageBuilder.AddTable(SourceTableName, SourceTableNo);
+        if CustomTableView <> '' then
+            CustomFilterPageBuilder.SetView(SourceTableName, CustomTableView);
+        CustomFilterPageBuilder.RunModal();
+        CustomTableView := CustomFilterPageBuilder.GetView(SourceTableName);
+        SetNumberOfRecords(CustomTableView);
     end;
 
     var
         WithoutValidation: Boolean;
         ExcludeFlowFields: Boolean;
         SourceTableNo: Integer;
+        NumberOfRecords: Integer;
         SourceTableName: Text;
+        CustomTableView: Text;
 }

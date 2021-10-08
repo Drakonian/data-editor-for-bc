@@ -6454,10 +6454,11 @@ page 81000 "DET Data Editor Buffer"
             SourceRecRef.Delete(not WithoutValidate);
     end;
 
-    procedure LoadRecords(TableNo: Integer; inWithoutValidate: Boolean; inExcludeFlowFields: Boolean)
+    procedure LoadRecords(TableNo: Integer; inCustomTableView: Text; inWithoutValidate: Boolean; inExcludeFlowFields: Boolean)
     begin
         WithoutValidate := inWithoutValidate;
         ExcludeFlowFields := inExcludeFlowFields;
+        CustomTableView := inCustomTableView;
         OpenRecord(TableNo);
         InitVisibility();
         InitEditable();
@@ -6507,6 +6508,8 @@ page 81000 "DET Data Editor Buffer"
         EntryNo: Integer;
     begin
         TempRecRef.GetTable(Rec);
+        if CustomTableView <> '' then
+            RecRef.SetView(CustomTableView);
         if RecRef.FindSet() then
             repeat
                 EntryNo += 1;
@@ -7450,6 +7453,7 @@ page 81000 "DET Data Editor Buffer"
         RecRef: RecordRef;
         WithoutValidate: Boolean;
         ExcludeFlowFields: Boolean;
+        CustomTableView: text;
         GenFieldInfoDict: Dictionary of [Integer, Dictionary of [Integer, Text]];
         CaptionDictionary: Dictionary of [Integer, Text];
         RenamePKNotSuppErr: Label 'Changing the primary key is not supported.';

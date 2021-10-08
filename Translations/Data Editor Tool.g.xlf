@@ -2028,6 +2028,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 2312685416 - Control 1018074862 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Set Initial Table Filter</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control CustomTableViewField - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2312685416 - Control 1018074862 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Table Filter</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control CustomTableViewField - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 2312685416 - Control 3522160761 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Exclude FlowField's from loading</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -2037,6 +2047,16 @@
           <source>Exclude FlowField's</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control ExcludeFlowFieldsField - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2312685416 - Control 2033800930 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Number Of Filtered Records</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control NumberOfRecordsField - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2312685416 - Control 2033800930 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Number Of Records</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control NumberOfRecordsField - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2312685416 - Control 888177530 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Source Table Name</source>
