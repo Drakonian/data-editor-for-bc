@@ -116,6 +116,16 @@ page 81002 "DET Edit Value"
                     ShowCaption = false;
                 }
             }
+            group("DET Guid")
+            {
+                Visible = IsGuidValue;
+                ShowCaption = false;
+                field(GuidValue; GuidValue)
+                {
+                    ApplicationArea = All;
+                    ShowCaption = false;
+                }
+            }
         }
     }
 
@@ -196,6 +206,11 @@ page 81002 "DET Edit Value"
                     Evaluate(TimeValue, InitValue);
                     IsTimeValue := true;
                 end;
+            FieldInfo.Type::GUID:
+                begin
+                    Evaluate(GuidValue, InitValue);
+                    IsGuidValue := true;
+                end;
         end;
     end;
 
@@ -220,6 +235,8 @@ page 81002 "DET Edit Value"
                 result := DateTimeValue;
             IsTimeValue:
                 result := TimeValue;
+            IsGuidValue:
+                result := GuidValue;
         end;
     end;
 
@@ -230,16 +247,17 @@ page 81002 "DET Edit Value"
 
     var
         FieldInfo: Record Field;
+        DateFormulaValue: DateFormula;
         BooleanValue: Boolean;
         CodeValue: code[2048];
         TextValue: Text[2048];
         IntegerValue: Integer;
         DecimalValue: Decimal;
         DateValue: Date;
-        DateFormulaValue: DateFormula;
         DateTimeValue: DateTime;
         TimeValue: Time;
+        GuidValue: Guid;
         [InDataSet]
-        IsBooleanValue, isCodeValue, IsTextValue, IsIntegerValue, IsDecimalValue, IsDateValue, IsDateFormulaValue, IsDateTimeValue, IsTimeValue : Boolean;
+        IsBooleanValue, isCodeValue, IsTextValue, IsIntegerValue, IsDecimalValue, IsDateValue, IsDateFormulaValue, IsDateTimeValue, IsTimeValue, IsGuidValue : Boolean;
 
 }

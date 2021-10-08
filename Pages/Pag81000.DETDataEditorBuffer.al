@@ -6563,7 +6563,7 @@ page 81000 "DET Data Editor Buffer"
 
         TestFieldIsPartOfPK(RecRef, FieldRefVar);
 
-        FieldRefVar.Value(NewValue);
+        FieldRefVar.Value(TextValueAsVariant(FieldRefVar.Type(), NewValue));
         if not WithoutValidate then
             FieldRefVar.Validate();
         RecRef.Modify(not WithoutValidate);
@@ -6625,6 +6625,71 @@ page 81000 "DET Data Editor Buffer"
             NewValue := TempNameValueBuffer.Value
         else
             NewValue := format(ResultVariant);
+    end;
+
+    local procedure TextValueAsVariant(FieldTypeVar: FieldType; ValueAsText: Text[2048]): Variant
+    var
+        DateFormulaValue: DateFormula;
+        IntegerValue: Integer;
+        DecimalValue: Decimal;
+        BooleanValue: Boolean;
+        DateValue: Date;
+        DateTimeValue: DateTime;
+        TimeValue: Time;
+        GuidValue: Guid;
+        BigIntegerValue: BigInteger;
+    begin
+        case FieldTypeVar of
+            FieldTypeVar::Code, FieldTypeVar::Text:
+                exit(ValueAsText);
+            FieldTypeVar::Integer:
+                begin
+                    Evaluate(IntegerValue, ValueAsText);
+                    exit(IntegerValue);
+                end;
+            FieldTypeVar::Decimal:
+                begin
+                    Evaluate(DecimalValue, ValueAsText);
+                    exit(DecimalValue);
+                end;
+            FieldTypeVar::Boolean:
+                begin
+                    Evaluate(BooleanValue, ValueAsText);
+                    exit(BooleanValue);
+                end;
+            FieldTypeVar::Date:
+                begin
+                    Evaluate(DateValue, ValueAsText);
+                    exit(DateValue);
+                end;
+            FieldTypeVar::DateFormula:
+                begin
+                    Evaluate(DateFormulaValue, ValueAsText);
+                    exit(DateFormulaValue);
+                end;
+            FieldTypeVar::DateTime:
+                begin
+                    Evaluate(DateTimeValue, ValueAsText);
+                    exit(DateTimeValue);
+                end;
+            FieldTypeVar::Time:
+                begin
+                    Evaluate(TimeValue, ValueAsText);
+                    exit(TimeValue);
+                end;
+            FieldTypeVar::Guid:
+                begin
+                    Evaluate(GuidValue, ValueAsText);
+                    exit(GuidValue);
+                end;
+            FieldTypeVar::BigInteger:
+                begin
+                    Evaluate(BigIntegerValue, ValueAsText);
+                    exit(BigIntegerValue);
+                end;
+            else
+                exit(ValueAsText);
+        end;
     end;
 
     local procedure InitVisibility()
@@ -7446,7 +7511,16 @@ page 81000 "DET Data Editor Buffer"
             exit(false);
         GenFieldInfoDict.Get(FieldCounter, FieldInfo);
         foreach FieldTypeAsText in FieldInfo.Values() do
-            exit(FieldTypeAsText in [Format(FieldType::Text), Format(FieldType::Code)]);
+            exit(FieldTypeAsText in [Format(FieldType::Text), Format(FieldType::Code),
+                Format(FieldType::Integer),
+                Format(FieldType::Decimal),
+                Format(FieldType::Boolean),
+                Format(FieldType::Date),
+                Format(FieldType::DateFormula),
+                Format(FieldType::DateTime),
+                Format(FieldType::Time),
+                Format(FieldType::Guid),
+                Format(FieldType::BigInteger)]);
     end;
 
     var
