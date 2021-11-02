@@ -27,7 +27,7 @@ jobs:
       - name: Environments
         id: Environments
         run: |
-          $environmentName = '${{ github.event.inputs.environmentName }}'
+          $environmentName = ${{ github.event.inputs.environmentName }}
           $headers = @{ 
             "Authorization" = "token ${{ github.token }}"
             "Accept"        = "application/vnd.github.v3+json"
@@ -57,8 +57,11 @@ jobs:
     environment:
       name: ${{ matrix.environment }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Deploy
-        uses: microsoft/AL-Go-Actions/Deploy@main
+        uses: microsoft/AL-Go-Actions-Actions/Deploy@main
         env:
           authContext: '${{ secrets.AuthContext }}'
         with:
