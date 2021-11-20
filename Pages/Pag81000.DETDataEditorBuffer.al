@@ -7520,8 +7520,7 @@ page 81000 "DET Data Editor Buffer"
                 Format(FieldType::DateTime),
                 Format(FieldType::Time),
                 Format(FieldType::Guid),
-                Format(FieldType::BigInteger),
-                Format(FieldType::Option)]);
+                Format(FieldType::BigInteger)]);
     end;
 
     var
