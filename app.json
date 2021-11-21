@@ -12,8 +12,8 @@
   "logo": "./logo.png",
   "dependencies": [],
   "screenshots": [],
-  "platform": "18.0.0.0",
-  "application": "18.0.0.0",
+  "platform": "19.0.0.0",
+  "application": "19.0.0.0",
   "idRanges": [
     {
       "from": 81000,
@@ -21,7 +21,12 @@
     }
   ],
   "contextSensitiveHelpUrl": "https://vld-nav.com/",
-  "showMyCode": true,
-  "runtime": "7.2",
-  "features": ["TranslationFile"]
+  "runtime": "8.0",
+  "features": ["TranslationFile"],
+  "resourceExposurePolicy":
+    {
+      "allowDebugging": true,
+      "allowDownloadingSource": true,
+      "includeSourceInSymbolFile": true
+    }
 }
