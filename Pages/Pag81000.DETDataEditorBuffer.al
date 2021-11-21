@@ -6532,11 +6532,11 @@ page 81000 "DET Data Editor Buffer"
 
     end;
 
-    local procedure TestFieldIsPartOfPK(var RecRef: RecordRef; var FieldRefVar: FieldRef)
+    local procedure TestFieldIsPartOfPK(var RecRef: RecordRef; var FieldRefVar: FieldRef): Boolean
     var
         FieldRefVar2: FieldRef;
-        ListOfPK: List of [Integer];
         KeyRefVar: KeyRef;
+        ListOfPK: List of [Integer];
         KeyCount: Integer;
     begin
         KeyRefVar := RecRef.KeyIndex(1);
@@ -6546,7 +6546,192 @@ page 81000 "DET Data Editor Buffer"
         end;
         //TODO: Implement Rename function with random number of PK fields
         if ListOfPK.Contains(FieldRefVar.Number()) then
-            Error(RenamePKNotSuppErr);
+            exit(true);
+        //Error(RenamePKNotSuppErr);
+    end;
+
+    local procedure RenamePKField(var RecRef: RecordRef; var FieldRefVar: FieldRef; NewValueAsVariant: Variant)
+    var
+        SingleInstanceStorage: Codeunit "DET Single Instance Storage";
+        FieldRefVar2: FieldRef;
+        KeyRefVar: KeyRef;
+        KeyCount: Integer;
+        DictOfFieldKeyType: Dictionary of [Integer, Text];
+        KeyValueIndexRelDict: Dictionary of [Integer, Text[2048]];
+    begin
+        KeyRefVar := RecRef.KeyIndex(1);
+        for KeyCount := 1 to KeyRefVar.FieldCount() do begin
+            FieldRefVar2 := KeyRefVar.FieldIndex(KeyCount);
+            if FieldRefVar2.Number() <> FieldRefVar.Number() then
+                if FieldRefVar2.Type() = FieldRefVar2.Type::Option then
+                    KeyValueIndexRelDict.Add(KeyCount, Format(FieldRefVar2.OptionMembers().Split(',').IndexOf(FieldRefVar2.Value()) - 1))
+                else
+                    KeyValueIndexRelDict.Add(KeyCount, Format(FieldRefVar2.Value()))
+            else
+                KeyValueIndexRelDict.Add(KeyCount, Format(NewValueAsVariant));
+            DictOfFieldKeyType.Add(KeyCount, Format(FieldRefVar2.Type));
+        end;
+
+        BindSubscription(SingleInstanceStorage);
+
+        case KeyValueIndexRelDict.Count() of
+            1:
+                RecRef.Rename(TextValueAsVariant(FieldRefVar.Type(), NewValueAsVariant));
+            2:
+                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)), TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)));
+            3:
+                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)));
+            4:
+                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4))
+                    );
+            5:
+                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(5)), KeyValueIndexRelDict.Get(5))
+                    );
+            6:
+                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(5)), KeyValueIndexRelDict.Get(5)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(6)), KeyValueIndexRelDict.Get(6))
+                    );
+            7:
+                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(5)), KeyValueIndexRelDict.Get(5)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(6)), KeyValueIndexRelDict.Get(6)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(7)), KeyValueIndexRelDict.Get(7))
+                    );
+            8:
+                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(5)), KeyValueIndexRelDict.Get(5)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(6)), KeyValueIndexRelDict.Get(6)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(7)), KeyValueIndexRelDict.Get(7)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(8)), KeyValueIndexRelDict.Get(8))
+                    );
+            9:
+                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(5)), KeyValueIndexRelDict.Get(5)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(6)), KeyValueIndexRelDict.Get(6)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(7)), KeyValueIndexRelDict.Get(7)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(8)), KeyValueIndexRelDict.Get(8)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(9)), KeyValueIndexRelDict.Get(9))
+                    );
+            10:
+                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(5)), KeyValueIndexRelDict.Get(5)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(6)), KeyValueIndexRelDict.Get(6)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(7)), KeyValueIndexRelDict.Get(7)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(8)), KeyValueIndexRelDict.Get(8)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(9)), KeyValueIndexRelDict.Get(9)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(10)), KeyValueIndexRelDict.Get(10))
+                    );
+            11:
+                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(5)), KeyValueIndexRelDict.Get(5)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(6)), KeyValueIndexRelDict.Get(6)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(7)), KeyValueIndexRelDict.Get(7)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(8)), KeyValueIndexRelDict.Get(8)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(9)), KeyValueIndexRelDict.Get(9)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(10)), KeyValueIndexRelDict.Get(10)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(11)), KeyValueIndexRelDict.Get(11))
+                    );
+            12:
+                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(5)), KeyValueIndexRelDict.Get(5)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(6)), KeyValueIndexRelDict.Get(6)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(7)), KeyValueIndexRelDict.Get(7)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(8)), KeyValueIndexRelDict.Get(8)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(9)), KeyValueIndexRelDict.Get(9)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(10)), KeyValueIndexRelDict.Get(10)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(11)), KeyValueIndexRelDict.Get(11)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(12)), KeyValueIndexRelDict.Get(12))
+                    );
+            13:
+                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(5)), KeyValueIndexRelDict.Get(5)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(6)), KeyValueIndexRelDict.Get(6)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(7)), KeyValueIndexRelDict.Get(7)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(8)), KeyValueIndexRelDict.Get(8)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(9)), KeyValueIndexRelDict.Get(9)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(10)), KeyValueIndexRelDict.Get(10)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(11)), KeyValueIndexRelDict.Get(11)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(12)), KeyValueIndexRelDict.Get(12)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(13)), KeyValueIndexRelDict.Get(13))
+                    );
+            14:
+                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(5)), KeyValueIndexRelDict.Get(5)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(6)), KeyValueIndexRelDict.Get(6)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(7)), KeyValueIndexRelDict.Get(7)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(8)), KeyValueIndexRelDict.Get(8)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(9)), KeyValueIndexRelDict.Get(9)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(10)), KeyValueIndexRelDict.Get(10)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(11)), KeyValueIndexRelDict.Get(11)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(12)), KeyValueIndexRelDict.Get(12)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(13)), KeyValueIndexRelDict.Get(13)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(14)), KeyValueIndexRelDict.Get(14))
+                    );
+            15:
+                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(5)), KeyValueIndexRelDict.Get(5)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(6)), KeyValueIndexRelDict.Get(6)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(7)), KeyValueIndexRelDict.Get(7)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(8)), KeyValueIndexRelDict.Get(8)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(9)), KeyValueIndexRelDict.Get(9)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(10)), KeyValueIndexRelDict.Get(10)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(11)), KeyValueIndexRelDict.Get(11)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(12)), KeyValueIndexRelDict.Get(12)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(13)), KeyValueIndexRelDict.Get(13)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(14)), KeyValueIndexRelDict.Get(14)),
+                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(15)), KeyValueIndexRelDict.Get(15))
+                    );
+            else
+                Error(RenamePKNotSuppErr);
+        end;
+
+        UnbindSubscription(SingleInstanceStorage);
+        Rec."Source Record ID" := RecRef.RecordId();
+    end;
+
+    local procedure GetFieldTypeFromText(FieldTypeAsTxt: Text) FieldTypeVar: FieldType
+    begin
+        Evaluate(FieldTypeVar, FieldTypeAsTxt);
     end;
 
     local procedure OnValidateField(FieldCounter: Integer; NewValue: Text[2048])
@@ -6561,7 +6746,10 @@ page 81000 "DET Data Editor Buffer"
         foreach OriginalFieldNo in FieldInfo.Keys() do
             FieldRefVar := RecRef.Field(OriginalFieldNo);
 
-        TestFieldIsPartOfPK(RecRef, FieldRefVar);
+        if TestFieldIsPartOfPK(RecRef, FieldRefVar) then begin
+            RenamePKField(RecRef, FieldRefVar, NewValue);
+            exit;
+        end;
 
         FieldRefVar.Value(TextValueAsVariant(FieldRefVar.Type(), NewValue));
         if not WithoutValidate then
@@ -6589,8 +6777,6 @@ page 81000 "DET Data Editor Buffer"
         foreach OriginalFieldNo in FieldInfo.Keys() do
             FieldRefVar := RecRef.Field(OriginalFieldNo);
 
-        TestFieldIsPartOfPK(RecRef, FieldRefVar);
-
         if FieldRefVar.Class <> FieldClass::Normal then
             exit;
 
@@ -6614,6 +6800,19 @@ page 81000 "DET Data Editor Buffer"
             if not (EditValue.RunModal() in [Action::OK, Action::LookupOK]) then
                 exit;
             EditValue.GetResult(ResultVariant);
+        end;
+
+        if TestFieldIsPartOfPK(RecRef, FieldRefVar) then begin
+            if FieldRefVar.Type() = FieldRefVar.Type::Option then begin
+                Evaluate(OriginalFieldNo, TempNameValueBuffer.Name);
+                ResultVariant := OriginalFieldNo;
+            end;
+            RenamePKField(RecRef, FieldRefVar, ResultVariant);
+            if FieldRefVar.Type() = FieldRefVar.Type::Option then
+                NewValue := TempNameValueBuffer.Value
+            else
+                NewValue := format(ResultVariant);
+            exit;
         end;
 
         FieldRefVar.Value(ResultVariant);
@@ -6686,6 +6885,11 @@ page 81000 "DET Data Editor Buffer"
                 begin
                     Evaluate(BigIntegerValue, ValueAsText);
                     exit(BigIntegerValue);
+                end;
+            FieldTypeVar::Option:
+                begin
+                    Evaluate(IntegerValue, ValueAsText);
+                    exit(IntegerValue);
                 end;
             else
                 exit(ValueAsText);
@@ -7530,7 +7734,7 @@ page 81000 "DET Data Editor Buffer"
         CustomTableView: text;
         GenFieldInfoDict: Dictionary of [Integer, Dictionary of [Integer, Text]];
         CaptionDictionary: Dictionary of [Integer, Text];
-        RenamePKNotSuppErr: Label 'Changing the primary key is not supported.';
+        RenamePKNotSuppErr: Label 'Changing the primary key for >15 values is not supported.';
         [InDataSet]
         FieldVisible1, FieldVisible2, FieldVisible3, FieldVisible4, FieldVisible5, FieldVisible6, FieldVisible7, FieldVisible8, FieldVisible9, FieldVisible10, FieldVisible11, FieldVisible12, FieldVisible13, FieldVisible14, FieldVisible15, FieldVisible16, FieldVisible17, FieldVisible18, FieldVisible19, FieldVisible20, FieldVisible21, FieldVisible22, FieldVisible23, FieldVisible24, FieldVisible25, FieldVisible26, FieldVisible27, FieldVisible28, FieldVisible29, FieldVisible30, FieldVisible31, FieldVisible32, FieldVisible33, FieldVisible34, FieldVisible35, FieldVisible36, FieldVisible37, FieldVisible38, FieldVisible39, FieldVisible40, FieldVisible41, FieldVisible42, FieldVisible43, FieldVisible44, FieldVisible45, FieldVisible46, FieldVisible47, FieldVisible48, FieldVisible49, FieldVisible50, FieldVisible51, FieldVisible52, FieldVisible53, FieldVisible54, FieldVisible55, FieldVisible56, FieldVisible57, FieldVisible58, FieldVisible59, FieldVisible60, FieldVisible61, FieldVisible62, FieldVisible63, FieldVisible64, FieldVisible65, FieldVisible66, FieldVisible67, FieldVisible68, FieldVisible69, FieldVisible70, FieldVisible71, FieldVisible72, FieldVisible73, FieldVisible74, FieldVisible75, FieldVisible76, FieldVisible77, FieldVisible78, FieldVisible79, FieldVisible80, FieldVisible81, FieldVisible82, FieldVisible83, FieldVisible84, FieldVisible85, FieldVisible86, FieldVisible87, FieldVisible88, FieldVisible89, FieldVisible90, FieldVisible91, FieldVisible92, FieldVisible93, FieldVisible94, FieldVisible95, FieldVisible96, FieldVisible97, FieldVisible98, FieldVisible99, FieldVisible100, FieldVisible101, FieldVisible102, FieldVisible103, FieldVisible104, FieldVisible105, FieldVisible106, FieldVisible107, FieldVisible108, FieldVisible109, FieldVisible110, FieldVisible111, FieldVisible112, FieldVisible113, FieldVisible114, FieldVisible115, FieldVisible116, FieldVisible117, FieldVisible118, FieldVisible119, FieldVisible120, FieldVisible121, FieldVisible122, FieldVisible123, FieldVisible124, FieldVisible125, FieldVisible126, FieldVisible127, FieldVisible128, FieldVisible129, FieldVisible130, FieldVisible131, FieldVisible132, FieldVisible133, FieldVisible134, FieldVisible135, FieldVisible136, FieldVisible137, FieldVisible138, FieldVisible139, FieldVisible140, FieldVisible141, FieldVisible142, FieldVisible143, FieldVisible144, FieldVisible145, FieldVisible146, FieldVisible147, FieldVisible148, FieldVisible149, FieldVisible150, FieldVisible151, FieldVisible152, FieldVisible153, FieldVisible154, FieldVisible155, FieldVisible156, FieldVisible157, FieldVisible158, FieldVisible159, FieldVisible160, FieldVisible161, FieldVisible162, FieldVisible163, FieldVisible164, FieldVisible165, FieldVisible166, FieldVisible167, FieldVisible168, FieldVisible169, FieldVisible170, FieldVisible171, FieldVisible172, FieldVisible173, FieldVisible174, FieldVisible175, FieldVisible176, FieldVisible177, FieldVisible178, FieldVisible179, FieldVisible180, FieldVisible181, FieldVisible182, FieldVisible183, FieldVisible184, FieldVisible185, FieldVisible186, FieldVisible187, FieldVisible188, FieldVisible189, FieldVisible190, FieldVisible191, FieldVisible192, FieldVisible193, FieldVisible194, FieldVisible195, FieldVisible196, FieldVisible197, FieldVisible198, FieldVisible199, FieldVisible200, FieldVisible201, FieldVisible202, FieldVisible203, FieldVisible204, FieldVisible205, FieldVisible206, FieldVisible207, FieldVisible208, FieldVisible209, FieldVisible210, FieldVisible211, FieldVisible212, FieldVisible213, FieldVisible214, FieldVisible215, FieldVisible216, FieldVisible217, FieldVisible218, FieldVisible219, FieldVisible220, FieldVisible221, FieldVisible222, FieldVisible223, FieldVisible224, FieldVisible225, FieldVisible226, FieldVisible227, FieldVisible228, FieldVisible229, FieldVisible230, FieldVisible231, FieldVisible232, FieldVisible233, FieldVisible234, FieldVisible235, FieldVisible236, FieldVisible237, FieldVisible238, FieldVisible239, FieldVisible240, FieldVisible241, FieldVisible242, FieldVisible243, FieldVisible244, FieldVisible245, FieldVisible246, FieldVisible247, FieldVisible248, FieldVisible249, FieldVisible250, FieldVisible251, FieldVisible252, FieldVisible253, FieldVisible254, FieldVisible255, FieldVisible256, FieldVisible257, FieldVisible258, FieldVisible259, FieldVisible260, FieldVisible261, FieldVisible262, FieldVisible263, FieldVisible264, FieldVisible265, FieldVisible266, FieldVisible267, FieldVisible268, FieldVisible269, FieldVisible270, FieldVisible271, FieldVisible272, FieldVisible273, FieldVisible274, FieldVisible275, FieldVisible276, FieldVisible277, FieldVisible278, FieldVisible279, FieldVisible280, FieldVisible281, FieldVisible282, FieldVisible283, FieldVisible284, FieldVisible285, FieldVisible286, FieldVisible287, FieldVisible288, FieldVisible289, FieldVisible290, FieldVisible291, FieldVisible292, FieldVisible293, FieldVisible294, FieldVisible295, FieldVisible296, FieldVisible297, FieldVisible298, FieldVisible299, FieldVisible300, FieldVisible301, FieldVisible302, FieldVisible303, FieldVisible304, FieldVisible305, FieldVisible306, FieldVisible307, FieldVisible308, FieldVisible309, FieldVisible310, FieldVisible311, FieldVisible312, FieldVisible313, FieldVisible314, FieldVisible315, FieldVisible316, FieldVisible317, FieldVisible318, FieldVisible319, FieldVisible320, FieldVisible321, FieldVisible322, FieldVisible323, FieldVisible324, FieldVisible325, FieldVisible326, FieldVisible327, FieldVisible328, FieldVisible329, FieldVisible330, FieldVisible331, FieldVisible332, FieldVisible333, FieldVisible334, FieldVisible335, FieldVisible336, FieldVisible337, FieldVisible338, FieldVisible339, FieldVisible340, FieldVisible341, FieldVisible342, FieldVisible343, FieldVisible344, FieldVisible345, FieldVisible346, FieldVisible347, FieldVisible348, FieldVisible349, FieldVisible350, FieldVisible351, FieldVisible352, FieldVisible353, FieldVisible354, FieldVisible355, FieldVisible356, FieldVisible357, FieldVisible358, FieldVisible359, FieldVisible360, FieldVisible361, FieldVisible362, FieldVisible363, FieldVisible364, FieldVisible365, FieldVisible366, FieldVisible367, FieldVisible368, FieldVisible369, FieldVisible370, FieldVisible371, FieldVisible372, FieldVisible373, FieldVisible374, FieldVisible375, FieldVisible376, FieldVisible377, FieldVisible378, FieldVisible379, FieldVisible380, FieldVisible381, FieldVisible382, FieldVisible383, FieldVisible384, FieldVisible385, FieldVisible386, FieldVisible387, FieldVisible388, FieldVisible389, FieldVisible390, FieldVisible391, FieldVisible392, FieldVisible393, FieldVisible394, FieldVisible395, FieldVisible396, FieldVisible397, FieldVisible398, FieldVisible399, FieldVisible400 : Boolean;
         [InDataSet]

@@ -2094,7 +2094,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1713748232 - NamedType 3577291695" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Changing the primary key is not supported.</source>
+          <source>Changing the primary key for &gt;15 values is not supported.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - NamedType RenamePKNotSuppErr</note>
         </trans-unit>
