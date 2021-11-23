@@ -3,4 +3,6 @@ You probably remember the glory days when we had direct access to data in Navisi
 
 https://vld-nav.com/table-data-editor-for-bc
 
+https://vld-nav.com/table-data-editor-for-bc-update
+
 ![Data Editor](https://static.tildacdn.com/tild3565-3631-4636-b463-303765396635/OpenTable.gif)
