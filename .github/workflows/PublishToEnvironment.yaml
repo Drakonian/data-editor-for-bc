@@ -23,7 +23,7 @@ jobs:
       telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
     steps:
       - id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@main
+        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v0.1
         with: 
           eventId: "DO0097"
 
@@ -77,10 +77,10 @@ jobs:
           Write-Host "::set-output name=envName::$envName"
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@main
+        uses: microsoft/AL-Go-Actions/ReadSettings@v0.1
 
       - name: Read secrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@main
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v0.1
         env:
           secrets: ${{ toJson(secrets) }}
         with:
@@ -108,7 +108,7 @@ jobs:
           Write-Host "set-output name=authContext::$authContext"
 
       - name: Deploy
-        uses: microsoft/AL-Go-Actions/Deploy@main
+        uses: microsoft/AL-Go-Actions/Deploy@v0.1
         env:
           authContext: '${{ steps.authContext.outputs.authContext }}'
         with:
@@ -124,7 +124,7 @@ jobs:
     steps:
       - name: Finalizing the workflow
         id: postProcess
-        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@main
+        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v0.1
         with: 
           eventId: "DO0097"
           telemetryScopeJson: ${{ needs.initialization.outputs.telemetryScopeJson }}  

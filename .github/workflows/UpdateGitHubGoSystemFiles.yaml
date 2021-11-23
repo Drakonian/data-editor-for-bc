@@ -23,7 +23,7 @@ jobs:
       telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
     steps:
       - id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@main
+        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v0.1
         with: 
           eventId: "DO0098"
 
@@ -36,13 +36,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@main
+        uses: microsoft/AL-Go-Actions/ReadSettings@v0.1
         with:
           parentTelemetryScopeJson: ${{ needs.initialization.outputs.telemetryScopeJson }}
           get: KeyVaultName,GhTokenWorkflowSecretName,TemplateUrl
 
       - name: Read secrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@main
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v0.1
         env:
           secrets: ${{ toJson(secrets) }}
         with:
@@ -59,7 +59,7 @@ jobs:
           }
 
       - name: Update AL-Go system files
-        uses: microsoft/AL-Go-Actions/CheckForUpdates@main
+        uses: microsoft/AL-Go-Actions/CheckForUpdates@v0.1
         with:
           parentTelemetryScopeJson: ${{ needs.initialization.outputs.telemetryScopeJson }}
           token: ${{ env.ghTokenWorkflow }}
@@ -73,7 +73,7 @@ jobs:
     steps:
       - name: Finalizing the workflow
         id: postProcess
-        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@main
+        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v0.1
         with: 
           eventId: "DO0098"
           telemetryScopeJson: ${{ needs.initialization.outputs.telemetryScopeJson }}  

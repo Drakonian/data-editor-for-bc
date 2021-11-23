@@ -23,7 +23,7 @@ jobs:
       telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
     steps:
       - id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@main
+        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v0.1
         with: 
           eventId: "DO0091"
 
@@ -35,13 +35,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@main
+        uses: microsoft/AL-Go-Actions/ReadSettings@v0.1
         with:
           parentTelemetryScopeJson: ${{ needs.initialization.outputs.telemetryScopeJson }}
           get: TemplateUrl
 
       - name: Check for updates to AL-Go system files
-        uses: microsoft/AL-Go-Actions/CheckForUpdates@main
+        uses: microsoft/AL-Go-Actions/CheckForUpdates@v0.1
         with:
           parentTelemetryScopeJson: ${{ needs.initialization.outputs.telemetryScopeJson }}
           templateUrl: ${{ env.TemplateUrl }}
@@ -59,7 +59,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@main
+        uses: microsoft/AL-Go-Actions/ReadSettings@v0.1
         with:
           get: githubRunner,alwaysBuildAllProjects
 
@@ -146,13 +146,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@main
+        uses: microsoft/AL-Go-Actions/ReadSettings@v0.1
         with:
           parentTelemetryScopeJson: ${{ needs.initialization.outputs.telemetryScopeJson }}
           project: ${{ matrix.project }}
 
       - name: Read secrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@main
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v0.1
         env:
           secrets: ${{ toJson(secrets) }}
         with:
@@ -161,7 +161,7 @@ jobs:
           secrets: 'licenseFileUrl,insiderSasToken,CodeSignCertificateUrl,CodeSignCertificatePassword,KeyVaultCertificateUrl,KeyVaultCertificatePassword,KeyVaultClientId'
 
       - name: Run pipeline
-        uses: microsoft/AL-Go-Actions/RunPipeline@main
+        uses: microsoft/AL-Go-Actions/RunPipeline@v0.1
         with:
           parentTelemetryScopeJson: ${{ needs.initialization.outputs.telemetryScopeJson }}
           Project: ${{ matrix.project }}
@@ -216,7 +216,7 @@ jobs:
 
       - name: Cleanup
         if: always()
-        uses: microsoft/AL-Go-Actions/PipelineCleanup@main
+        uses: microsoft/AL-Go-Actions/PipelineCleanup@v0.1
         with:
           parentTelemetryScopeJson: ${{ needs.initialization.outputs.telemetryScopeJson }}
           Project: ${{ matrix.project }}
@@ -247,10 +247,10 @@ jobs:
           Write-Host "::set-output name=envName::$envName"
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@main
+        uses: microsoft/AL-Go-Actions/ReadSettings@v0.1
 
       - name: Read secrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@main
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v0.1
         env:
           secrets: ${{ toJson(secrets) }}
         with:
@@ -278,7 +278,7 @@ jobs:
           Write-Host "set-output name=authContext::$authContext"
 
       - name: Deploy
-        uses: microsoft/AL-Go-Actions/Deploy@main
+        uses: microsoft/AL-Go-Actions/Deploy@v0.1
         env:
           authContext: '${{ steps.authContext.outputs.authContext }}'
         with:
@@ -293,7 +293,7 @@ jobs:
     steps:
       - name: Finalizing the workflow
         id: postProcess
-        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@main
+        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v0.1
         with: 
           eventId: "DO0091"
           telemetryScopeJson: ${{ needs.initialization.outputs.telemetryScopeJson }}               
