@@ -21,7 +21,7 @@
     }
   ],
   "contextSensitiveHelpUrl": "https://vld-nav.com/",
-  "runtime": "6.5",
+  "runtime": "6.2",
   "features": ["TranslationFile"],
   "showMyCode": true
 }
