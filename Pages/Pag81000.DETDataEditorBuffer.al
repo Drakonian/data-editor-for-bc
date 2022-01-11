@@ -6553,6 +6553,7 @@ page 81000 "DET Data Editor Buffer"
     local procedure RenamePKField(var RecRef: RecordRef; var FieldRefVar: FieldRef; NewValueAsVariant: Variant)
     var
         SingleInstanceStorage: Codeunit "DET Single Instance Storage";
+        RecRefTemp: RecordRef;
         FieldRefVar2: FieldRef;
         KeyRefVar: KeyRef;
         KeyCount: Integer;
@@ -6574,152 +6575,156 @@ page 81000 "DET Data Editor Buffer"
 
         BindSubscription(SingleInstanceStorage);
 
+        RecRefTemp := RecRef.Duplicate();
+        RecRefTemp.Field(FieldRefVar.Number()).Value(NewValueAsVariant);
+
         case KeyValueIndexRelDict.Count() of
             1:
-                RecRef.Rename(TextValueAsVariant(FieldRefVar.Type(), NewValueAsVariant));
+                RecRef.Rename(RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value());
             2:
-                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)), TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)));
+                RecRef.Rename(RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(), RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value());
             3:
-                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)));
+                RecRef.Rename(RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value()
+                    );
             4:
-                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4))
+                RecRef.Rename(RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value()
                     );
             5:
-                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(5)), KeyValueIndexRelDict.Get(5))
+                RecRef.Rename(RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(5)).Value()
                     );
             6:
-                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(5)), KeyValueIndexRelDict.Get(5)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(6)), KeyValueIndexRelDict.Get(6))
+                RecRef.Rename(RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(5)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(6)).Value()
                     );
             7:
-                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(5)), KeyValueIndexRelDict.Get(5)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(6)), KeyValueIndexRelDict.Get(6)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(7)), KeyValueIndexRelDict.Get(7))
+                RecRef.Rename(RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(5)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(6)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(7)).Value()
                     );
             8:
-                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(5)), KeyValueIndexRelDict.Get(5)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(6)), KeyValueIndexRelDict.Get(6)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(7)), KeyValueIndexRelDict.Get(7)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(8)), KeyValueIndexRelDict.Get(8))
+                RecRef.Rename(RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(5)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(6)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(7)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(8)).Value()
                     );
             9:
-                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(5)), KeyValueIndexRelDict.Get(5)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(6)), KeyValueIndexRelDict.Get(6)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(7)), KeyValueIndexRelDict.Get(7)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(8)), KeyValueIndexRelDict.Get(8)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(9)), KeyValueIndexRelDict.Get(9))
+                RecRef.Rename(RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(5)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(6)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(7)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(8)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(9)).Value()
                     );
             10:
-                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(5)), KeyValueIndexRelDict.Get(5)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(6)), KeyValueIndexRelDict.Get(6)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(7)), KeyValueIndexRelDict.Get(7)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(8)), KeyValueIndexRelDict.Get(8)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(9)), KeyValueIndexRelDict.Get(9)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(10)), KeyValueIndexRelDict.Get(10))
+                RecRef.Rename(RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(5)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(6)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(7)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(8)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(9)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(10)).Value()
                     );
             11:
-                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(5)), KeyValueIndexRelDict.Get(5)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(6)), KeyValueIndexRelDict.Get(6)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(7)), KeyValueIndexRelDict.Get(7)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(8)), KeyValueIndexRelDict.Get(8)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(9)), KeyValueIndexRelDict.Get(9)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(10)), KeyValueIndexRelDict.Get(10)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(11)), KeyValueIndexRelDict.Get(11))
+                RecRef.Rename(RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(5)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(6)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(7)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(8)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(9)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(10)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(11)).Value()
                     );
             12:
-                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(5)), KeyValueIndexRelDict.Get(5)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(6)), KeyValueIndexRelDict.Get(6)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(7)), KeyValueIndexRelDict.Get(7)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(8)), KeyValueIndexRelDict.Get(8)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(9)), KeyValueIndexRelDict.Get(9)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(10)), KeyValueIndexRelDict.Get(10)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(11)), KeyValueIndexRelDict.Get(11)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(12)), KeyValueIndexRelDict.Get(12))
+                RecRef.Rename(RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(5)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(6)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(7)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(8)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(9)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(10)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(11)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(12)).Value()
                     );
             13:
-                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(5)), KeyValueIndexRelDict.Get(5)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(6)), KeyValueIndexRelDict.Get(6)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(7)), KeyValueIndexRelDict.Get(7)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(8)), KeyValueIndexRelDict.Get(8)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(9)), KeyValueIndexRelDict.Get(9)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(10)), KeyValueIndexRelDict.Get(10)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(11)), KeyValueIndexRelDict.Get(11)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(12)), KeyValueIndexRelDict.Get(12)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(13)), KeyValueIndexRelDict.Get(13))
+                RecRef.Rename(RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(5)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(6)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(7)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(8)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(9)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(10)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(11)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(12)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(13)).Value()
                     );
             14:
-                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(5)), KeyValueIndexRelDict.Get(5)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(6)), KeyValueIndexRelDict.Get(6)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(7)), KeyValueIndexRelDict.Get(7)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(8)), KeyValueIndexRelDict.Get(8)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(9)), KeyValueIndexRelDict.Get(9)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(10)), KeyValueIndexRelDict.Get(10)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(11)), KeyValueIndexRelDict.Get(11)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(12)), KeyValueIndexRelDict.Get(12)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(13)), KeyValueIndexRelDict.Get(13)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(14)), KeyValueIndexRelDict.Get(14))
+                RecRef.Rename(RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(5)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(6)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(7)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(8)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(9)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(10)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(11)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(12)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(13)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(14)).Value()
                     );
             15:
-                RecRef.Rename(TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(1)), KeyValueIndexRelDict.Get(1)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(2)), KeyValueIndexRelDict.Get(2)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(3)), KeyValueIndexRelDict.Get(3)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(4)), KeyValueIndexRelDict.Get(4)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(5)), KeyValueIndexRelDict.Get(5)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(6)), KeyValueIndexRelDict.Get(6)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(7)), KeyValueIndexRelDict.Get(7)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(8)), KeyValueIndexRelDict.Get(8)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(9)), KeyValueIndexRelDict.Get(9)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(10)), KeyValueIndexRelDict.Get(10)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(11)), KeyValueIndexRelDict.Get(11)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(12)), KeyValueIndexRelDict.Get(12)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(13)), KeyValueIndexRelDict.Get(13)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(14)), KeyValueIndexRelDict.Get(14)),
-                    TextValueAsVariant(GetFieldTypeFromText(DictOfFieldKeyType.Get(15)), KeyValueIndexRelDict.Get(15))
+                RecRef.Rename(RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(5)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(6)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(7)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(8)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(9)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(10)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(11)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(12)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(13)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(14)).Value(),
+                    RecRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(15)).Value()
                     );
             else
                 Error(RenamePKNotSuppErr);
@@ -6739,6 +6744,7 @@ page 81000 "DET Data Editor Buffer"
         FieldRefVar: FieldRef;
         FieldInfo: Dictionary of [Integer, Text];
         OriginalFieldNo: Integer;
+        NewValueAsVariant: Variant;
     begin
         if not RecRef.Get(Rec."Source Record ID") then
             exit;
@@ -6751,7 +6757,8 @@ page 81000 "DET Data Editor Buffer"
             exit;
         end;
 
-        FieldRefVar.Value(TextValueAsVariant(FieldRefVar.Type(), NewValue));
+        TextValueAsVariant(FieldRefVar.Type(), NewValue, NewValueAsVariant);
+        FieldRefVar.Value(NewValueAsVariant);
         if not WithoutValidate then
             FieldRefVar.Validate();
         RecRef.Modify(not WithoutValidate);
@@ -6826,7 +6833,7 @@ page 81000 "DET Data Editor Buffer"
             NewValue := format(ResultVariant);
     end;
 
-    local procedure TextValueAsVariant(FieldTypeVar: FieldType; ValueAsText: Text[2048]): Variant
+    local procedure TextValueAsVariant(FieldTypeVar: FieldType; ValueAsText: Text[2048]; var VariantVar: Variant)
     var
         DateFormulaValue: DateFormula;
         IntegerValue: Integer;
@@ -6840,59 +6847,59 @@ page 81000 "DET Data Editor Buffer"
     begin
         case FieldTypeVar of
             FieldTypeVar::Code, FieldTypeVar::Text:
-                exit(ValueAsText);
+                VariantVar := ValueAsText;
             FieldTypeVar::Integer:
                 begin
                     Evaluate(IntegerValue, ValueAsText);
-                    exit(IntegerValue);
+                    VariantVar := IntegerValue;
                 end;
             FieldTypeVar::Decimal:
                 begin
                     Evaluate(DecimalValue, ValueAsText);
-                    exit(DecimalValue);
+                    VariantVar := DecimalValue;
                 end;
             FieldTypeVar::Boolean:
                 begin
                     Evaluate(BooleanValue, ValueAsText);
-                    exit(BooleanValue);
+                    VariantVar := BooleanValue;
                 end;
             FieldTypeVar::Date:
                 begin
                     Evaluate(DateValue, ValueAsText);
-                    exit(DateValue);
+                    VariantVar := DateValue;
                 end;
             FieldTypeVar::DateFormula:
                 begin
                     Evaluate(DateFormulaValue, ValueAsText);
-                    exit(DateFormulaValue);
+                    VariantVar := DateFormulaValue;
                 end;
             FieldTypeVar::DateTime:
                 begin
                     Evaluate(DateTimeValue, ValueAsText);
-                    exit(DateTimeValue);
+                    VariantVar := DateTimeValue;
                 end;
             FieldTypeVar::Time:
                 begin
                     Evaluate(TimeValue, ValueAsText);
-                    exit(TimeValue);
+                    VariantVar := TimeValue;
                 end;
             FieldTypeVar::Guid:
                 begin
                     Evaluate(GuidValue, ValueAsText);
-                    exit(GuidValue);
+                    VariantVar := GuidValue;
                 end;
             FieldTypeVar::BigInteger:
                 begin
                     Evaluate(BigIntegerValue, ValueAsText);
-                    exit(BigIntegerValue);
+                    VariantVar := BigIntegerValue;
                 end;
             FieldTypeVar::Option:
                 begin
                     Evaluate(IntegerValue, ValueAsText);
-                    exit(IntegerValue);
+                    VariantVar := IntegerValue;
                 end;
             else
-                exit(ValueAsText);
+                VariantVar := ValueAsText;
         end;
     end;
 
