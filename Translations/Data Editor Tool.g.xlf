@@ -2673,275 +2673,30 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 201 - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 1084833090 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 202 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 202 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 447136473 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 203 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 203 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 2360226324 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 204 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 204 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 1722529707 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 205 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 205 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 3635619558 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 206 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 206 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 2997922941 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 207 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 207 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 3297801512 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 208 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 208 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 2660104895 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 209 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 209 - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 1713748232 - Control 3726693007 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Value 21 field</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 21 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 622240671 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 210 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 210 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 1259937288 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 211 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 211 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 1897633905 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 212 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 212 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 2535330522 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 213 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 213 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 3173027139 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 214 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 214 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 3810723756 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 215 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 215 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 153453077 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 216 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 216 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 791149694 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 217 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 217 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 1428846311 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 218 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 218 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 2066542928 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 219 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 219 - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1713748232 - Control 1344815562 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Value 22 field</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 22 - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 3588926962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 220 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 220 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 2951230345 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 221 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 221 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 2313533728 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 222 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 222 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 1675837111 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 223 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 223 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 1844746134 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 224 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 224 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 1207049517 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 225 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 225 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 569352900 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 226 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 226 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 4226623579 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 227 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 227 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 2782321322 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 228 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 228 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 2144624705 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 229 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 229 - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 1713748232 - Control 707118945 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Value 23 field</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 23 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 85972129 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 230 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 230 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 723668746 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 231 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 231 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 3105546191 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 232 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 232 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 3743242808 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 233 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 233 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 2636758597 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 234 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 234 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 3274455214 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 235 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 235 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 1361365363 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 236 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 236 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 1999061980 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 237 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 237 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 892577769 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 238 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 238 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 1530274386 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 239 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 239 - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1713748232 - Control 2620208796 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Value 24 field</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 24 - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 3052658420 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 240 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 240 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 2414961803 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 241 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 241 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 33084358 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 242 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 242 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 3690355037 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 243 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 243 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 501871952 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 244 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 244 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 4159142631 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 245 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 245 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 1777265186 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 246 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 246 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 1139568569 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 247 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 247 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 2246052780 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 248 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 248 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 1608356163 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 249 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 249 - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Page 1713748232 - Control 1982512179 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Value 25 field</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 25 - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - Control 3844670883 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the Value 250 field</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 250 - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1713748232 - Control 3895602030 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Value 26 field</source>
