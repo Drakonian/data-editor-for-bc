@@ -4103,6 +4103,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action DET Delete Selected - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 1713748232 - Action 2026913255 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Refresh this page with current filters</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action Refresh - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1713748232 - Action 2026913255 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Refresh</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action Refresh - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 1334223894 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Edit Value</source>
           <note from="Developer" annotates="general" priority="2"></note>

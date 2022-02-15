@@ -6438,6 +6438,22 @@ page 81000 "DET Data Editor Buffer"
                     Rec.CopyFilters(DataEditorBuffer);
                 end;
             }
+            action(Refresh)
+            {
+                ApplicationArea = All;
+                Image = Refresh;
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedCategory = Process;
+                PromotedOnly = true;
+                Caption = 'Refresh';
+                ToolTip = 'Refresh this page with current filters';
+
+                trigger OnAction()
+                begin
+                    LoadData();
+                end;
+            }
         }
     }
 
@@ -6527,7 +6543,7 @@ page 81000 "DET Data Editor Buffer"
                     FieldRefVar2 := TempRecRef.FieldIndex(Counter + 2);
                     FieldRefVar2.Value(FieldRefVar.Value());
                 end;
-                TempRecRef.Insert();
+                if not TempRecRef.Insert() then TempRecRef.Modify();
             until RecRef.Next() = 0;
 
     end;
