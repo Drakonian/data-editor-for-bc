@@ -33,13 +33,13 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v0.1
+        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v0.2
         with:
           eventId: "DO0091"
 
       - name: Read settings
         id: ReadSettings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v0.1
+        uses: microsoft/AL-Go-Actions/ReadSettings@v0.2
         with:
           parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
           getProjects: 'Y'
@@ -53,13 +53,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v0.1
+        uses: microsoft/AL-Go-Actions/ReadSettings@v0.2
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           get: TemplateUrl
 
       - name: Check for updates to AL-Go system files
-        uses: microsoft/AL-Go-Actions/CheckForUpdates@v0.1
+        uses: microsoft/AL-Go-Actions/CheckForUpdates@v0.2
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           templateUrl: ${{ env.TemplateUrl }}
@@ -81,22 +81,22 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v0.1
+        uses: microsoft/AL-Go-Actions/ReadSettings@v0.2
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           project: ${{ matrix.project }}
 
       - name: Read secrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@v0.1
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v0.2
         env:
           secrets: ${{ toJson(secrets) }}
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           settingsJson: ${{ env.Settings }}
-          secrets: 'licenseFileUrl,insiderSasToken,CodeSignCertificateUrl,CodeSignCertificatePassword,KeyVaultCertificateUrl,KeyVaultCertificatePassword,KeyVaultClientId'
+          secrets: 'licenseFileUrl,insiderSasToken,CodeSignCertificateUrl,CodeSignCertificatePassword,KeyVaultCertificateUrl,KeyVaultCertificatePassword,KeyVaultClientId,StorageContext'
 
       - name: Run pipeline
-        uses: microsoft/AL-Go-Actions/RunPipeline@v0.1
+        uses: microsoft/AL-Go-Actions/RunPipeline@v0.2
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           Project: ${{ matrix.project }}
@@ -143,10 +143,11 @@ jobs:
 
       - name: Cleanup
         if: always()
-        uses: microsoft/AL-Go-Actions/PipelineCleanup@v0.1
+        uses: microsoft/AL-Go-Actions/PipelineCleanup@v0.2
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           Project: ${{ matrix.project }}
+
   Deploy:
     runs-on: [ windows-latest ] 
     needs: [ Initialization, Build ]
@@ -174,10 +175,10 @@ jobs:
           Write-Host "::set-output name=envName::$envName"
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v0.1
+        uses: microsoft/AL-Go-Actions/ReadSettings@v0.2
 
       - name: Read secrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@v0.1
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v0.2
         env:
           secrets: ${{ toJson(secrets) }}
         with:
@@ -205,7 +206,7 @@ jobs:
           Write-Host "set-output name=authContext::$authContext"
 
       - name: Deploy
-        uses: microsoft/AL-Go-Actions/Deploy@v0.1
+        uses: microsoft/AL-Go-Actions/Deploy@v0.2
         env:
           authContext: '${{ steps.authContext.outputs.authContext }}'
         with:
@@ -224,7 +225,7 @@ jobs:
 
       - name: Finalize the workflow
         id: PostProcess
-        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v0.1
+        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v0.2
         with:
           eventId: "DO0091"
           telemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
