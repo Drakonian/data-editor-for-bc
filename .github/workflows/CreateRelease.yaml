@@ -41,7 +41,7 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.1
+        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.2
         with:
           eventId: "DO0094"
 
@@ -56,13 +56,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.1
+        uses: microsoft/AL-Go-Actions/ReadSettings@v1.2
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           get: TemplateUrl
 
       - name: Check for updates to AL-Go system files
-        uses: microsoft/AL-Go-Actions/CheckForUpdates@v1.1
+        uses: microsoft/AL-Go-Actions/CheckForUpdates@v1.2
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           templateUrl: ${{ env.TemplateUrl }}
@@ -97,7 +97,7 @@ jobs:
 
       - name: Prepare release notes
         id: createreleasenotes
-        uses: microsoft/AL-Go-Actions/CreateReleaseNotes@v1.1
+        uses: microsoft/AL-Go-Actions/CreateReleaseNotes@v1.2
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           tag_name: '${{github.event.inputs.tag}}'
@@ -122,12 +122,12 @@ jobs:
       fail-fast: true
     steps:
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.1
+        uses: microsoft/AL-Go-Actions/ReadSettings@v1.2
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
 
       - name: Read secrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@v1.1
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v1.2
         env:
           secrets: ${{ toJson(secrets) }}
         with:
@@ -229,7 +229,7 @@ jobs:
 
       - name: Finalize the workflow
         id: PostProcess
-        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v1.1
+        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v1.2
         with:
           eventId: "DO0094"
           telemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}

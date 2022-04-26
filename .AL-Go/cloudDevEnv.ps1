@@ -5,17 +5,29 @@
 #
 Param(
     [string] $environmentName = "",
-    [bool] $reuseExistingEnvironment
+    [bool] $reuseExistingEnvironment,
+    [switch] $fromVSCode
 )
 
 $ErrorActionPreference = "stop"
 Set-StrictMode -Version 2.0
 
+$pshost = Get-Host
+if ($pshost.Name -eq "Visual Studio Code Host") {
+    $pslink = Join-Path $env:APPDATA "Microsoft\Windows\Start Menu\Programs\Windows PowerShell\Windows PowerShell.lnk"
+    if (!(Test-Path $pslink)) {
+        $pslink = "powershell.exe"
+    }
+    Start-Process -Verb runas $pslink @("-Command ""$($MyInvocation.InvocationName)"" -fromVSCode -environmentName '$environmentName' -reuseExistingEnvironment `$$reuseExistingEnvironment")
+    return
+}
+
+try {
 $ALGoHelperPath = "$([System.IO.Path]::GetTempFileName()).ps1"
 $webClient = New-Object System.Net.WebClient
 $webClient.CachePolicy = New-Object System.Net.Cache.RequestCachePolicy -argumentList ([System.Net.Cache.RequestCacheLevel]::NoCacheNoStore)
 $webClient.Encoding = [System.Text.Encoding]::UTF8
-$webClient.DownloadFile('https://raw.githubusercontent.com/microsoft/AL-Go-Actions/v1.1/AL-Go-Helper.ps1', $ALGoHelperPath)
+$webClient.DownloadFile('https://raw.githubusercontent.com/microsoft/AL-Go-Actions/v1.2/AL-Go-Helper.ps1', $ALGoHelperPath)
 . $ALGoHelperPath -local
 
 $baseFolder = Join-Path $PSScriptRoot ".." -Resolve
@@ -67,3 +79,9 @@ CreateDevEnv `
     -environmentName $environmentName `
     -reuseExistingEnvironment:$reuseExistingEnvironment `
     -baseFolder $baseFolder
+}
+finally {
+    if ($fromVSCode) {
+        Read-Host "Press ENTER to close this window"
+    }
+}
