@@ -22,13 +22,13 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.2
+        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.3
         with:
           eventId: "DO0099"
 
       - name: Read settings
         id: ReadSettings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.2
+        uses: microsoft/AL-Go-Actions/ReadSettings@v1.3
         with:
           parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
           getProjects: 'Y'
@@ -49,13 +49,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.2
+        uses: microsoft/AL-Go-Actions/ReadSettings@v1.3
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           project: ${{ matrix.project }}
 
       - name: Read secrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@v1.2
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v1.3
         env:
           secrets: ${{ toJson(secrets) }}
         with:
@@ -64,7 +64,7 @@ jobs:
           secrets: 'licenseFileUrl,insiderSasToken,CodeSignCertificateUrl,CodeSignCertificatePassword,KeyVaultCertificateUrl,KeyVaultCertificatePassword,KeyVaultClientId'
 
       - name: Run pipeline
-        uses: microsoft/AL-Go-Actions/RunPipeline@v1.2
+        uses: microsoft/AL-Go-Actions/RunPipeline@v1.3
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           Project: ${{ matrix.project }}
@@ -103,7 +103,7 @@ jobs:
 
       - name: Cleanup
         if: always()
-        uses: microsoft/AL-Go-Actions/PipelineCleanup@v1.2
+        uses: microsoft/AL-Go-Actions/PipelineCleanup@v1.3
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           Project: ${{ matrix.project }}
@@ -118,7 +118,7 @@ jobs:
 
       - name: Finalize the workflow
         id: PostProcess
-        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v1.2
+        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v1.3
         with:
           eventId: "DO0099"
           telemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
