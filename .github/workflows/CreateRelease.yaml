@@ -15,14 +15,31 @@ on:
         description: Tag of this release
         required: true
         default: ''
-      draft:
-        description: Draft (Y/N)
-        required: false
-        default: 'N'
       prerelease:
         description: Prerelease (Y/N)
         required: false
         default: 'N'
+      draft:
+        description: Draft (Y/N)
+        required: false
+        default: 'N'
+      createReleaseBranch:
+        description: Create Release Branch (Y/N)
+        required: false
+        default: 'N'
+      updateVersionNumber:
+        description: New Version Number in main branch. Use Major.Minor for absolute change, use +Major.Minor for incremental change.
+        required: false
+        default: ''
+      directCommit:
+        description: Direct COMMIT (Y/N)
+        required: false
+        default: 'N'
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: read
 
 concurrency: release
 
@@ -41,7 +58,7 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.3
+        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.4
         with:
           eventId: "DO0094"
 
@@ -56,13 +73,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.3
+        uses: microsoft/AL-Go-Actions/ReadSettings@v1.4
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           get: TemplateUrl
 
       - name: Check for updates to AL-Go system files
-        uses: microsoft/AL-Go-Actions/CheckForUpdates@v1.3
+        uses: microsoft/AL-Go-Actions/CheckForUpdates@v1.4
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           templateUrl: ${{ env.TemplateUrl }}
@@ -97,7 +114,7 @@ jobs:
 
       - name: Prepare release notes
         id: createreleasenotes
-        uses: microsoft/AL-Go-Actions/CreateReleaseNotes@v1.3
+        uses: microsoft/AL-Go-Actions/CreateReleaseNotes@v1.4
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           tag_name: '${{github.event.inputs.tag}}'
@@ -122,12 +139,12 @@ jobs:
       fail-fast: true
     steps:
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.3
+        uses: microsoft/AL-Go-Actions/ReadSettings@v1.4
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
 
       - name: Read secrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@v1.3
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v1.4
         env:
           secrets: ${{ toJson(secrets) }}
         with:
@@ -219,17 +236,45 @@ jobs:
               }
           }
 
-  PostProcess:
-    if: always()
+  CreateReleaseBranch:
+    if: ${{ github.event.inputs.createReleaseBranch=='Y' }}
     runs-on: [ windows-latest ]
     needs: [ Initialization, CreateRelease, UploadArtifacts ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Create Release Branch
+        run: |
+          git checkout -b release/${{ github.event.inputs.tag }}
+          git config user.name ${{ github.actor}}
+          git config user.email ${{ github.actor}}@users.noreply.github.com
+          git commit --allow-empty -m "Release branch ${{ github.event.inputs.tag }}"
+          git push origin release/${{ github.event.inputs.tag }}
+
+  UpdateVersionNumber:
+    if: ${{ github.event.inputs.updateVersionNumber!='' }}
+    runs-on: [ windows-latest ]
+    needs: [ Initialization, CreateRelease, UploadArtifacts ]
+    steps:
+      - name: Update Version Number
+        uses: microsoft/AL-Go-Actions/IncrementVersionNumber@v1.4
+        with:
+          parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
+          versionNumber: ${{ github.event.inputs.updateVersionNumber }}
+          directCommit: ${{ github.event.inputs.directCommit }}
+
+  PostProcess:
+    if: always()
+    runs-on: [ windows-latest ]
+    needs: [ Initialization, CreateRelease, UploadArtifacts, CreateReleaseBranch, UpdateVersionNumber ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Finalize the workflow
         id: PostProcess
-        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v1.3
+        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v1.4
         with:
           eventId: "DO0094"
           telemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}

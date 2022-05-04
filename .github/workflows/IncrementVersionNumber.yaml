@@ -8,12 +8,16 @@ on:
         required: false
         default: '.'
       versionNumber:
-        description: New Version Number (Major.Minor)
+        description: Updated Version Number. Use Major.Minor for absolute change, use +Major.Minor for incremental change.
         required: true
       directCommit:
         description: Direct COMMIT (Y/N)
         required: false
         default: 'N'
+
+permissions:
+  contents: write
+  pull-requests: write
 
 defaults:
   run:
@@ -30,7 +34,7 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.3
+        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.4
         with:
           eventId: "DO0096"
 
@@ -40,7 +44,7 @@ jobs:
 
     steps:
       - name: Increment Version Number
-        uses: microsoft/AL-Go-Actions/IncrementVersionNumber@v1.3
+        uses: microsoft/AL-Go-Actions/IncrementVersionNumber@v1.4
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           project: ${{ github.event.inputs.project }}
@@ -57,7 +61,7 @@ jobs:
 
       - name: Finalize the workflow
         id: PostProcess
-        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v1.3
+        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v1.4
         with:
           eventId: "DO0096"
           telemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
