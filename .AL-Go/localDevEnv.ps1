@@ -17,16 +17,25 @@ Set-StrictMode -Version 2.0
 
 $pshost = Get-Host
 if ($pshost.Name -eq "Visual Studio Code Host") {
-    $pslink = Join-Path $env:APPDATA "Microsoft\Windows\Start Menu\Programs\Windows PowerShell\Windows PowerShell.lnk"
-    if (!(Test-Path $pslink)) {
-        $pslink = "powershell.exe"
+    if ($MyInvocation.InvocationName -eq '.' -or $MyInvocation.Line -eq '') {
+        $scriptName = Join-Path $PSScriptRoot $MyInvocation.MyCommand
     }
-    $credstr = ""
-    if ($credential) {
-        $credstr = " -credential (New-Object PSCredential '$($credential.UserName)', ('$($credential.Password | ConvertFrom-SecureString)' | ConvertTo-SecureString))"
+    else {
+        $scriptName = $MyInvocation.InvocationName
     }
-    Start-Process -Verb runas $pslink @("-Command ""$($MyInvocation.InvocationName)"" -fromVSCode -containerName '$containerName' -auth '$auth' -licenseFileUrl '$licenseFileUrl' -insiderSasToken '$insiderSasToken'$credstr")
-    return
+    if (Test-Path -Path $scriptName -PathType Leaf) {
+        $scriptName = (Get-Item -path $scriptName).FullName
+        $pslink = Join-Path $env:APPDATA "Microsoft\Windows\Start Menu\Programs\Windows PowerShell\Windows PowerShell.lnk"
+        if (!(Test-Path $pslink)) {
+            $pslink = "powershell.exe"
+        }
+        $credstr = ""
+        if ($credential) {
+            $credstr = " -credential (New-Object PSCredential '$($credential.UserName)', ('$($credential.Password | ConvertFrom-SecureString)' | ConvertTo-SecureString))"
+        }
+        Start-Process -Verb runas $pslink @("-Command ""$scriptName"" -fromVSCode -containerName '$containerName' -auth '$auth' -licenseFileUrl '$licenseFileUrl' -insiderSasToken '$insiderSasToken'$credstr")
+        return
+    }
 }
 
 try {
@@ -34,7 +43,8 @@ $ALGoHelperPath = "$([System.IO.Path]::GetTempFileName()).ps1"
 $webClient = New-Object System.Net.WebClient
 $webClient.CachePolicy = New-Object System.Net.Cache.RequestCachePolicy -argumentList ([System.Net.Cache.RequestCacheLevel]::NoCacheNoStore)
 $webClient.Encoding = [System.Text.Encoding]::UTF8
-$webClient.DownloadFile('https://raw.githubusercontent.com/microsoft/AL-Go-Actions/v1.4/AL-Go-Helper.ps1', $ALGoHelperPath)
+Write-Host "Downloading AL-Go Helper script"
+$webClient.DownloadFile('https://raw.githubusercontent.com/microsoft/AL-Go-Actions/v1.5/AL-Go-Helper.ps1', $ALGoHelperPath)
 . $ALGoHelperPath -local
 
 $baseFolder = Join-Path $PSScriptRoot ".." -Resolve

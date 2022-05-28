@@ -34,7 +34,7 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.4
+        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.5
         with:
           eventId: "DO0093"
 
@@ -47,12 +47,12 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.4
+        uses: microsoft/AL-Go-Actions/ReadSettings@v1.5
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
 
       - name: Read secrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@v1.4
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v1.5
         env:
           secrets: ${{ toJson(secrets) }}
         with:
@@ -70,7 +70,7 @@ jobs:
             Write-Host "AdminCenterApiCredentials not provided, initiating Device Code flow"
             $ALGoHelperPath = "$([System.IO.Path]::GetTempFileName()).ps1"
             $webClient = New-Object System.Net.WebClient
-            $webClient.DownloadFile('https://raw.githubusercontent.com/microsoft/AL-Go-Actions/v1.4/AL-Go-Helper.ps1', $ALGoHelperPath)
+            $webClient.DownloadFile('https://raw.githubusercontent.com/microsoft/AL-Go-Actions/v1.5/AL-Go-Helper.ps1', $ALGoHelperPath)
             . $ALGoHelperPath
             $BcContainerHelperPath = DownloadAndImportBcContainerHelper -baseFolder $ENV:GITHUB_WORKSPACE
             $authContext = New-BcAuthContext -includeDeviceLogin -deviceLoginTimeout ([TimeSpan]::FromSeconds(0))
@@ -80,7 +80,7 @@ jobs:
           }
 
       - name: Create Development Environment
-        uses: microsoft/AL-Go-Actions/CreateDevelopmentEnvironment@v1.4
+        uses: microsoft/AL-Go-Actions/CreateDevelopmentEnvironment@v1.5
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           environmentName: ${{ github.event.inputs.environmentName }} 
@@ -98,7 +98,7 @@ jobs:
 
       - name: Finalize the workflow
         id: PostProcess
-        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v1.4
+        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v1.5
         with:
           eventId: "DO0093"
           telemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}

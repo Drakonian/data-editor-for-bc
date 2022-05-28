@@ -8,9 +8,8 @@ on:
         required: false
         default: 'current'
       environmentName:
-        description: Environment to receive the new version (* for all)
-        required: false
-        default: '*'
+        description: Environment mask to receive the new version (* for all, PROD* for all environments starting with PROD)
+        required: true
 
 permissions:
   contents: read
@@ -31,7 +30,7 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.4
+        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.5
         with:
           eventId: "DO0097"
 
@@ -48,7 +47,7 @@ jobs:
 
       - name: Read settings
         id: ReadSettings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.4
+        uses: microsoft/AL-Go-Actions/ReadSettings@v1.5
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           getEnvironments: '${{ github.event.inputs.environmentName }}'
@@ -76,10 +75,10 @@ jobs:
           Write-Host "::set-output name=envName::$envName"
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.4
+        uses: microsoft/AL-Go-Actions/ReadSettings@v1.5
 
       - name: Read secrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@v1.4
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v1.5
         env:
           secrets: ${{ toJson(secrets) }}
         with:
@@ -122,7 +121,7 @@ jobs:
           Write-Host "set-output name=environmentName::$environmentName"
 
       - name: Deploy
-        uses: microsoft/AL-Go-Actions/Deploy@v1.4
+        uses: microsoft/AL-Go-Actions/Deploy@v1.5
         env:
           authContext: '${{ steps.authContext.outputs.authContext }}'
         with:
@@ -142,7 +141,7 @@ jobs:
 
       - name: Finalize the workflow
         id: PostProcess
-        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v1.4
+        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v1.5
         with:
           eventId: "DO0097"
           telemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}

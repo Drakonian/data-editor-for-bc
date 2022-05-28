@@ -34,7 +34,7 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.4
+        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.5
         with:
           eventId: "DO0096"
 
@@ -44,7 +44,7 @@ jobs:
 
     steps:
       - name: Increment Version Number
-        uses: microsoft/AL-Go-Actions/IncrementVersionNumber@v1.4
+        uses: microsoft/AL-Go-Actions/IncrementVersionNumber@v1.5
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           project: ${{ github.event.inputs.project }}
@@ -61,7 +61,7 @@ jobs:
 
       - name: Finalize the workflow
         id: PostProcess
-        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v1.4
+        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v1.5
         with:
           eventId: "DO0096"
           telemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
