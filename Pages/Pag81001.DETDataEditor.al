@@ -48,6 +48,7 @@ page 81001 "DET Data Editor"
                         SourceTableNo := AllObjWithCaption."Object ID";
                         SourceTableName := AllObjWithCaption."Object Name";
                         CustomTableView := '';
+                        FieldFilter := '';
                         SetNumberOfRecords('');
                     end;
                 }
@@ -75,6 +76,17 @@ page 81001 "DET Data Editor"
                     ToolTip = 'Number Of Filtered Records';
                     Caption = 'Number Of Records';
                     Editable = false;
+                }
+                field(FieldFilter; FieldFilter)
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Set Initial Field Filter';
+                    Caption = 'Field Filter';
+                    Editable = false;
+                    trigger OnDrillDown()
+                    begin
+                        SetFieldFilter();
+                    end;
                 }
                 field(WithoutValidationField; WithoutValidation)
                 {
@@ -105,7 +117,7 @@ page 81001 "DET Data Editor"
     var
         DataEditorBufferList: Page "DET Data Editor Buffer";
     begin
-        DataEditorBufferList.LoadRecords(SourceTableNo, CustomTableView, WithoutValidation, ExcludeFlowFields);
+        DataEditorBufferList.LoadRecords(SourceTableNo, CustomTableView, FieldFilter, WithoutValidation, ExcludeFlowFields);
         DataEditorBufferList.Run();
     end;
 
@@ -135,6 +147,20 @@ page 81001 "DET Data Editor"
         SetNumberOfRecords(CustomTableView);
     end;
 
+    local procedure SetFieldFilter()
+    var
+        SelectFields: Page "DET Select Fields";
+    begin
+        if SourceTableNo = 0 then
+            exit;
+        SelectFields.LoadFields(SourceTableNo, FieldFilter);
+        SelectFields.LookupMode(true);
+        SelectFields.Editable(true);
+        if SelectFields.RunModal() <> Action::LookupOK then
+            exit;
+        FieldFilter := SelectFields.GetFieldIdFilter();
+    end;
+
     var
         WithoutValidation: Boolean;
         ExcludeFlowFields: Boolean;
@@ -142,4 +168,5 @@ page 81001 "DET Data Editor"
         NumberOfRecords: Integer;
         SourceTableName: Text;
         CustomTableView: Text;
+        FieldFilter: Text;
 }

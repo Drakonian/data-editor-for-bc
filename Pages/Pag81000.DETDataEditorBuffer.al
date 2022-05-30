@@ -6454,11 +6454,12 @@ page 81000 "DET Data Editor Buffer"
             SourceRecRef.Delete(not WithoutValidate);
     end;
 
-    procedure LoadRecords(TableNo: Integer; inCustomTableView: Text; inWithoutValidate: Boolean; inExcludeFlowFields: Boolean)
+    procedure LoadRecords(TableNo: Integer; inCustomTableView: Text; inFieldFilter: Text; inWithoutValidate: Boolean; inExcludeFlowFields: Boolean)
     begin
         WithoutValidate := inWithoutValidate;
         ExcludeFlowFields := inExcludeFlowFields;
         CustomTableView := inCustomTableView;
+        FieldFilter := inFieldFilter;
         OpenRecord(TableNo);
         InitVisibility();
         InitEditable();
@@ -6467,6 +6468,7 @@ page 81000 "DET Data Editor Buffer"
 
     local procedure OpenRecord(TableNo: Integer)
     var
+        FieldRec: Record Field;
         FieldRefVar: FieldRef;
         SkipField: Boolean;
         Counter: Integer;
@@ -6477,9 +6479,15 @@ page 81000 "DET Data Editor Buffer"
         RecRef.Open(TableNo);
         CurrPage.Caption(RecRef.Caption());
         StartBufferFieldNo := Rec.FieldNo("Text Value 2");
+        FieldRec.FilterGroup(10);
+        FieldRec.SetFilter("No.", FieldFilter);
+        FieldRec.FilterGroup(0);
         for FieldID := 1 to RecRef.FieldCount() do begin
             FieldRefVar := RecRef.FieldIndex(FieldID);
-            SkipField := (FieldRefVar.Class() = FieldClass::FlowFilter) or ((FieldRefVar.Class() = FieldClass::FlowField) and ExcludeFlowFields);
+            FieldRec.SetRange("No.", FieldRefVar.Number());
+            SkipField := (FieldRefVar.Class() = FieldClass::FlowFilter) or
+                    ((FieldRefVar.Class() = FieldClass::FlowField) and ExcludeFlowFields) or
+                    (FieldRec.IsEmpty);
             if not SkipField then begin
                 Counter += 1;
                 FieldInfoDictionaty.Add(FieldRefVar.Number(), Format(FieldRefVar.Type()));
@@ -7737,6 +7745,7 @@ page 81000 "DET Data Editor Buffer"
         WithoutValidate: Boolean;
         ExcludeFlowFields: Boolean;
         CustomTableView: text;
+        FieldFilter: text;
         GenFieldInfoDict: Dictionary of [Integer, Dictionary of [Integer, Text]];
         CaptionDictionary: Dictionary of [Integer, Text];
         RenamePKNotSuppErr: Label 'Changing the primary key for >15 values is not supported.';
