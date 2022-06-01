@@ -6551,7 +6551,8 @@ page 81000 "DET Data Editor Buffer"
                     FieldRefVar2 := TempRecRef.FieldIndex(Counter + 2);
                     FieldRefVar2.Value(FieldRefVar.Value());
                 end;
-                if not TempRecRef.Insert() then TempRecRef.Modify();
+                if not TempRecRef.Insert() then
+                    TempRecRef.Modify();
             until RecRef.Next() = 0;
 
     end;
