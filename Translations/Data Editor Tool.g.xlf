@@ -2023,6 +2023,31 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Buffer - Field Without Validate - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1032987457 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Field</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Field - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1032987457 - Field 4095765489 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Field Id</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Field - Field Field Id - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1032987457 - Field 3742713340 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Included</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Field - Field Included - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1032987457 - Field 3909250225 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>IsPartOfPrimaryKey</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Field - Field IsPartOfPrimaryKey - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1032987457 - Field 2961552353 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Field - Field Name - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 2312685416 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Data Editor</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -2047,6 +2072,16 @@
           <source>Exclude FlowField's</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control ExcludeFlowFieldsField - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2312685416 - Control 2669760078 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Set Initial Field Filter</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control FieldFilter - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2312685416 - Control 2669760078 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Field Filter</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control FieldFilter - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2312685416 - Control 2033800930 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Number Of Filtered Records</source>
@@ -3113,6 +3148,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action DET Delete Selected - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 1713748232 - Action 2026913255 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Refresh this page with current filters</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action Refresh - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1713748232 - Action 2026913255 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Refresh</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action Refresh - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 1334223894 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Edit Value</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -3122,6 +3167,51 @@
           <source>Close Me</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Run Editor From Filter - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 971391312 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Select Fields</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Select Fields - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 971391312 - Control 3740921470 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Included</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Select Fields - Control IncludedField - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 971391312 - Control 3740921470 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Included</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Select Fields - Control IncludedField - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 971391312 - Control 2961552353 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the names of the available Windows languages.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Select Fields - Control Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 971391312 - Control 2961552353 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Select Fields - Control Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 971391312 - Action 433071163 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Clear Included</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Select Fields - Action Clear Included - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 971391312 - Action 433071163 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Clear Included</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Select Fields - Action Clear Included - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 971391312 - Action 3170972806 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Set Included</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Select Fields - Action Set Included - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 971391312 - Action 3170972806 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Set Included</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Select Fields - Action Set Included - Property Caption</note>
         </trans-unit>
       </group>
     </body>

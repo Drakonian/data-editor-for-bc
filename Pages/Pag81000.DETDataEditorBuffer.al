@@ -3270,6 +3270,22 @@ page 81000 "DET Data Editor Buffer"
                     Rec.CopyFilters(DataEditorBuffer);
                 end;
             }
+            action(Refresh)
+            {
+                ApplicationArea = All;
+                Image = Refresh;
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedCategory = Process;
+                PromotedOnly = true;
+                Caption = 'Refresh';
+                ToolTip = 'Refresh this page with current filters';
+
+                trigger OnAction()
+                begin
+                    LoadData();
+                end;
+            }
         }
     }
 
@@ -3286,11 +3302,12 @@ page 81000 "DET Data Editor Buffer"
             SourceRecRef.Delete(not WithoutValidate);
     end;
 
-    procedure LoadRecords(TableNo: Integer; inCustomTableView: Text; inWithoutValidate: Boolean; inExcludeFlowFields: Boolean)
+    procedure LoadRecords(TableNo: Integer; inCustomTableView: Text; inFieldFilter: Text; inWithoutValidate: Boolean; inExcludeFlowFields: Boolean)
     begin
         WithoutValidate := inWithoutValidate;
         ExcludeFlowFields := inExcludeFlowFields;
         CustomTableView := inCustomTableView;
+        FieldFilter := inFieldFilter;
         OpenRecord(TableNo);
         InitVisibility();
         InitEditable();
@@ -3299,6 +3316,7 @@ page 81000 "DET Data Editor Buffer"
 
     local procedure OpenRecord(TableNo: Integer)
     var
+        FieldRec: Record Field;
         FieldRefVar: FieldRef;
         SkipField: Boolean;
         Counter: Integer;
@@ -3309,11 +3327,17 @@ page 81000 "DET Data Editor Buffer"
         RecRef.Open(TableNo);
         CurrPage.Caption(RecRef.Caption());
         StartBufferFieldNo := Rec.FieldNo("Text Value 2");
+        FieldRec.FilterGroup(10);
+        FieldRec.SetFilter("No.", FieldFilter);
+        FieldRec.FilterGroup(0);
         for FieldID := 1 to RecRef.FieldCount() do begin
             if FieldID >= 200 then
                 break;
             FieldRefVar := RecRef.FieldIndex(FieldID);
-            SkipField := (FieldRefVar.Class() = FieldClass::FlowFilter) or ((FieldRefVar.Class() = FieldClass::FlowField) and ExcludeFlowFields);
+            FieldRec.SetRange("No.", FieldRefVar.Number());
+            SkipField := (FieldRefVar.Class() = FieldClass::FlowFilter) or
+                    ((FieldRefVar.Class() = FieldClass::FlowField) and ExcludeFlowFields) or
+                    (FieldRec.IsEmpty);
             if not SkipField then begin
                 Counter += 1;
                 FieldInfoDictionaty.Add(FieldRefVar.Number(), Format(FieldRefVar.Type()));
@@ -3361,7 +3385,8 @@ page 81000 "DET Data Editor Buffer"
                     FieldRefVar2 := TempRecRef.FieldIndex(Counter + 2);
                     FieldRefVar2.Value(FieldRefVar.Value());
                 end;
-                TempRecRef.Insert();
+                if not TempRecRef.Insert() then
+                    TempRecRef.Modify();
             until RecRef.Next() = 0;
 
     end;
@@ -3624,7 +3649,7 @@ page 81000 "DET Data Editor Buffer"
         if FieldRefVar.Type() = FieldRefVar.Type::Option then begin
             ListOfOptions := FieldRefVar.OptionMembers().Split(',');
             foreach OptionValue in ListOfOptions do
-                NameValueLookup.AddItem(Format(FieldRefVar.GetEnumValueOrdinal(ListOfOptions.IndexOf(OptionValue))), OptionValue);
+                NameValueLookup.AddItem(Format(FieldRefVar.GetEnumValueOrdinal(ListOfOptions.IndexOf(OptionValue))), CopyStr(OptionValue, 1, MaxStrLen(TempNameValueBuffer.Value)));
             NameValueLookup.Caption(FieldRefVar.Caption());
             NameValueLookup.Editable(false);
             NameValueLookup.LookupMode(true);
@@ -4174,6 +4199,7 @@ page 81000 "DET Data Editor Buffer"
         WithoutValidate: Boolean;
         ExcludeFlowFields: Boolean;
         CustomTableView: text;
+        FieldFilter: text;
         GenFieldInfoDict: Dictionary of [Integer, Dictionary of [Integer, Text]];
         CaptionDictionary: Dictionary of [Integer, Text];
         RenamePKNotSuppErr: Label 'Changing the primary key for >15 values is not supported.';
