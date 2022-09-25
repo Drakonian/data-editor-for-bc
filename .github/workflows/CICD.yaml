@@ -6,14 +6,16 @@ on:
     paths-ignore:
       - 'README.md'
       - '.github/**'
-    branches: [ main, release/*, feature/* ]
+    branches: [ 'main', 'release/*', 'feature/*' ]
   pull_request:
     paths-ignore:
       - 'README.md'
       - '.github/**'
+    branches: [ 'main' ]
 
 permissions:
   contents: read
+  actions: read
 
 defaults:
   run:
@@ -29,6 +31,8 @@ jobs:
       projectCount: ${{ steps.ReadSettings.outputs.ProjectCount }}
       environments: ${{ steps.ReadSettings.outputs.EnvironmentsJson }}
       environmentCount: ${{ steps.ReadSettings.outputs.EnvironmentCount }}
+      deliveryTargets: ${{ steps.DetermineDeliveryTargets.outputs.DeliveryTargetsJson }}
+      deliveryTargetCount: ${{ steps.DetermineDeliveryTargets.outputs.DeliveryTargetCount }}
       githubRunner: ${{ steps.ReadSettings.outputs.GitHubRunnerJson }}
     steps:
       - name: Checkout
@@ -36,17 +40,49 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.5
+        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v2.0
         with:
           eventId: "DO0091"
 
       - name: Read settings
         id: ReadSettings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.5
+        uses: microsoft/AL-Go-Actions/ReadSettings@v2.0
         with:
           parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
           getProjects: 'Y'
           getEnvironments: '*'
+
+      - name: Read secrets
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v2.0
+        env:
+          secrets: ${{ toJson(secrets) }}
+        with:
+          settingsJson: ${{ env.Settings }}
+          secrets: 'StorageContext,AppSourceContext'
+
+      - name: Determine Delivery Targets
+        id: DetermineDeliveryTargets
+        run: |
+          $deliveryTargets = @()
+          if ($env:StorageContext) {
+            $deliveryTargets += @("Storage")
+          }
+          if ($env:type -eq "AppSource App" -and $env:AppSourceContinuousDelivery -eq "true") {
+            if ($env:AppSourceContext) {
+              $deliveryTargets += @("AppSource")
+            }
+          }
+          Get-Item -Path (Join-Path $ENV:GITHUB_WORKSPACE ".github\DeliverTo*.ps1") | ForEach-Object {
+            $deliveryTargets += @([System.IO.Path]::GetFileNameWithoutExtension($_.Name.SubString(9)))
+          }
+          $deliveryTargets = $deliveryTargets | Select-Object -unique
+          $deliveryTargetsJson = $deliveryTargets | ConvertTo-Json -Depth 99 -compress
+          if ($deliveryTargets.Count -lt 2) { $deliveryTargetsJson = "[$($deliveryTargetsJson)]" }
+          Write-Host "::set-output name=DeliveryTargetsJson::$deliveryTargetsJson"
+          Write-Host "set-output name=DeliveryTargetsJson::$deliveryTargetsJson"
+          Write-Host "::set-output name=DeliveryTargetCount::$($deliveryTargets.Count)"
+          Write-Host "set-output name=DeliveryTargetCount::$($deliveryTargets.Count)"
+          Add-Content -Path $env:GITHUB_ENV -Value "DeliveryTargets=$deliveryTargetsJson"
 
   CheckForUpdates:
     runs-on: [ windows-latest ]
@@ -56,19 +92,20 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.5
+        uses: microsoft/AL-Go-Actions/ReadSettings@v2.0
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           get: TemplateUrl
 
       - name: Check for updates to AL-Go system files
-        uses: microsoft/AL-Go-Actions/CheckForUpdates@v1.5
+        uses: microsoft/AL-Go-Actions/CheckForUpdates@v2.0
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           templateUrl: ${{ env.TemplateUrl }}
 
   Build:
     needs: [ Initialization ]
+    if: ${{ needs.Initialization.outputs.projectCount > 0 }}
     runs-on: ${{ fromJson(needs.Initialization.outputs.githubRunner) }}
     strategy:
       matrix:
@@ -84,15 +121,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          lfs: true
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.5
+        uses: microsoft/AL-Go-Actions/ReadSettings@v2.0
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           project: ${{ matrix.project }}
 
       - name: Read secrets (PR)
-        uses: microsoft/AL-Go-Actions/ReadSecrets@v1.5
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v2.0
         if: github.event_name == 'pull_request'
         env:
           secrets: ${{ toJson(secrets) }}
@@ -102,7 +141,7 @@ jobs:
           secrets: 'licenseFileUrl,insiderSasToken,KeyVaultCertificateUrl,KeyVaultCertificatePassword,KeyVaultClientId'
 
       - name: Read secrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@v1.5
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v2.0
         if: github.event_name != 'pull_request'
         env:
           secrets: ${{ toJson(secrets) }}
@@ -112,7 +151,7 @@ jobs:
           secrets: 'licenseFileUrl,insiderSasToken,CodeSignCertificateUrl,CodeSignCertificatePassword,KeyVaultCertificateUrl,KeyVaultCertificatePassword,KeyVaultClientId,StorageContext'
 
       - name: Run pipeline
-        uses: microsoft/AL-Go-Actions/RunPipeline@v1.5
+        uses: microsoft/AL-Go-Actions/RunPipeline@v2.0
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           Project: ${{ matrix.project }}
@@ -128,7 +167,7 @@ jobs:
           if ($project -eq ".") { $project = $settings.RepoName }
           'Apps','Dependencies','TestApps','TestResults','BcptTestResults','BuildOutput' | ForEach-Object {
             $name = "$($_)ArtifactsName"
-            $value = "$project-$("$ENV:GITHUB_REF_NAME".Replace('/','_'))-$_-$($settings.repoVersion).$($settings.appBuild).$($settings.appRevision)"
+            $value = "$($project.Replace('\','_'))-$("$ENV:GITHUB_REF_NAME".Replace('/','_'))-$_-$($settings.repoVersion).$($settings.appBuild).$($settings.appRevision)"
             Write-Host "::set-output name=$name::$value"
             Add-Content -Path $env:GITHUB_ENV -Value "$name=$value"
           }
@@ -138,7 +177,7 @@ jobs:
         if: github.event_name != 'pull_request' && (github.ref_name == 'main' || startswith(github.ref_name, 'release/'))
         with:
           name: ${{ env.appsArtifactsName }}
-          path: '${{ matrix.project }}/output/Apps/'
+          path: '${{ matrix.project }}/.buildartifacts/Apps/'
           if-no-files-found: ignore
 
       - name: Publish artifacts - dependencies
@@ -146,7 +185,7 @@ jobs:
         if: github.event_name != 'pull_request' && (github.ref_name == 'main' || startswith(github.ref_name, 'release/'))
         with:
           name: ${{ env.dependenciesArtifactsName }}
-          path: '${{ matrix.project }}/output/Dependencies/'
+          path: '${{ matrix.project }}/.buildartifacts/Dependencies/'
           if-no-files-found: ignore
 
       - name: Publish artifacts - test apps
@@ -154,7 +193,7 @@ jobs:
         if: github.event_name != 'pull_request' && (github.ref_name == 'main' || startswith(github.ref_name, 'release/'))
         with:
           name: ${{ env.testAppsArtifactsName }}
-          path: '${{ matrix.project }}/output/TestApps/'
+          path: '${{ matrix.project }}/.buildartifacts/TestApps/'
           if-no-files-found: ignore
 
       - name: Publish artifacts - build output
@@ -183,19 +222,16 @@ jobs:
 
       - name: Cleanup
         if: always()
-        uses: microsoft/AL-Go-Actions/PipelineCleanup@v1.5
+        uses: microsoft/AL-Go-Actions/PipelineCleanup@v2.0
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           Project: ${{ matrix.project }}
 
   Deploy:
-    runs-on: [ windows-latest ] 
     needs: [ Initialization, Build ]
     if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main' && needs.Initialization.outputs.environmentCount > 0 }}
-    strategy:
-      matrix:
-        environment: ${{ fromJson(needs.Initialization.outputs.environments) }}
-      fail-fast: false
+    strategy: ${{ fromJson(needs.Initialization.outputs.environments) }}
+    runs-on: ${{ fromJson(matrix.os) }}
     name: Deploy to ${{ matrix.environment }}
     environment:
       name: ${{ matrix.environment }}
@@ -215,15 +251,15 @@ jobs:
           Write-Host "::set-output name=envName::$envName"
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.5
+        uses: microsoft/AL-Go-Actions/ReadSettings@v2.0
 
       - name: Read secrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@v1.5
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v2.0
         env:
           secrets: ${{ toJson(secrets) }}
         with:
           settingsJson: ${{ env.Settings }}
-          secrets: '${{ steps.envName.outputs.envName }}-AuthContext,${{ steps.envName.outputs.envName }}_AuthContext,AuthContext,${{ steps.envName.outputs.envName }}-EnvironmentName,${{ steps.envName.outputs.envName }}_EnvironmentName,EnvironmentName'
+          secrets: '${{ steps.envName.outputs.envName }}-AuthContext,${{ steps.envName.outputs.envName }}_AuthContext,AuthContext,${{ steps.envName.outputs.envName }}-EnvironmentName,${{ steps.envName.outputs.envName }}_EnvironmentName,EnvironmentName,Projects'
 
       - name: AuthContext
         id: authContext
@@ -245,7 +281,7 @@ jobs:
           $environmentName = $null
           "$($envName)-EnvironmentName", "$($envName)_EnvironmentName", "EnvironmentName" | ForEach-Object {
             if (!($EnvironmentName)) {
-              $EnvironmentName = [System.Environment]::GetEnvironmentVariable($_)
+              $EnvironmentName = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String([System.Environment]::GetEnvironmentVariable($_)))
               if ($EnvironmentName) {
                 Write-Host "Using $_ secret"
               }
@@ -254,33 +290,98 @@ jobs:
           if (!($environmentName)) {
             $environmentName = '${{ steps.envName.outputs.envName }}'
           }
-          $environmentName = ($environmentName + '${{ matrix.environment }}'.SubString($envName.Length)).ToUpperInvariant()
+          $environmentName = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes(($environmentName + '${{ matrix.environment }}'.SubString($envName.Length)).ToUpperInvariant()))
+
+          $projects = [System.Environment]::GetEnvironmentVariable("$($envName)-Projects")
+          if (-not $projects) {
+            $projects = [System.Environment]::GetEnvironmentVariable("$($envName)_Projects")
+            if (-not $projects) {
+              $projects = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String([System.Environment]::GetEnvironmentVariable('projects')))
+            }
+          }
+          if ($projects -eq '') {
+            $projects = '*'
+          }
+          else {
+            $buildProjects = '${{ needs.Initialization.outputs.projects }}' | ConvertFrom-Json
+            $projects = ($projects.Split(',') | Where-Object { $buildProjects -contains $_ }) -join ','
+          }
+
           Write-Host "::set-output name=authContext::$authContext"
           Write-Host "set-output name=authContext::$authContext"
           Write-Host "::set-output name=environmentName::$environmentName"
           Write-Host "set-output name=environmentName::$environmentName"
+          Write-Host "::set-output name=projects::$projects"
+          Write-Host "set-output name=projects::$projects"
 
       - name: Deploy
-        uses: microsoft/AL-Go-Actions/Deploy@v1.5
+        uses: microsoft/AL-Go-Actions/Deploy@v2.0
         env:
-          authContext: '${{ steps.authContext.outputs.authContext }}'
+          authContext: ${{ steps.authContext.outputs.authContext }}
         with:
           type: 'CD'
-          projects: '${{ secrets.Projects }}'
-          environmentName: '${{ steps.authContext.outputs.environmentName }}'
+          projects: ${{ steps.authContext.outputs.projects }}
+          environmentName: ${{ steps.authContext.outputs.environmentName }}
+          artifacts: '${{ github.workspace }}\artifacts'
+
+  Deliver:
+    needs: [ Initialization, Build ]
+    if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main' && needs.Initialization.outputs.deliveryTargetCount > 0 }}
+    strategy:
+      matrix:
+        deliveryTarget: ${{ fromJson(needs.Initialization.outputs.deliveryTargets) }}
+      fail-fast: false
+    runs-on: [ windows-latest ]
+    name: Deliver to ${{ matrix.deliveryTarget }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: '${{ github.workspace }}\artifacts'
+
+      - name: Read settings
+        uses: microsoft/AL-Go-Actions/ReadSettings@v2.0
+
+      - name: Read secrets
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v2.0
+        env:
+          secrets: ${{ toJson(secrets) }}
+        with:
+          settingsJson: ${{ env.Settings }}
+          secrets: '${{ matrix.deliveryTarget }}Context'
+
+      - name: DeliveryContext
+        id: deliveryContext
+        run: |
+          $contextName = '${{ matrix.deliveryTarget }}Context'
+          $deliveryContext = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String([System.Environment]::GetEnvironmentVariable($contextName)))
+          Write-Host "::set-output name=deliveryContext::$deliveryContext"
+          Write-Host "set-output name=deliveryContext::$deliveryContext"
+
+      - name: Deliver
+        uses: microsoft/AL-Go-Actions/Deliver@v2.0
+        env:
+          deliveryContext: ${{ steps.deliveryContext.outputs.deliveryContext }}
+        with:
+          type: 'CD'
+          projects: ${{ needs.Initialization.outputs.projects }}
+          deliveryTarget: ${{ matrix.deliveryTarget }}
           artifacts: '${{ github.workspace }}\artifacts'
 
   PostProcess:
     if: always()
     runs-on: [ windows-latest ]
-    needs: [ Initialization,  Build, Deploy ]
+    needs: [ Initialization, Build, Deploy, Deliver ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Finalize the workflow
         id: PostProcess
-        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v1.5
+        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v2.0
         with:
           eventId: "DO0091"
           telemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
