@@ -2128,6 +2128,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 1713748232 - NamedType 3803850085" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Record %1 is inserted.</source>
+          <note from="Developer" annotates="general" priority="2">%1 = RecordId of new record.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - NamedType RecordIsInsertedLbl</note>
+        </trans-unit>
         <trans-unit id="Page 1713748232 - NamedType 3577291695" size-unit="char" translate="yes" xml:space="preserve">
           <source>Changing the primary key for &gt;15 values is not supported.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -4138,6 +4143,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action DET Delete Selected - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 1713748232 - Action 3706613101 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Insert new record</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action InsertNew - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1713748232 - Action 3706613101 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Insert new record</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action InsertNew - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 1713748232 - Action 2026913255 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Refresh this page with current filters</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -4152,6 +4167,91 @@
           <source>Edit Value</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Edit Value - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1854157029 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Insert New Record</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Insert New Record - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1854157029 - NamedType 1473103014" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Inserting the primary key for &gt;15 values is not supported.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Insert New Record - NamedType InsertPKNotSuppErr</note>
+        </trans-unit>
+        <trans-unit id="Page 1854157029 - Control 3572377161 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Value 10 field</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Insert New Record - Control Text Value 10 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1854157029 - Control 4210073778 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Value 11 field</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Insert New Record - Control Text Value 11 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1854157029 - Control 2296983927 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Value 12 field</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Insert New Record - Control Text Value 12 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1854157029 - Control 2934680544 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Value 13 field</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Insert New Record - Control Text Value 13 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1854157029 - Control 1828196333 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Value 14 field</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Insert New Record - Control Text Value 14 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1854157029 - Control 2465892950 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Value 15 field</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Insert New Record - Control Text Value 15 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1854157029 - Control 552803099 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Value 16 field</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Insert New Record - Control Text Value 16 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1854157029 - Control 2891074592 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Value 2 field</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Insert New Record - Control Text Value 2 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1854157029 - Control 2253377975 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Value 3 field</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Insert New Record - Control Text Value 3 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1854157029 - Control 2422286998 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Value 4 field</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Insert New Record - Control Text Value 4 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1854157029 - Control 1784590381 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Value 5 field</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Insert New Record - Control Text Value 5 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1854157029 - Control 1146893764 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Value 6 field</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Insert New Record - Control Text Value 6 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1854157029 - Control 509197147 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Value 7 field</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Insert New Record - Control Text Value 7 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1854157029 - Control 3359862186 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Value 8 field</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Insert New Record - Control Text Value 8 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1854157029 - Control 2722165569 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Value 9 field</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Insert New Record - Control Text Value 9 - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1232699293 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Close Me</source>

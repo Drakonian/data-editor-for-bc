@@ -435,6 +435,10 @@ table 81000 "DET Data Editor Buffer"
         {
             Clustered = true;
         }
+        key(SourceRecordId; "Source Record ID")
+        {
+
+        }
     }
     local procedure GetCaption(FieldNo: Integer): Text
     var
