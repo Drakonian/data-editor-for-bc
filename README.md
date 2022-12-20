@@ -2,8 +2,11 @@
 You probably remember the glory days when we had direct access to data in Navision tables. But with the move to Cloud Business Central, we lost that ability. It's probably much safer and more correct, but what if we need to fix some data problem and we know what we're doing? We can write a routine that fixes that problem. But I suggest a better option, this Data Editor extension that allows you to change and delete information from any table in Business Central
 
 https://vld-nav.com/table-data-editor-for-bc
+
 https://vld-nav.com/table-data-editor-for-bc-update
+
 https://vld-nav.com/summernote-wysiwyg-bc#dataeditor
+
 https://vld-nav.com/table-data-editor-for-bc-insert-new-records
 
 
