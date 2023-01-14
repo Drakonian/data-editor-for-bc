@@ -1,7 +1,5 @@
 ## v2.3
 
-Note that when using the preview version of AL-Go for GitHub, you need to Update your AL-Go system files, as soon as possible when told to do so.
-
 ### Issues
 - Issue #312 Branching enhancements
 - Issue #229 Create Release action tags wrong commit
