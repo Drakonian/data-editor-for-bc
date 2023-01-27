@@ -6560,7 +6560,10 @@ page 81000 "DET Data Editor Buffer"
         TempRecRef: RecordRef;
         FieldRefVar: FieldRef;
         FieldRefVar2: FieldRef;
+        FieldInfoDictionaty: Dictionary of [Integer, Text];
         Counter: Integer;
+        FieldNumber: Integer;
+        FieldCount: Integer;
         EntryNo: Integer;
     begin
         TempRecRef.GetTable(Rec);
@@ -6568,6 +6571,8 @@ page 81000 "DET Data Editor Buffer"
             RecRef.SetView(CustomTableView);
         if RecRef.FindSet() then
             repeat
+                FieldCount := 0;
+                Counter := 0;
                 EntryNo += 1;
                 TempRecRef.Init();
                 FieldRefVar2 := TempRecRef.FieldIndex(1);
@@ -6575,14 +6580,19 @@ page 81000 "DET Data Editor Buffer"
                 FieldRefVar2 := TempRecRef.FieldIndex(2);
                 FieldRefVar2.Value(RecRef.RecordId());
 
-                for Counter := 1 to RecRef.FieldCount() do begin
-                    FieldRefVar := RecRef.FieldIndex(Counter);
-                    if FieldRefVar.Class() = FieldClass::FlowField then
-                        FieldRefVar.CalcField();
+                for FieldCount := 1 to GenFieldInfoDict.Count() do begin
+                    FieldInfoDictionaty := GenFieldInfoDict.Get(FieldCount);
+                    foreach FieldNumber in FieldInfoDictionaty.Keys() do begin
+                        Counter += 1;
+                        FieldRefVar := RecRef.Field(FieldNumber);
+                        if FieldRefVar.Class() = FieldClass::FlowField then
+                            FieldRefVar.CalcField();
 
-                    FieldRefVar2 := TempRecRef.FieldIndex(Counter + 2);
-                    FieldRefVar2.Value(FieldRefVar.Value());
+                        FieldRefVar2 := TempRecRef.FieldIndex(Counter + 2);
+                        FieldRefVar2.Value(FieldRefVar.Value());
+                    end;
                 end;
+
                 if not TempRecRef.Insert() then
                     TempRecRef.Modify();
             until RecRef.Next() = 0;

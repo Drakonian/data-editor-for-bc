@@ -20,6 +20,10 @@ page 81005 "DET Select Fields"
                     Caption = 'Included';
                     ToolTip = 'Included';
                     Enabled = not Rec.IsPartOfPrimaryKey;
+                    trigger OnValidate()
+                    begin
+                        CurrPage.Update(true);
+                    end;
                 }
                 field(Name; Rec.Name)
                 {
@@ -51,6 +55,7 @@ page 81005 "DET Select Fields"
                     CurrPage.SetSelectionFilter(Rec);
                     Rec.ModifyAll(Included, true);
                     Rec.Reset();
+                    CurrPage.Update(false);
                 end;
             }
             action("Clear Included")
@@ -74,6 +79,7 @@ page 81005 "DET Select Fields"
                             end;
                         until Rec.Next() = 0;
                     Rec.Reset();
+                    CurrPage.Update(false);
                 end;
             }
         }
@@ -101,6 +107,8 @@ page 81005 "DET Select Fields"
                 Rec.Name := FieldRec."Field Caption";
                 Rec.Insert();
             until FieldRec.Next() = 0;
+
+        Rec.FindFirst();
     end;
 
     procedure GetFieldIdFilter() FieldIdFilter: Text
