@@ -19,8 +19,6 @@ page 81004 "DET Insert New Record"
      tabledata "Workflow Step Instance Archive" = RMID, tabledata "G/L Entry" = RMID,
      tabledata "Value Entry" = RMID, tabledata "Item Register" = RMID, tabledata "G/L Register" = RIMD,
      tabledata "Vat Entry" = RMID;
-
-
     layout
     {
         area(content)
