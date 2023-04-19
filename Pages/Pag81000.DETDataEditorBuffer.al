@@ -17,7 +17,9 @@ page 81000 "DET Data Editor Buffer"
      tabledata "Purch. Inv. Header" = RMID, tabledata "Purch. Inv. Line" = RMID, tabledata "Purch. Rcpt. Header" = RMID, tabledata "Purch. Rcpt. Line" = RMID,
      tabledata "Purchase Header Archive" = RMID, tabledata "Sales Line Archive" = RMID, tabledata "Sales Header Archive" = RMID, tabledata "Purchase Line Archive" = RMID,
      tabledata "Sales Comment Line Archive" = RMID, tabledata "Purch. Comment Line Archive" = RMID, tabledata "Workflow Step Argument Archive" = RMID, tabledata "Workflow Record Change Archive" = RMID,
-     tabledata "Workflow Step Instance Archive" = RMID, tabledata "G/L Entry" = RMID;
+     tabledata "Workflow Step Instance Archive" = RMID, tabledata "G/L Entry" = RMID,
+     tabledata "Value Entry" = RMID, tabledata "Item Register" = RMID, tabledata "G/L Register" = RIMD,
+     tabledata "Vat Entry" = RMID;
 
     layout
     {
