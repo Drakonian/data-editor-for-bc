@@ -1,5 +1,7 @@
 name: 'Create a new app'
 
+run-name: "Create a new app in [${{ github.ref_name }}]"
+
 on:
   workflow_dispatch:
     inputs:
@@ -46,20 +48,20 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v3.0
+        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v3.1
         with:
           shell: powershell
           eventId: "DO0092"
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v3.0
+        uses: microsoft/AL-Go-Actions/ReadSettings@v3.1
         with:
           shell: powershell
           parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
           get: type
 
       - name: Creating a new app
-        uses: microsoft/AL-Go-Actions/CreateApp@v3.0
+        uses: microsoft/AL-Go-Actions/CreateApp@v3.1
         with:
           shell: powershell
           parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
@@ -73,7 +75,7 @@ jobs:
 
       - name: Finalize the workflow
         if: always()
-        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v3.0
+        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v3.1
         with:
           shell: powershell
           eventId: "DO0092"

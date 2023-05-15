@@ -66,14 +66,14 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v3.0
+        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v3.1
         with:
           shell: powershell
           eventId: "DO0094"
 
       - name: Read settings
         id: ReadSettings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v3.0
+        uses: microsoft/AL-Go-Actions/ReadSettings@v3.1
         with:
           shell: powershell
           parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
@@ -81,12 +81,12 @@ jobs:
 
       - name: Determine Projects
         id: determineProjects
-        uses: microsoft/AL-Go-Actions/DetermineProjectsToBuild@v3.0
+        uses: microsoft/AL-Go-Actions/DetermineProjectsToBuild@v3.1
         with:
           shell: powershell
 
       - name: Check for updates to AL-Go system files
-        uses: microsoft/AL-Go-Actions/CheckForUpdates@v3.0
+        uses: microsoft/AL-Go-Actions/CheckForUpdates@v3.1
         with:
           shell: powershell
           parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
@@ -171,7 +171,7 @@ jobs:
 
       - name: Prepare release notes
         id: createreleasenotes
-        uses: microsoft/AL-Go-Actions/CreateReleaseNotes@v3.0
+        uses: microsoft/AL-Go-Actions/CreateReleaseNotes@v3.1
         with:
           shell: powershell
           parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
@@ -191,7 +191,7 @@ jobs:
               repo: context.repo.repo,
               tag_name: '${{ github.event.inputs.tag }}',
               name: '${{ github.event.inputs.name }}',
-              body: bodyMD.replaceAll('\\n','\n'),
+              body: bodyMD.replaceAll('\\n','\n').replaceAll('%0A','\n').replaceAll('%0D','\n').replaceAll('%25','%'),
               draft: ${{ github.event.inputs.draft=='Y' }},
               prerelease: ${{ github.event.inputs.prerelease=='Y' }},
               make_latest: 'legacy',
@@ -213,13 +213,13 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v3.0
+        uses: microsoft/AL-Go-Actions/ReadSettings@v3.1
         with:
           shell: powershell
           parentTelemetryScopeJson: ${{ needs.CreateRelease.outputs.telemetryScopeJson }}
 
       - name: Read secrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@v3.0
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v3.1
         env:
           secrets: ${{ toJson(secrets) }}
         with:
@@ -271,7 +271,7 @@ jobs:
           Add-Content -Path $env:GITHUB_OUTPUT -Value "nuGetContext=$nuGetContext"
 
       - name: Deliver to NuGet
-        uses: microsoft/AL-Go-Actions/Deliver@v3.0
+        uses: microsoft/AL-Go-Actions/Deliver@v3.1
         if: ${{ steps.nuGetContext.outputs.nuGetContext }}
         env:
           deliveryContext: ${{ steps.nuGetContext.outputs.nuGetContext }}
@@ -296,7 +296,7 @@ jobs:
           Add-Content -Path $env:GITHUB_OUTPUT -Value "storageContext=$storageContext"
 
       - name: Deliver to Storage
-        uses: microsoft/AL-Go-Actions/Deliver@v3.0
+        uses: microsoft/AL-Go-Actions/Deliver@v3.1
         if: ${{ steps.storageContext.outputs.storageContext }}
         env:
           deliveryContext: ${{ steps.storageContext.outputs.storageContext }}
@@ -334,7 +334,7 @@ jobs:
     needs: [ CreateRelease, UploadArtifacts ]
     steps:
       - name: Update Version Number
-        uses: microsoft/AL-Go-Actions/IncrementVersionNumber@v3.0
+        uses: microsoft/AL-Go-Actions/IncrementVersionNumber@v3.1
         with:
           shell: powershell
           parentTelemetryScopeJson: ${{ needs.CreateRelease.outputs.telemetryScopeJson }}
@@ -351,7 +351,7 @@ jobs:
 
       - name: Finalize the workflow
         id: PostProcess
-        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v3.0
+        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v3.1
         with:
           shell: powershell
           eventId: "DO0094"
