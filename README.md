@@ -4,9 +4,4 @@ You probably remember the glory days when we had direct access to data in Navisi
 https://vld-nav.com/table-data-editor-for-bc-2-0
 
 
-https://vld-nav.com/table-data-editor-for-bc
-https://vld-nav.com/table-data-editor-for-bc-update
-https://vld-nav.com/summernote-wysiwyg-bc#dataeditor
-https://vld-nav.com/table-data-editor-for-bc-insert-new-records
-
 ![Data Editor](https://static.tildacdn.com/tild3565-3631-4636-b463-303765396635/OpenTable.gif)
