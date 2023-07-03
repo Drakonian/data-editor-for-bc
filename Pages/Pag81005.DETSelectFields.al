@@ -20,11 +20,18 @@ page 81005 "DET Select Fields"
                     Caption = 'Included';
                     ToolTip = 'Included';
                     Enabled = not Rec.IsPartOfPrimaryKey;
+                    Visible = not OneFieldMode;
                     trigger OnValidate()
                     begin
                         CurrPage.Update(true);
                     end;
                 }
+                field("Field Id"; Rec."Field Id")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Field Id field.';
+                }
+
                 field(Name; Rec.Name)
                 {
                     Editable = false;
@@ -49,7 +56,7 @@ page 81005 "DET Select Fields"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedOnly = true;
-
+                Visible = not OneFieldMode;
                 trigger OnAction()
                 begin
                     CurrPage.SetSelectionFilter(Rec);
@@ -67,7 +74,7 @@ page 81005 "DET Select Fields"
                 Promoted = true;
                 PromotedCategory = Process;
                 PromotedOnly = true;
-
+                Visible = not OneFieldMode;
                 trigger OnAction()
                 begin
                     CurrPage.SetSelectionFilter(Rec);
@@ -97,6 +104,12 @@ page 81005 "DET Select Fields"
         FieldRec.SetRange(TableNo, SourceTableNo);
         FieldRec.SetFilter(ObsoleteState, '<>%1', FieldRec.ObsoleteState::Removed);
         FieldRec.SetRange(Enabled, true);
+        if ShowOnlyFilteredFields then
+            FieldRec.SetFilter("No.", CurrentIdFilter);
+        if FilterOnlyNormalFields then begin
+            FieldRec.SetRange(Class, FieldRec.Class::Normal);
+            FieldRec.SetFilter(Type, '<>%1&<>%2&<>%3&<>4', FieldRec.Type::Binary, FieldRec.Type::BLOB, FieldRec.Type::Media, FieldRec.Type::MediaSet);
+        end;
         if FieldRec.FindSet() then
             repeat
                 FieldRec2.SetRange("No.", FieldRec."No.");
@@ -121,5 +134,25 @@ page 81005 "DET Select Fields"
         FieldIdFilter := SelectionFilterManagement.GetSelectionFilter(RecRef, Rec.FieldNo("Field Id"));
         Rec.Reset();
     end;
+
+    procedure SetOneFieldMode(NewValue: Boolean)
+    begin
+        OneFieldMode := NewValue;
+    end;
+
+    procedure SetFilterOnlyNormalFields(NewValue: Boolean)
+    begin
+        FilterOnlyNormalFields := NewValue;
+    end;
+
+    procedure SetShowOnlyFilteredFields(NewValue: Boolean)
+    begin
+        ShowOnlyFilteredFields := NewValue;
+    end;
+
+    var
+        OneFieldMode: Boolean;
+        FilterOnlyNormalFields: Boolean;
+        ShowOnlyFilteredFields: Boolean;
 }
 

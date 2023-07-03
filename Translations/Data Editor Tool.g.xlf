@@ -2048,6 +2048,51 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table DET Field - Field Name - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 77930169 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Find and Replace</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Find and Replace - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 77930169 - Field 883711285 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Entry No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Find and Replace - Field Entry No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 77930169 - Field 823559016 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Field Caption</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Find and Replace - Field Field Caption - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 77930169 - Field 3766508163 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Field Number</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Find and Replace - Field Field Number - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 77930169 - Field 958223187 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Field Value</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Find and Replace - Field Field Value - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 77930169 - Field 1570317152 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Is Editable</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Find and Replace - Field Is Editable - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 77930169 - Field 1829115764 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Record Id</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Find and Replace - Field Record Id - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 77930169 - Field 2346146730 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Record PK</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Find and Replace - Field Record PK - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 11151320 - NamedType 3577291695" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Changing the primary key for &gt;15 values is not supported.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit DET Data Editor Mgt. - NamedType RenamePKNotSuppErr</note>
+        </trans-unit>
         <trans-unit id="Page 2312685416 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Data Editor</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -2128,15 +2173,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 1713748232 - NamedType 1749502825" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Are you sure you want to update the %1 for %2 %3 entries?</source>
+          <note from="Developer" annotates="general" priority="2">%1 = Field Caption., %2 = Record Count, %3 = Record name</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - NamedType ColumnUpdateConfirmLbl</note>
+        </trans-unit>
         <trans-unit id="Page 1713748232 - NamedType 3803850085" size-unit="char" translate="yes" xml:space="preserve">
           <source>Record %1 is inserted.</source>
           <note from="Developer" annotates="general" priority="2">%1 = RecordId of new record.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - NamedType RecordIsInsertedLbl</note>
-        </trans-unit>
-        <trans-unit id="Page 1713748232 - NamedType 3577291695" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Changing the primary key for &gt;15 values is not supported.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - NamedType RenamePKNotSuppErr</note>
         </trans-unit>
         <trans-unit id="Page 1713748232 - Control 883711285 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Entry No. field</source>
@@ -4143,6 +4188,36 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action DET Delete Selected - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 1713748232 - Action 2209620926 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Find &amp; Replace</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action DET Find &amp; Replace - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1713748232 - Action 2209620926 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Find &amp; Replace</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action DET Find &amp; Replace - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1713748232 - Action 1366377225 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sort</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action DET Sort - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1713748232 - Action 1366377225 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sort</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action DET Sort - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1713748232 - Action 3444851366 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Update Column</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action DET Update Column - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1713748232 - Action 3444851366 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Update Column</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action DET Update Column - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 1713748232 - Action 3706613101 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Insert new record</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -4167,6 +4242,106 @@
           <source>Edit Value</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Edit Value - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 77930169 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Find and Replace</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 77930169 - NamedType 163739095" size-unit="char" translate="yes" xml:space="preserve">
+          <source>%1 field(s) %2.</source>
+          <note from="Developer" annotates="general" priority="2">%1 = Number of entries, %2 Found or Found &amp; Replaced</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - NamedType FieldsFoundLbl</note>
+        </trans-unit>
+        <trans-unit id="Page 77930169 - Control 1018074862 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Set Table Filter</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - Control CustomTableViewField - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 77930169 - Control 1018074862 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Table Filter</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - Control CustomTableViewField - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 77930169 - Control 4224082177 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Find What</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - Control FindWhat - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 77930169 - Control 4224082177 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Find What</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - Control FindWhat - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 77930169 - Control 823559016 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Field Caption field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - Control Field Caption - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 77930169 - Control 3766508163 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Field Number field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - Control Field Number - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 77930169 - Control 958223187 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Field Value field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - Control Field Value - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 77930169 - Control 2346146730 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Record PK field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - Control Record PK - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 77930169 - Control 3099563329 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Match Case</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - Control MatchCase - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 77930169 - Control 3099563329 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Match Case</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - Control MatchCase - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 77930169 - Control 3696489693 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Match Entire Field Value</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - Control MatchEntireFieldValue - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 77930169 - Control 3696489693 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Match Entire Field Value</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - Control MatchEntireFieldValue - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 77930169 - Control 3537699386 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Replace With</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - Control ReplaceWith - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 77930169 - Control 3537699386 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Replace With</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - Control ReplaceWith - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 77930169 - Action 3228533040 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Find All</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - Action FindAll - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 77930169 - Action 3228533040 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Find All</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - Action FindAll - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 77930169 - Action 1221257244 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Find &amp; Replace All</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - Action FindReplaceAll - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 77930169 - Action 1221257244 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Find &amp; Replace All</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - Action FindReplaceAll - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1854157029 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Insert New Record</source>
@@ -4253,6 +4428,46 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Insert New Record - Control Text Value 9 - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Page 4117563166 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Key</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Key - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4117563166 - Control 3290400933 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies if the table data is clustered.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Key - Control Clustered - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4117563166 - Control 3348941625 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the key.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Key - Control Key - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4117563166 - Control 2267429817 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the MaintainSIFTIndex field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Key - Control MaintainSIFTIndex - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4117563166 - Control 553295643 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the MaintainSQLIndex field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Key - Control MaintainSQLIndex - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4117563166 - Control 3823027348 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the SQLIndex field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Key - Control SQLIndex - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4117563166 - Control 1620485232 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the SumIndexFields field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Key - Control SumIndexFields - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4117563166 - Control 3958331253 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Unique field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Key - Control Unique - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Page 1232699293 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Close Me</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -4262,6 +4477,11 @@
           <source>Select Fields</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Select Fields - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 971391312 - Control 4095765489 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Field Id field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Select Fields - Control Field Id - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 971391312 - Control 3740921470 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Included</source>
