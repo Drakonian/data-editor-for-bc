@@ -6557,16 +6557,17 @@ page 81000 "DET Data Editor Buffer"
         NewFieldRef := RecRefDuplicate.Field(TempDETField."Field Id");
         if not DataEditorMgt.GetNewColumnValue(RecRef, NewFieldRef, Rec."Source Record ID", TempNameValueBuffer) then
             exit;
-        if not Confirm(ColumnUpdateConfirmLbl, false, TempDETField.Name, RecRef.Count(), RecRef.Name()) then
+        if not Confirm(ColumnUpdateConfirmLbl, false, TempDETField.Name, Rec.Count(), RecRef.Name()) then
             exit;
-        if RecRef.FindSet() then
+        if Rec.FindSet() then
             repeat
+                RecRef.Get(Rec."Source Record ID");
                 FieldRefVar := RecRef.Field(TempDETField."Field Id");
                 FieldRefVar.Value(NewFieldRef.Value());
                 if not WithoutValidate then
                     FieldRefVar.Validate();
                 RecRef.Modify(not WithoutValidate);
-            until RecRef.Next() = 0;
+            until Rec.Next() = 0;
         LoadData();
     end;
 
