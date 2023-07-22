@@ -6,7 +6,7 @@ page 81001 "DET Data Editor"
     ApplicationArea = All;
     UsageCategory = Tasks;
     InsertAllowed = false;
-
+    AccessByPermission = tabledata "DET Data Editor Buffer" = RIMD;
     layout
     {
         area(content)
