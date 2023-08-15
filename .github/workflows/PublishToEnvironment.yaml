@@ -28,7 +28,6 @@ jobs:
     runs-on: [ windows-latest ]
     outputs:
       telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
-      settings: ${{ steps.ReadSettings.outputs.SettingsJson }}
       environments: ${{ steps.ReadSettings.outputs.EnvironmentsJson }}
       environmentCount: ${{ steps.ReadSettings.outputs.EnvironmentCount }}
       unknownEnvironment: ${{ steps.ReadSettings.outputs.UnknownEnvironment }}
@@ -39,14 +38,14 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v3.1
+        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v3.2
         with:
           shell: powershell
           eventId: "DO0097"
 
       - name: Read settings
         id: ReadSettings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v3.1
+        uses: microsoft/AL-Go-Actions/ReadSettings@v3.2
         with:
           shell: powershell
           parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
@@ -57,21 +56,18 @@ jobs:
         id: envName
         if: steps.ReadSettings.outputs.UnknownEnvironment == 1
         run: |
-          $ErrorActionPreference = "STOP"
-          Set-StrictMode -version 2.0
+          $errorActionPreference = "Stop"; $ProgressPreference = "SilentlyContinue"; Set-StrictMode -Version 2.0
           $envName = '${{ fromJson(steps.ReadSettings.outputs.environmentsJson).matrix.include[0].environment }}'.split(' ')[0]
-          Add-Content -Path $env:GITHUB_OUTPUT -Value "envName=$envName"
+          Add-Content -Encoding UTF8 -Path $env:GITHUB_OUTPUT -Value "envName=$envName"
 
       - name: Read secrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@v3.1
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v3.2
         if: steps.ReadSettings.outputs.UnknownEnvironment == 1
-        env:
-          secrets: ${{ toJson(secrets) }}
         with:
           shell: powershell
           parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
-          settingsJson: ${{ env.Settings }}
-          secrets: '${{ steps.envName.outputs.envName }}-AuthContext,${{ steps.envName.outputs.envName }}_AuthContext,AuthContext'
+          gitHubSecrets: ${{ toJson(secrets) }}
+          getSecrets: '${{ steps.envName.outputs.envName }}-AuthContext,${{ steps.envName.outputs.envName }}_AuthContext,AuthContext'
 
       - name: Authenticate
         id: Authenticate
@@ -79,15 +75,16 @@ jobs:
         run: |
           $envName = '${{ steps.envName.outputs.envName }}'
           $secretName = ''
+          $secrets = $env:Secrets | ConvertFrom-Json
           $authContext = $null
           "$($envName)-AuthContext", "$($envName)_AuthContext", "AuthContext" | ForEach-Object {
             if (!($authContext)) {
-              $authContext = [System.Environment]::GetEnvironmentVariable($_)
-              if ($authContext) {
+              if ($secrets."$_") {
                 Write-Host "Using $_ secret as AuthContext"
+                $authContext = $secrets."$_"
                 $secretName = $_
               }
-            }            
+            }
           }
           if ($authContext) {
             Write-Host "AuthContext provided in secret $secretName!"
@@ -97,13 +94,13 @@ jobs:
             Write-Host "No AuthContext provided for $envName, initiating Device Code flow"
             $ALGoHelperPath = "$([System.IO.Path]::GetTempFileName()).ps1"
             $webClient = New-Object System.Net.WebClient
-            $webClient.DownloadFile('https://raw.githubusercontent.com/microsoft/AL-Go-Actions/v3.1/AL-Go-Helper.ps1', $ALGoHelperPath)
+            $webClient.DownloadFile('https://raw.githubusercontent.com/microsoft/AL-Go-Actions/v3.2/AL-Go-Helper.ps1', $ALGoHelperPath)
             . $ALGoHelperPath
             $BcContainerHelperPath = DownloadAndImportBcContainerHelper -baseFolder $ENV:GITHUB_WORKSPACE
             $authContext = New-BcAuthContext -includeDeviceLogin -deviceLoginTimeout ([TimeSpan]::FromSeconds(0))
             CleanupAfterBcContainerHelper -bcContainerHelperPath $bcContainerHelperPath
             Set-Content -Path $ENV:GITHUB_STEP_SUMMARY -value "AL-Go needs access to the Business Central Environment $('${{ steps.envName.outputs.envName }}'.Split(' ')[0]) and could not locate a secret called ${{ steps.envName.outputs.envName }}_AuthContext`n`n$($authContext.message)"
-            Add-Content -Path $env:GITHUB_OUTPUT -Value "deviceCode=$($authContext.deviceCode)"
+            Add-Content -Encoding UTF8 -Path $env:GITHUB_OUTPUT -Value "deviceCode=$($authContext.deviceCode)"
           }
 
   Deploy:
@@ -123,47 +120,42 @@ jobs:
       - name: EnvName
         id: envName
         run: |
-          $ErrorActionPreference = "STOP"
-          Set-StrictMode -version 2.0
+          $errorActionPreference = "Stop"; $ProgressPreference = "SilentlyContinue"; Set-StrictMode -Version 2.0
           $envName = '${{ matrix.environment }}'.split(' ')[0]
-          Add-Content -Path $env:GITHUB_OUTPUT -Value "envName=$envName"
+          Add-Content -Encoding UTF8 -Path $env:GITHUB_OUTPUT -Value "envName=$envName"
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v3.1
+        uses: microsoft/AL-Go-Actions/ReadSettings@v3.2
         with:
           shell: powershell
 
       - name: Read secrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@v3.1
-        env:
-          secrets: ${{ toJson(secrets) }}
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v3.2
         with:
           shell: powershell
-          settingsJson: ${{ env.Settings }}
+          gitHubSecrets: ${{ toJson(secrets) }}
           secrets: '${{ steps.envName.outputs.envName }}-AuthContext,${{ steps.envName.outputs.envName }}_AuthContext,AuthContext,${{ steps.envName.outputs.envName }}-EnvironmentName,${{ steps.envName.outputs.envName }}_EnvironmentName,EnvironmentName,projects'
 
       - name: AuthContext
         id: authContext
         run: |
-          $ErrorActionPreference = "STOP"
-          Set-StrictMode -version 2.0
+          $errorActionPreference = "Stop"; $ProgressPreference = "SilentlyContinue"; Set-StrictMode -Version 2.0
+          $settings = $env:Settings | ConvertFrom-Json
           $envName = '${{ steps.envName.outputs.envName }}'
-          $deployToSettingStr = [System.Environment]::GetEnvironmentVariable("DeployTo$envName")
-          if ($deployToSettingStr) {
-            $deployToSetting = $deployToSettingStr | ConvertFrom-Json
+          $settingsName = "DeployTo$envName"
+          if ($settings.PSObject.Properties.name -eq $settingsName) {
+            $deployToSetting = $settings."$settingsName" | ConvertFrom-Json
           }
           else {
             $deployToSetting = [PSCustomObject]@{}
           }
+          $secrets = $env:Secrets | ConvertFrom-Json
           $authContext = $null
-          if ($env:deviceCode) {
-            $authContext = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes("{""deviceCode"":""$($env:deviceCode)""}"))
-          }
           "$($envName)-AuthContext", "$($envName)_AuthContext", "AuthContext" | ForEach-Object {
             if (!($authContext)) {
-              $authContext = [System.Environment]::GetEnvironmentVariable($_)
-              if ($authContext) {
+              if ($secrets."$_") {
                 Write-Host "Using $_ secret as AuthContext"
+                $authContext = $secrets."$_"
               }
             }            
           }
@@ -178,10 +170,10 @@ jobs:
             $environmentName = $null
             "$($envName)-EnvironmentName", "$($envName)_EnvironmentName", "EnvironmentName" | ForEach-Object {
               if (!($EnvironmentName)) {
-                $EnvironmentName = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String([System.Environment]::GetEnvironmentVariable($_)))
-                if ($EnvironmentName) {
+                if ($secrets."$_") {
                   Write-Host "Using $_ secret as EnvironmentName"
-                  Write-Host "Please consider using the DeployTo$_ setting instead, where you can specify EnvironmentName, projects and branches"
+                  Write-Host "::Warning::Please consider using the $settingsName setting, where you can specify EnvironmentName, projects and branches - instead of specifying the EnvironmentName in a Secret."
+                  $EnvironmentName = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($secrets."$_"))
                 }
               }            
             }
@@ -190,34 +182,40 @@ jobs:
             $environmentName = '${{ steps.envName.outputs.envName }}'
           }
           $environmentName = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes(($environmentName + '${{ matrix.environment }}'.SubString($envName.Length)).ToUpperInvariant()))
+
+          $projects = ''
           if (("$deployToSetting" -ne "") -and $deployToSetting.PSObject.Properties.name -eq "projects") {
             $projects = $deployToSetting.projects
           }
-          else {
-            $projects = [System.Environment]::GetEnvironmentVariable("$($envName)-projects")
-            if (-not $projects) {
-              $projects = [System.Environment]::GetEnvironmentVariable("$($envName)_Projects")
-              if (-not $projects) {
-                $projects = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String([System.Environment]::GetEnvironmentVariable('projects')))
-              }
-            }
+          elseif ($settings.PSObject.Properties.name -eq "$($envName)-projects") {
+            $projects = $settings."$($envName)-projects"
+            Write-Host "::Warning::Please consider using the $settingsName setting, where you can specify EnvironmentName, projects and branches - instead of specifying the Projects in Setting '$($envName)-projects'"
           }
-          if ($projects -eq '') {
+          elseif ($settings.PSObject.Properties.name -eq "$($envName)_projects") {
+            $projects = $settings."$($envName)_projects"
+            Write-Host "::Warning::Please consider using the $settingsName setting, where you can specify EnvironmentName, projects and branches - instead of specifying the Projects in Setting '$($envName)_projects'"
+          }
+          elseif ($secrets.projects) {
+            $projects = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($secrets.projects))
+            Write-Host "::Warning::Please consider using the $settingsName setting, where you can specify EnvironmentName, projects and branches - instead of specifying the Projects in the secret 'project'"
+          }
+          if ($projects -eq '' -or $projects -eq '*') {
             $projects = '*'
           }
-          elseif ($projects -ne '*') {
+          else {
             $buildProjects = '${{ needs.Initialization.outputs.projects }}' | ConvertFrom-Json
             $projects = ($projects.Split(',') | Where-Object { $buildProjects -contains $_ }) -join ','
           }
-          Add-Content -Path $env:GITHUB_OUTPUT -Value "authContext=$authContext"
-          Add-Content -Path $env:GITHUB_OUTPUT -Value "environmentName=$environmentName"
+
+          Add-Content -Encoding UTF8 -Path $env:GITHUB_OUTPUT -Value "authContext=$authContext"
+          Add-Content -Encoding UTF8 -Path $env:GITHUB_OUTPUT -Value "environmentName=$environmentName"
           Write-Host "environmentName=$([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($environmentName)))"
           Write-Host "environmentName (as Base64)=$environmentName"
-          Add-Content -Path $env:GITHUB_OUTPUT -Value "projects=$projects"
+          Add-Content -Encoding UTF8 -Path $env:GITHUB_OUTPUT -Value "projects=$projects"
           Write-Host "projects=$projects"
 
       - name: Deploy
-        uses: microsoft/AL-Go-Actions/Deploy@v3.1
+        uses: microsoft/AL-Go-Actions/Deploy@v3.2
         env:
           AuthContext: ${{ steps.authContext.outputs.authContext }}
         with:
@@ -238,7 +236,7 @@ jobs:
 
       - name: Finalize the workflow
         id: PostProcess
-        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v3.1
+        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v3.2
         with:
           shell: powershell
           eventId: "DO0097"

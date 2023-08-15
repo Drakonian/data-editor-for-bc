@@ -1,3 +1,45 @@
+## v3.2
+
+### Issues
+
+Issue 542 Deploy Workflow fails
+Issue 558 CI/CD attempts to deploy from feature branch
+Issue 559 Changelog includes wrong commits
+Publish to AppSource fails if publisher name or app name contains national or special characters
+Issue 598 Cleanup during flush if build pipeline doesn't cleanup properly
+Issue 608 When creating a release, throw error if no new artifacts have been added
+Issue 528 Give better error messages when uploading to storage accounts
+Create Online Development environment workflow failed in AppSource template unless AppSourceCopMandatoryAffixes is defined in repository settings file
+Create Online Development environment workflow didn't have a project parameter and only worked for single project repositories
+Create Online Development environment workflow didn't work if runs-on was set to Linux
+Special characters are not supported in RepoName, Project names or other settings - Use UTF8 encoding to handle special characters in GITHUB_OUTPUT and GITHUB_ENV
+
+### Issue 555
+AL-Go contains several workflows, which create a Pull Request or pushes code directly.
+All (except Update AL-Go System Files) earlier used the GITHUB_TOKEN to create the PR or commit.
+The problem using GITHUB_TOKEN is that is doesn't trigger a pull request build or a commit build.
+This is by design: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
+Now, you can set the checkbox called Use GhTokenWorkflow to allowing you to use the GhTokenWorkflow instead of the GITHUB_TOKEN - making sure that workflows are triggered
+
+### New Settings
+- `keyVaultCodesignCertificateName`:  With this setting you can delegate the codesigning to an Azure Key Vault. This can be useful if your certificate has to be stored in a Hardware Security Module
+- `PullRequestTrigger`:  With this setting you can set which trigger to use for Pull Request Builds. By default AL-Go will use pull_request_target.
+
+### New Actions
+- `DownloadProjectDependencies`: Downloads the dependency apps for a given project and build mode.
+
+### Settings and Secrets in AL-Go for GitHub
+In earlier versions of AL-Go for GitHub, all settings were available as individual environment variables to scripts and overrides, this is no longer the case.
+Settings were also available as one compressed JSON structure in env:Settings, this is still the case.
+Settings can no longer contain line breaks. It might have been possible to use line breaks earlier, but it would likely have unwanted consequences.
+Use `$settings = $ENV:Settings | ConvertFrom-Json` to get all settings in PowerShell.
+
+In earlier versions of AL-Go for GitHub, all secrets requested by AL-Go for GitHub were available as individual environment variables to scripts and overrides, this is no longer the case.
+As described in bug 647, all secrets available to the workflow were also available in env:_Secrets, this is no longer the case.
+All requested secrets were also available (base64 encoded) as one compressed JSON structure in env:Secrets, this is still the case.
+Use `$secrets = $ENV:Secrets | ConvertFrom-Json` to get all requested secrets in PowerShell.
+You cannot get to any secrets that weren't requested by AL-Go for GitHub.
+
 ## v3.1
 
 ### Issues
@@ -25,6 +67,11 @@ All these actions now uses the selected branch in the **Run workflow** dialog as
 
 - `UseCompilerFolder`: Setting useCompilerFolder to true causes your pipelines to use containerless compiling. Unless you also set `doNotPublishApps` to true, setting useCompilerFolder to true won't give you any performance advantage, since AL-Go for GitHub will still need to create a container in order to publish and test the apps. In the future, publishing and testing will be split from building and there will be other options for getting an instance of Business Central for publishing and testing. 
 - `vsixFile`: vsixFile should be a direct download URL to the version of the AL Language extension you want to use for building the project or repo. By default, AL-Go will use the AL Language extension that comes with the Business Central Artifacts.
+
+### New Workflows
+
+- **_BuildALGoProject** is a reusable workflow that unites the steps for building an AL-Go projects. It has been reused in the following workflows: _CI/CD_, _Pull Request Build_, _NextMinor_, _NextMajor_ and _Current_.
+The workflow appears under the _Actions_ tab in GitHub, but it is not actionable in any way.  
 
 ### New Actions
 

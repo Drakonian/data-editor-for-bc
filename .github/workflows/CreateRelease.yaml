@@ -35,6 +35,9 @@ on:
         description: Direct COMMIT (Y/N)
         required: false
         default: 'N'
+      useGhTokenWorkflow:
+        description: Use GhTokenWorkflow for Pull Request/COMMIT
+        type: boolean
 
 permissions:
   contents: write
@@ -66,14 +69,14 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v3.1
+        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v3.2
         with:
           shell: powershell
           eventId: "DO0094"
 
       - name: Read settings
         id: ReadSettings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v3.1
+        uses: microsoft/AL-Go-Actions/ReadSettings@v3.2
         with:
           shell: powershell
           parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
@@ -81,12 +84,12 @@ jobs:
 
       - name: Determine Projects
         id: determineProjects
-        uses: microsoft/AL-Go-Actions/DetermineProjectsToBuild@v3.1
+        uses: microsoft/AL-Go-Actions/DetermineProjectsToBuild@v3.2
         with:
           shell: powershell
 
       - name: Check for updates to AL-Go system files
-        uses: microsoft/AL-Go-Actions/CheckForUpdates@v3.1
+        uses: microsoft/AL-Go-Actions/CheckForUpdates@v3.2
         with:
           shell: powershell
           parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
@@ -95,8 +98,7 @@ jobs:
       - name: Analyze Artifacts
         id: analyzeartifacts
         run: |
-          $ErrorActionPreference = "STOP"
-          Set-StrictMode -version 2.0
+          $errorActionPreference = "Stop"; $ProgressPreference = "SilentlyContinue"; Set-StrictMode -Version 2.0
           $projects = '${{ steps.determineProjects.outputs.ProjectsJson }}' | ConvertFrom-Json
           Write-Host "projects:"
           $projects | ForEach-Object { Write-Host "- $_" }
@@ -110,7 +112,7 @@ jobs:
           }
           do {
             $repoArtifacts = Invoke-WebRequest -UseBasicParsing -Headers $headers -Uri "$($ENV:GITHUB_API_URL)/repos/$($ENV:GITHUB_REPOSITORY)/actions/artifacts?per_page=100&page=$page" | ConvertFrom-Json
-            $allArtifacts += $repoArtifacts.Artifacts
+            $allArtifacts += $repoArtifacts.Artifacts | Where-Object { !$_.expired }
             $page++
           }
           while ($repoArtifacts.Artifacts.Count -gt 0)
@@ -164,18 +166,19 @@ jobs:
           }
           $artifacts = @{ "include" = $include }
           $artifactsJson = $artifacts | ConvertTo-Json -compress
-          Add-Content -Path $env:GITHUB_OUTPUT -Value "artifacts=$artifactsJson"
+          Add-Content -Encoding UTF8 -Path $env:GITHUB_OUTPUT -Value "artifacts=$artifactsJson"
           Write-Host "artifacts=$artifactsJson"
-          Add-Content -Path $env:GITHUB_OUTPUT -Value "commitish=$sha"
+          Add-Content -Encoding UTF8 -Path $env:GITHUB_OUTPUT -Value "commitish=$sha"
           Write-Host "commitish=$sha"
 
       - name: Prepare release notes
         id: createreleasenotes
-        uses: microsoft/AL-Go-Actions/CreateReleaseNotes@v3.1
+        uses: microsoft/AL-Go-Actions/CreateReleaseNotes@v3.2
         with:
           shell: powershell
           parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
           tag_name: ${{ github.event.inputs.tag }}
+          target_commitish: ${{ steps.analyzeartifacts.outputs.commitish }}
 
       - name: Create release
         uses: actions/github-script@v6
@@ -213,25 +216,22 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v3.1
+        uses: microsoft/AL-Go-Actions/ReadSettings@v3.2
         with:
           shell: powershell
           parentTelemetryScopeJson: ${{ needs.CreateRelease.outputs.telemetryScopeJson }}
 
       - name: Read secrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@v3.1
-        env:
-          secrets: ${{ toJson(secrets) }}
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v3.2
         with:
           shell: powershell
           parentTelemetryScopeJson: ${{ needs.CreateRelease.outputs.telemetryScopeJson }}
-          settingsJson: ${{ env.Settings }}
-          secrets: 'nuGetContext,storageContext'
+          gitHubSecrets: ${{ toJson(secrets) }}
+          getSecrets: 'nuGetContext,storageContext'
 
       - name: Download artifact
         run: |
-          $ErrorActionPreference = "STOP"
-          Set-StrictMode -version 2.0
+          $errorActionPreference = "Stop"; $ProgressPreference = "SilentlyContinue"; Set-StrictMode -Version 2.0
           Write-Host "Downloading artifact ${{ matrix.name}}"
           $headers = @{ 
               "Authorization" = "token ${{ github.token }}"
@@ -260,18 +260,17 @@ jobs:
 
       - name: nuGetContext
         id: nuGetContext
-        if: ${{ env.nuGetContext }}
         run: |
-          $ErrorActionPreference = "STOP"
-          Set-StrictMode -version 2.0
+          $errorActionPreference = "Stop"; $ProgressPreference = "SilentlyContinue"; Set-StrictMode -Version 2.0
           $nuGetContext = ''
-          if ('${{ matrix.atype }}' -eq 'Apps') {
-            $nuGetContext = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String([System.Environment]::GetEnvironmentVariable('nuGetContext')))
+          $secrets = $env:Secrets | ConvertFrom-Json
+          if ('${{ matrix.atype }}' -eq 'Apps' -and $secrets.nuGetContext) {
+            $nuGetContext = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($secrets.nuGetContext))
           }
-          Add-Content -Path $env:GITHUB_OUTPUT -Value "nuGetContext=$nuGetContext"
+          Add-Content -Encoding UTF8 -Path $env:GITHUB_OUTPUT -Value "nuGetContext=$nuGetContext"
 
       - name: Deliver to NuGet
-        uses: microsoft/AL-Go-Actions/Deliver@v3.1
+        uses: microsoft/AL-Go-Actions/Deliver@v3.2
         if: ${{ steps.nuGetContext.outputs.nuGetContext }}
         env:
           deliveryContext: ${{ steps.nuGetContext.outputs.nuGetContext }}
@@ -285,18 +284,17 @@ jobs:
 
       - name: storageContext
         id: storageContext
-        if: ${{ env.storageContext }}
         run: |
-          $ErrorActionPreference = "STOP"
-          Set-StrictMode -version 2.0
+          $errorActionPreference = "Stop"; $ProgressPreference = "SilentlyContinue"; Set-StrictMode -Version 2.0
           $storageContext = ''
-          if ('${{ matrix.atype }}' -eq 'Apps') {
-            $storageContext = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String([System.Environment]::GetEnvironmentVariable('storageContext')))
+          $secrets = $env:Secrets | ConvertFrom-Json
+          if ('${{ matrix.atype }}' -eq 'Apps' -and $secrets.storageContext) {
+            $storageContext = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($secrets.storageContext))
           }
-          Add-Content -Path $env:GITHUB_OUTPUT -Value "storageContext=$storageContext"
+          Add-Content -Encoding UTF8 -Path $env:GITHUB_OUTPUT -Value "storageContext=$storageContext"
 
       - name: Deliver to Storage
-        uses: microsoft/AL-Go-Actions/Deliver@v3.1
+        uses: microsoft/AL-Go-Actions/Deliver@v3.2
         if: ${{ steps.storageContext.outputs.storageContext }}
         env:
           deliveryContext: ${{ steps.storageContext.outputs.storageContext }}
@@ -320,8 +318,7 @@ jobs:
 
       - name: Create Release Branch
         run: |
-          $ErrorActionPreference = "STOP"
-          Set-StrictMode -version 2.0
+          $errorActionPreference = "Stop"; $ProgressPreference = "SilentlyContinue"; Set-StrictMode -Version 2.0
           git checkout -b ${{ needs.CreateRelease.outputs.releaseBranch }}
           git config user.name ${{ github.actor}}
           git config user.email ${{ github.actor}}@users.noreply.github.com
@@ -333,10 +330,44 @@ jobs:
     runs-on: [ windows-latest ]
     needs: [ CreateRelease, UploadArtifacts ]
     steps:
-      - name: Update Version Number
-        uses: microsoft/AL-Go-Actions/IncrementVersionNumber@v3.1
+      - name: Read settings
+        uses: microsoft/AL-Go-Actions/ReadSettings@v3.2
+        if: github.event.inputs.useGhTokenWorkflow == 'true'
         with:
           shell: powershell
+          parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
+
+      - name: Read secrets
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v3.2
+        if: github.event.inputs.useGhTokenWorkflow == 'true'
+        with:
+          shell: powershell
+          parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
+          gitHubSecrets: ${{ toJson(secrets) }}
+          getSecrets: 'ghTokenWorkflow'
+
+      - name: CalculateToken
+        id: CalculateToken
+        env:
+          useGhTokenWorkflow: ${{ github.event.inputs.useGhTokenWorkflow }}
+        run: |
+          $ghToken = '${{ secrets.GITHUB_TOKEN }}'
+          if ($env:useGhTokenWorkflow -eq 'true') {
+            $secrets = $env:Secrets | ConvertFrom-Json
+            if ($secrets.GHTOKENWORKFLOW) {
+              $ghToken = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($secrets.GHTOKENWORKFLOW))
+            }
+            else {
+              Write-Host "::Warning::GHTOKENWORKFLOW secret not found. Using GITHUB_TOKEN."
+            }
+          }
+          Add-Content -Encoding UTF8 -Path $env:GITHUB_OUTPUT -Value "ghToken=$ghToken"
+
+      - name: Update Version Number
+        uses: microsoft/AL-Go-Actions/IncrementVersionNumber@v3.2
+        with:
+          shell: powershell
+          token: ${{ steps.CalculateToken.outputs.ghToken }}
           parentTelemetryScopeJson: ${{ needs.CreateRelease.outputs.telemetryScopeJson }}
           versionNumber: ${{ github.event.inputs.updateVersionNumber }}
           directCommit: ${{ github.event.inputs.directCommit }}
@@ -351,7 +382,7 @@ jobs:
 
       - name: Finalize the workflow
         id: PostProcess
-        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v3.1
+        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v3.2
         with:
           shell: powershell
           eventId: "DO0094"
