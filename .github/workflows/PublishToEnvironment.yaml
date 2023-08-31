@@ -144,7 +144,7 @@ jobs:
           $envName = '${{ steps.envName.outputs.envName }}'
           $settingsName = "DeployTo$envName"
           if ($settings.PSObject.Properties.name -eq $settingsName) {
-            $deployToSetting = $settings."$settingsName" | ConvertFrom-Json
+            $deployToSetting = $settings."$settingsName"
           }
           else {
             $deployToSetting = [PSCustomObject]@{}
