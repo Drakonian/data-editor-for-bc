@@ -1,4 +1,4 @@
-table 81002 "DET Find and Replace"
+table 50090 "DET Find and Replace"
 {
     Caption = 'Find and Replace';
     DataClassification = CustomerContent;

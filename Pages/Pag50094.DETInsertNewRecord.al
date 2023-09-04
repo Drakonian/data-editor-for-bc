@@ -1,4 +1,4 @@
-page 81004 "DET Insert New Record"
+page 50094 "DET Insert New Record"
 {
     Caption = 'Insert New Record';
     PageType = StandardDialog;

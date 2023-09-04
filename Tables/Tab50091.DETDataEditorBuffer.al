@@ -1,4 +1,4 @@
-table 81000 "DET Data Editor Buffer"
+table 50091 "DET Data Editor Buffer"
 {
     Caption = 'Data Editor Buffer';
     DataClassification = CustomerContent;

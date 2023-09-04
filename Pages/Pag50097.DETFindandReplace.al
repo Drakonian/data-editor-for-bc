@@ -1,4 +1,4 @@
-page 81007 "DET Find and Replace"
+page 50097 "DET Find and Replace"
 {
     ApplicationArea = All;
     Caption = 'Find and Replace';

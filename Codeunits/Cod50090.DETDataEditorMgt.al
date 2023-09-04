@@ -1,4 +1,4 @@
-codeunit 81001 "DET Data Editor Mgt."
+codeunit 50090 "DET Data Editor Mgt."
 {
     procedure GetNewColumnValue(var RecRef: RecordRef; var FieldRefVar: FieldRef; var SourceRecordId: RecordId; var TempNameValueBuffer: Record "Name/Value Buffer" temporary): Boolean
     var

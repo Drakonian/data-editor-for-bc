@@ -1,4 +1,4 @@
-codeunit 81000 "DET Single Instance Storage"
+codeunit 50091 "DET Single Instance Storage"
 {
     SingleInstance = true;
     EventSubscriberInstance = Manual;

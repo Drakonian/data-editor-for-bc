@@ -1,4 +1,4 @@
-permissionset 81000 "DET Data Editor Tool"
+permissionset 50090 "DET Data Editor Tool"
 {
     Assignable = true;
     Caption = 'Data Editor Tool';
