@@ -69,26 +69,26 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v3.3
+        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v4.0
         with:
           shell: powershell
           eventId: "DO0094"
 
       - name: Read settings
         id: ReadSettings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v3.3
+        uses: microsoft/AL-Go-Actions/ReadSettings@v4.0
         with:
           shell: powershell
           get: templateUrl,repoName
 
       - name: Determine Projects
         id: determineProjects
-        uses: microsoft/AL-Go-Actions/DetermineProjectsToBuild@v3.3
+        uses: microsoft/AL-Go-Actions/DetermineProjectsToBuild@v4.0
         with:
           shell: powershell
 
       - name: Check for updates to AL-Go system files
-        uses: microsoft/AL-Go-Actions/CheckForUpdates@v3.3
+        uses: microsoft/AL-Go-Actions/CheckForUpdates@v4.0
         with:
           shell: powershell
           parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
@@ -173,7 +173,7 @@ jobs:
 
       - name: Prepare release notes
         id: createreleasenotes
-        uses: microsoft/AL-Go-Actions/CreateReleaseNotes@v3.3
+        uses: microsoft/AL-Go-Actions/CreateReleaseNotes@v4.0
         with:
           shell: powershell
           parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
@@ -216,13 +216,13 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v3.3
+        uses: microsoft/AL-Go-Actions/ReadSettings@v4.0
         with:
           shell: powershell
 
       - name: Read secrets
         id: ReadSecrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@v3.3
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v4.0
         with:
           shell: powershell
           gitHubSecrets: ${{ toJson(secrets) }}
@@ -259,7 +259,7 @@ jobs:
             });
 
       - name: Deliver to NuGet
-        uses: microsoft/AL-Go-Actions/Deliver@v3.3
+        uses: microsoft/AL-Go-Actions/Deliver@v4.0
         if: ${{ fromJson(steps.ReadSecrets.outputs.Secrets).nuGetContext != '' }}
         env:
           Secrets: '${{ steps.ReadSecrets.outputs.Secrets }}'
@@ -272,7 +272,7 @@ jobs:
           atypes: 'Apps,TestApps'
 
       - name: Deliver to Storage
-        uses: microsoft/AL-Go-Actions/Deliver@v3.3
+        uses: microsoft/AL-Go-Actions/Deliver@v4.0
         if: ${{ fromJson(steps.ReadSecrets.outputs.Secrets).storageContext != '' }}
         env:
           Secrets: '${{ steps.ReadSecrets.outputs.Secrets }}'
@@ -309,13 +309,13 @@ jobs:
     needs: [ CreateRelease, UploadArtifacts ]
     steps:
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v3.3
+        uses: microsoft/AL-Go-Actions/ReadSettings@v4.0
         with:
           shell: powershell
 
       - name: Read secrets
         id: ReadSecrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@v3.3
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v4.0
         with:
           shell: powershell
           gitHubSecrets: ${{ toJson(secrets) }}
@@ -323,7 +323,7 @@ jobs:
           useGhTokenWorkflowForPush: '${{ github.event.inputs.useGhTokenWorkflow }}'
 
       - name: Update Version Number
-        uses: microsoft/AL-Go-Actions/IncrementVersionNumber@v3.3
+        uses: microsoft/AL-Go-Actions/IncrementVersionNumber@v4.0
         with:
           shell: powershell
           token: ${{ steps.ReadSecrets.outputs.TokenForPush }}
@@ -341,7 +341,7 @@ jobs:
 
       - name: Finalize the workflow
         id: PostProcess
-        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v3.3
+        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v4.0
         with:
           shell: powershell
           eventId: "DO0094"

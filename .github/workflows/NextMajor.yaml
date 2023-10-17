@@ -34,14 +34,14 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v3.3
+        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v4.0
         with:
           shell: powershell
           eventId: "DO0099"
 
       - name: Read settings
         id: ReadSettings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v3.3
+        uses: microsoft/AL-Go-Actions/ReadSettings@v4.0
         with:
           shell: powershell
 
@@ -52,7 +52,7 @@ jobs:
 
       - name: Determine Projects To Build
         id: determineProjectsToBuild
-        uses: microsoft/AL-Go-Actions/DetermineProjectsToBuild@v3.3
+        uses: microsoft/AL-Go-Actions/DetermineProjectsToBuild@v4.0
         with:
           shell: powershell
           maxBuildDepth: ${{ env.workflowDepth }}
@@ -75,7 +75,7 @@ jobs:
       projectName: ${{ matrix.projectName }}
       buildMode: ${{ matrix.buildMode }}
       projectDependenciesJson: ${{ needs.Initialization.outputs.projectDependenciesJson }}
-      secrets: 'licenseFileUrl,insiderSasToken,codeSignCertificateUrl,*codeSignCertificatePassword,keyVaultCertificateUrl,*keyVaultCertificatePassword,keyVaultClientId,gitHubPackagesContext,applicationInsightsConnectionString'
+      secrets: 'licenseFileUrl,codeSignCertificateUrl,*codeSignCertificatePassword,keyVaultCertificateUrl,*keyVaultCertificatePassword,keyVaultClientId,gitHubPackagesContext,applicationInsightsConnectionString'
       publishThisBuildArtifacts: ${{ needs.Initialization.outputs.workflowDepth > 1 }}
       artifactsNameSuffix: 'NextMajor'
 
@@ -89,7 +89,7 @@ jobs:
 
       - name: Finalize the workflow
         id: PostProcess
-        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v3.3
+        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v4.0
         with:
           shell: powershell
           eventId: "DO0099"

@@ -50,20 +50,20 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v3.3
+        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v4.0
         with:
           shell: powershell
           eventId: "DO0093"
 
       - name: Read settings
         id: ReadSettings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v3.3
+        uses: microsoft/AL-Go-Actions/ReadSettings@v4.0
         with:
           shell: powershell
 
       - name: Read secrets
         id: ReadSecrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@v3.3
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v4.0
         with:
           shell: powershell
           gitHubSecrets: ${{ toJson(secrets) }}
@@ -82,7 +82,7 @@ jobs:
             Write-Host "AdminCenterApiCredentials not provided, initiating Device Code flow"
             $ALGoHelperPath = "$([System.IO.Path]::GetTempFileName()).ps1"
             $webClient = New-Object System.Net.WebClient
-            $webClient.DownloadFile('https://raw.githubusercontent.com/microsoft/AL-Go-Actions/v3.3/AL-Go-Helper.ps1', $ALGoHelperPath)
+            $webClient.DownloadFile('https://raw.githubusercontent.com/microsoft/AL-Go-Actions/v4.0/AL-Go-Helper.ps1', $ALGoHelperPath)
             . $ALGoHelperPath
             DownloadAndImportBcContainerHelper
             $authContext = New-BcAuthContext -includeDeviceLogin -deviceLoginTimeout ([TimeSpan]::FromSeconds(0))
@@ -104,13 +104,13 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v3.3
+        uses: microsoft/AL-Go-Actions/ReadSettings@v4.0
         with:
           shell: powershell
 
       - name: Read secrets
         id: ReadSecrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@v3.3
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v4.0
         with:
           shell: powershell
           gitHubSecrets: ${{ toJson(secrets) }}
@@ -129,7 +129,7 @@ jobs:
           Add-Content -Encoding UTF8 -Path $env:GITHUB_OUTPUT -value "adminCenterApiCredentials=$adminCenterApiCredentials"
 
       - name: Create Development Environment
-        uses: microsoft/AL-Go-Actions/CreateDevelopmentEnvironment@v3.3
+        uses: microsoft/AL-Go-Actions/CreateDevelopmentEnvironment@v4.0
         with:
           shell: powershell
           token: ${{ steps.ReadSecrets.outputs.TokenForPush }}
@@ -142,7 +142,7 @@ jobs:
 
       - name: Finalize the workflow
         if: always()
-        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v3.3
+        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v4.0
         with:
           shell: powershell
           eventId: "DO0093"
