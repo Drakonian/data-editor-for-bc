@@ -48,6 +48,7 @@ page 81002 "DET Edit Value"
                 {
                     ApplicationArea = All;
                     ShowCaption = false;
+                    DecimalPlaces = 2 : 8;
                 }
             }
             group("DET Integer")
