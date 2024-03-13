@@ -619,7 +619,6 @@ page 81004 "DET Insert New Record"
 
     var
         GlobalRecRef: RecordRef;
-        [InDataSet]
         FieldVisible1, FieldVisible2, FieldVisible3, FieldVisible4, FieldVisible5, FieldVisible6, FieldVisible7, FieldVisible8, FieldVisible9, FieldVisible10, FieldVisible11, FieldVisible12, FieldVisible13, FieldVisible14, FieldVisible15 : boolean;
         FieldCaption1, FieldCaption2, FieldCaption3, FieldCaption4, FieldCaption5, FieldCaption6, FieldCaption7, FieldCaption8, FieldCaption9, FieldCaption10, FieldCaption11, FieldCaption12, FieldCaption13, FieldCaption14, FieldCaption15 : text;
         GenFieldInfoDict: Dictionary of [Integer, Dictionary of [Integer, Text]];

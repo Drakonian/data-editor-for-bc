@@ -2173,6 +2173,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 1713748232 - NamedType 2047042156" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Are you sure you want to copy column %1 to column %2 for %3 %4 entries?</source>
+          <note from="Developer" annotates="general" priority="2">%1 = Field Caption Copy From, %2 = Field Caption Copy To, %3 = Record Count, %4 = Record Name</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - NamedType ColumnCopyToConfirmLbl</note>
+        </trans-unit>
         <trans-unit id="Page 1713748232 - NamedType 1749502825" size-unit="char" translate="yes" xml:space="preserve">
           <source>Are you sure you want to update the %1 for %2 %3 entries?</source>
           <note from="Developer" annotates="general" priority="2">%1 = Field Caption., %2 = Record Count, %3 = Record name</note>
@@ -4177,6 +4182,16 @@
           <source>Specifies the value of the Value 99 field</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Text Value 99 - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1713748232 - Action 3468535549 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Copy Column To Column</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action DET Copy Column To Column - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1713748232 - Action 3468535549 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Copy Column To Column</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action DET Copy Column To Column - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1713748232 - Action 3749158599 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Delete Selected</source>

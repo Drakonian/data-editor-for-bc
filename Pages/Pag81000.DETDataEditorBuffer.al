@@ -6470,6 +6470,21 @@ page 81000 "DET Data Editor Buffer"
                     UpdateColumn();
                 end;
             }
+            action("DET Copy Column To Column")
+            {
+                ApplicationArea = All;
+                Image = Column;
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedCategory = Process;
+                PromotedOnly = true;
+                Caption = 'Copy Column To Column';
+                ToolTip = 'Copy Column To Column';
+                trigger OnAction()
+                begin
+                    CopyColumnToColumn();
+                end;
+            }
             action("DET Sort")
             {
                 ApplicationArea = All;
@@ -6567,6 +6582,64 @@ page 81000 "DET Data Editor Buffer"
                 FieldRefVar.Value(NewFieldRef.Value());
                 if not WithoutValidate then
                     FieldRefVar.Validate();
+                RecRef.Modify(not WithoutValidate);
+            until Rec.Next() = 0;
+        LoadData();
+    end;
+
+    local procedure CopyColumnToColumn()
+    var
+        TempDETField: Record "DET Field" temporary;
+        SelectFields: Page "DET Select Fields";
+        RecRefDuplicate: RecordRef;
+        CopyFromFieldRef: FieldRef;
+        CopyToFieldRef: FieldRef;
+        CopyToFieldNo, CopyFromFieldNo : Integer;
+    begin
+        if RecRef.Number() = 0 then
+            exit;
+        SelectFields.Caption('Copy From Column');
+        SelectFields.SetOneFieldMode(true);
+        SelectFields.SetFilterOnlyNormalFields(true);
+        SelectFields.SetShowOnlyFilteredFields(true);
+        SelectFields.LoadFields(RecRef.Number(), FieldFilter);
+        SelectFields.LookupMode(true);
+        SelectFields.Editable(true);
+        if SelectFields.RunModal() <> Action::LookupOK then
+            exit;
+        SelectFields.GetRecord(TempDETField);
+        RecRefDuplicate := RecRef.Duplicate();
+        CopyFromFieldRef := RecRefDuplicate.Field(TempDETField."Field Id");
+
+        Clear(TempDETField);
+        Clear(SelectFields);
+        SelectFields.Caption('Copy To Column');
+        SelectFields.SetOneFieldMode(true);
+        SelectFields.SetFilterOnlyNormalFields(true);
+        SelectFields.SetShowOnlyFilteredFields(true);
+        SelectFields.LoadFields(RecRef.Number(), FieldFilter);
+        SelectFields.LookupMode(true);
+        SelectFields.Editable(true);
+        if SelectFields.RunModal() <> Action::LookupOK then
+            exit;
+        SelectFields.GetRecord(TempDETField);
+        RecRefDuplicate := RecRef.Duplicate();
+        CopyToFieldRef := RecRefDuplicate.Field(TempDETField."Field Id");
+
+        if not Confirm(ColumnCopyToConfirmLbl, false, CopyFromFieldRef.Caption(), CopyToFieldRef.Caption(), Rec.Count(), RecRef.Name()) then
+            exit;
+
+        CopyFromFieldNo := CopyFromFieldRef.Number();
+        CopyToFieldNo := CopyToFieldRef.Number();
+
+        if Rec.FindSet() then
+            repeat
+                RecRef.Get(Rec."Source Record ID");
+                CopyFromFieldRef := RecRef.Field(CopyFromFieldNo);
+                CopyToFieldRef := RecRef.Field(CopyToFieldNo);
+                CopyToFieldRef.Value(CopyFromFieldRef.Value());
+                if not WithoutValidate then
+                    CopyToFieldRef.Validate();
                 RecRef.Modify(not WithoutValidate);
             until Rec.Next() = 0;
         LoadData();
@@ -7674,6 +7747,7 @@ page 81000 "DET Data Editor Buffer"
         CaptionDictionary: Dictionary of [Integer, Text];
         RecordIsInsertedLbl: Label 'Record %1 is inserted.', Comment = '%1 = RecordId of new record.';
         ColumnUpdateConfirmLbl: Label 'Are you sure you want to update the %1 for %2 %3 entries?', Comment = '%1 = Field Caption., %2 = Record Count, %3 = Record name';
+        ColumnCopyToConfirmLbl: Label 'Are you sure you want to copy column %1 to column %2 for %3 %4 entries?', Comment = '%1 = Field Caption Copy From, %2 = Field Caption Copy To, %3 = Record Count, %4 = Record Name';
         FieldVisible1, FieldVisible2, FieldVisible3, FieldVisible4, FieldVisible5, FieldVisible6, FieldVisible7, FieldVisible8, FieldVisible9, FieldVisible10, FieldVisible11, FieldVisible12, FieldVisible13, FieldVisible14, FieldVisible15, FieldVisible16, FieldVisible17, FieldVisible18, FieldVisible19, FieldVisible20, FieldVisible21, FieldVisible22, FieldVisible23, FieldVisible24, FieldVisible25, FieldVisible26, FieldVisible27, FieldVisible28, FieldVisible29, FieldVisible30, FieldVisible31, FieldVisible32, FieldVisible33, FieldVisible34, FieldVisible35, FieldVisible36, FieldVisible37, FieldVisible38, FieldVisible39, FieldVisible40, FieldVisible41, FieldVisible42, FieldVisible43, FieldVisible44, FieldVisible45, FieldVisible46, FieldVisible47, FieldVisible48, FieldVisible49, FieldVisible50, FieldVisible51, FieldVisible52, FieldVisible53, FieldVisible54, FieldVisible55, FieldVisible56, FieldVisible57, FieldVisible58, FieldVisible59, FieldVisible60, FieldVisible61, FieldVisible62, FieldVisible63, FieldVisible64, FieldVisible65, FieldVisible66, FieldVisible67, FieldVisible68, FieldVisible69, FieldVisible70, FieldVisible71, FieldVisible72, FieldVisible73, FieldVisible74, FieldVisible75, FieldVisible76, FieldVisible77, FieldVisible78, FieldVisible79, FieldVisible80, FieldVisible81, FieldVisible82, FieldVisible83, FieldVisible84, FieldVisible85, FieldVisible86, FieldVisible87, FieldVisible88, FieldVisible89, FieldVisible90, FieldVisible91, FieldVisible92, FieldVisible93, FieldVisible94, FieldVisible95, FieldVisible96, FieldVisible97, FieldVisible98, FieldVisible99, FieldVisible100, FieldVisible101, FieldVisible102, FieldVisible103, FieldVisible104, FieldVisible105, FieldVisible106, FieldVisible107, FieldVisible108, FieldVisible109, FieldVisible110, FieldVisible111, FieldVisible112, FieldVisible113, FieldVisible114, FieldVisible115, FieldVisible116, FieldVisible117, FieldVisible118, FieldVisible119, FieldVisible120, FieldVisible121, FieldVisible122, FieldVisible123, FieldVisible124, FieldVisible125, FieldVisible126, FieldVisible127, FieldVisible128, FieldVisible129, FieldVisible130, FieldVisible131, FieldVisible132, FieldVisible133, FieldVisible134, FieldVisible135, FieldVisible136, FieldVisible137, FieldVisible138, FieldVisible139, FieldVisible140, FieldVisible141, FieldVisible142, FieldVisible143, FieldVisible144, FieldVisible145, FieldVisible146, FieldVisible147, FieldVisible148, FieldVisible149, FieldVisible150, FieldVisible151, FieldVisible152, FieldVisible153, FieldVisible154, FieldVisible155, FieldVisible156, FieldVisible157, FieldVisible158, FieldVisible159, FieldVisible160, FieldVisible161, FieldVisible162, FieldVisible163, FieldVisible164, FieldVisible165, FieldVisible166, FieldVisible167, FieldVisible168, FieldVisible169, FieldVisible170, FieldVisible171, FieldVisible172, FieldVisible173, FieldVisible174, FieldVisible175, FieldVisible176, FieldVisible177, FieldVisible178, FieldVisible179, FieldVisible180, FieldVisible181, FieldVisible182, FieldVisible183, FieldVisible184, FieldVisible185, FieldVisible186, FieldVisible187, FieldVisible188, FieldVisible189, FieldVisible190, FieldVisible191, FieldVisible192, FieldVisible193, FieldVisible194, FieldVisible195, FieldVisible196, FieldVisible197, FieldVisible198, FieldVisible199, FieldVisible200, FieldVisible201, FieldVisible202, FieldVisible203, FieldVisible204, FieldVisible205, FieldVisible206, FieldVisible207, FieldVisible208, FieldVisible209, FieldVisible210, FieldVisible211, FieldVisible212, FieldVisible213, FieldVisible214, FieldVisible215, FieldVisible216, FieldVisible217, FieldVisible218, FieldVisible219, FieldVisible220, FieldVisible221, FieldVisible222, FieldVisible223, FieldVisible224, FieldVisible225, FieldVisible226, FieldVisible227, FieldVisible228, FieldVisible229, FieldVisible230, FieldVisible231, FieldVisible232, FieldVisible233, FieldVisible234, FieldVisible235, FieldVisible236, FieldVisible237, FieldVisible238, FieldVisible239, FieldVisible240, FieldVisible241, FieldVisible242, FieldVisible243, FieldVisible244, FieldVisible245, FieldVisible246, FieldVisible247, FieldVisible248, FieldVisible249, FieldVisible250, FieldVisible251, FieldVisible252, FieldVisible253, FieldVisible254, FieldVisible255, FieldVisible256, FieldVisible257, FieldVisible258, FieldVisible259, FieldVisible260, FieldVisible261, FieldVisible262, FieldVisible263, FieldVisible264, FieldVisible265, FieldVisible266, FieldVisible267, FieldVisible268, FieldVisible269, FieldVisible270, FieldVisible271, FieldVisible272, FieldVisible273, FieldVisible274, FieldVisible275, FieldVisible276, FieldVisible277, FieldVisible278, FieldVisible279, FieldVisible280, FieldVisible281, FieldVisible282, FieldVisible283, FieldVisible284, FieldVisible285, FieldVisible286, FieldVisible287, FieldVisible288, FieldVisible289, FieldVisible290, FieldVisible291, FieldVisible292, FieldVisible293, FieldVisible294, FieldVisible295, FieldVisible296, FieldVisible297, FieldVisible298, FieldVisible299, FieldVisible300, FieldVisible301, FieldVisible302, FieldVisible303, FieldVisible304, FieldVisible305, FieldVisible306, FieldVisible307, FieldVisible308, FieldVisible309, FieldVisible310, FieldVisible311, FieldVisible312, FieldVisible313, FieldVisible314, FieldVisible315, FieldVisible316, FieldVisible317, FieldVisible318, FieldVisible319, FieldVisible320, FieldVisible321, FieldVisible322, FieldVisible323, FieldVisible324, FieldVisible325, FieldVisible326, FieldVisible327, FieldVisible328, FieldVisible329, FieldVisible330, FieldVisible331, FieldVisible332, FieldVisible333, FieldVisible334, FieldVisible335, FieldVisible336, FieldVisible337, FieldVisible338, FieldVisible339, FieldVisible340, FieldVisible341, FieldVisible342, FieldVisible343, FieldVisible344, FieldVisible345, FieldVisible346, FieldVisible347, FieldVisible348, FieldVisible349, FieldVisible350, FieldVisible351, FieldVisible352, FieldVisible353, FieldVisible354, FieldVisible355, FieldVisible356, FieldVisible357, FieldVisible358, FieldVisible359, FieldVisible360, FieldVisible361, FieldVisible362, FieldVisible363, FieldVisible364, FieldVisible365, FieldVisible366, FieldVisible367, FieldVisible368, FieldVisible369, FieldVisible370, FieldVisible371, FieldVisible372, FieldVisible373, FieldVisible374, FieldVisible375, FieldVisible376, FieldVisible377, FieldVisible378, FieldVisible379, FieldVisible380, FieldVisible381, FieldVisible382, FieldVisible383, FieldVisible384, FieldVisible385, FieldVisible386, FieldVisible387, FieldVisible388, FieldVisible389, FieldVisible390, FieldVisible391, FieldVisible392, FieldVisible393, FieldVisible394, FieldVisible395, FieldVisible396, FieldVisible397, FieldVisible398, FieldVisible399, FieldVisible400 : Boolean;
         FieldEditable1, FieldEditable2, FieldEditable3, FieldEditable4, FieldEditable5, FieldEditable6, FieldEditable7, FieldEditable8, FieldEditable9, FieldEditable10, FieldEditable11, FieldEditable12, FieldEditable13, FieldEditable14, FieldEditable15, FieldEditable16, FieldEditable17, FieldEditable18, FieldEditable19, FieldEditable20, FieldEditable21, FieldEditable22, FieldEditable23, FieldEditable24, FieldEditable25, FieldEditable26, FieldEditable27, FieldEditable28, FieldEditable29, FieldEditable30, FieldEditable31, FieldEditable32, FieldEditable33, FieldEditable34, FieldEditable35, FieldEditable36, FieldEditable37, FieldEditable38, FieldEditable39, FieldEditable40, FieldEditable41, FieldEditable42, FieldEditable43, FieldEditable44, FieldEditable45, FieldEditable46, FieldEditable47, FieldEditable48, FieldEditable49, FieldEditable50, FieldEditable51, FieldEditable52, FieldEditable53, FieldEditable54, FieldEditable55, FieldEditable56, FieldEditable57, FieldEditable58, FieldEditable59, FieldEditable60, FieldEditable61, FieldEditable62, FieldEditable63, FieldEditable64, FieldEditable65, FieldEditable66, FieldEditable67, FieldEditable68, FieldEditable69, FieldEditable70, FieldEditable71, FieldEditable72, FieldEditable73, FieldEditable74, FieldEditable75, FieldEditable76, FieldEditable77, FieldEditable78, FieldEditable79, FieldEditable80, FieldEditable81, FieldEditable82, FieldEditable83, FieldEditable84, FieldEditable85, FieldEditable86, FieldEditable87, FieldEditable88, FieldEditable89, FieldEditable90, FieldEditable91, FieldEditable92, FieldEditable93, FieldEditable94, FieldEditable95, FieldEditable96, FieldEditable97, FieldEditable98, FieldEditable99, FieldEditable100, FieldEditable101, FieldEditable102, FieldEditable103, FieldEditable104, FieldEditable105, FieldEditable106, FieldEditable107, FieldEditable108, FieldEditable109, FieldEditable110, FieldEditable111, FieldEditable112, FieldEditable113, FieldEditable114, FieldEditable115, FieldEditable116, FieldEditable117, FieldEditable118, FieldEditable119, FieldEditable120, FieldEditable121, FieldEditable122, FieldEditable123, FieldEditable124, FieldEditable125, FieldEditable126, FieldEditable127, FieldEditable128, FieldEditable129, FieldEditable130, FieldEditable131, FieldEditable132, FieldEditable133, FieldEditable134, FieldEditable135, FieldEditable136, FieldEditable137, FieldEditable138, FieldEditable139, FieldEditable140, FieldEditable141, FieldEditable142, FieldEditable143, FieldEditable144, FieldEditable145, FieldEditable146, FieldEditable147, FieldEditable148, FieldEditable149, FieldEditable150, FieldEditable151, FieldEditable152, FieldEditable153, FieldEditable154, FieldEditable155, FieldEditable156, FieldEditable157, FieldEditable158, FieldEditable159, FieldEditable160, FieldEditable161, FieldEditable162, FieldEditable163, FieldEditable164, FieldEditable165, FieldEditable166, FieldEditable167, FieldEditable168, FieldEditable169, FieldEditable170, FieldEditable171, FieldEditable172, FieldEditable173, FieldEditable174, FieldEditable175, FieldEditable176, FieldEditable177, FieldEditable178, FieldEditable179, FieldEditable180, FieldEditable181, FieldEditable182, FieldEditable183, FieldEditable184, FieldEditable185, FieldEditable186, FieldEditable187, FieldEditable188, FieldEditable189, FieldEditable190, FieldEditable191, FieldEditable192, FieldEditable193, FieldEditable194, FieldEditable195, FieldEditable196, FieldEditable197, FieldEditable198, FieldEditable199, FieldEditable200, FieldEditable201, FieldEditable202, FieldEditable203, FieldEditable204, FieldEditable205, FieldEditable206, FieldEditable207, FieldEditable208, FieldEditable209, FieldEditable210, FieldEditable211, FieldEditable212, FieldEditable213, FieldEditable214, FieldEditable215, FieldEditable216, FieldEditable217, FieldEditable218, FieldEditable219, FieldEditable220, FieldEditable221, FieldEditable222, FieldEditable223, FieldEditable224, FieldEditable225, FieldEditable226, FieldEditable227, FieldEditable228, FieldEditable229, FieldEditable230, FieldEditable231, FieldEditable232, FieldEditable233, FieldEditable234, FieldEditable235, FieldEditable236, FieldEditable237, FieldEditable238, FieldEditable239, FieldEditable240, FieldEditable241, FieldEditable242, FieldEditable243, FieldEditable244, FieldEditable245, FieldEditable246, FieldEditable247, FieldEditable248, FieldEditable249, FieldEditable250, FieldEditable251, FieldEditable252, FieldEditable253, FieldEditable254, FieldEditable255, FieldEditable256, FieldEditable257, FieldEditable258, FieldEditable259, FieldEditable260, FieldEditable261, FieldEditable262, FieldEditable263, FieldEditable264, FieldEditable265, FieldEditable266, FieldEditable267, FieldEditable268, FieldEditable269, FieldEditable270, FieldEditable271, FieldEditable272, FieldEditable273, FieldEditable274, FieldEditable275, FieldEditable276, FieldEditable277, FieldEditable278, FieldEditable279, FieldEditable280, FieldEditable281, FieldEditable282, FieldEditable283, FieldEditable284, FieldEditable285, FieldEditable286, FieldEditable287, FieldEditable288, FieldEditable289, FieldEditable290, FieldEditable291, FieldEditable292, FieldEditable293, FieldEditable294, FieldEditable295, FieldEditable296, FieldEditable297, FieldEditable298, FieldEditable299, FieldEditable300, FieldEditable301, FieldEditable302, FieldEditable303, FieldEditable304, FieldEditable305, FieldEditable306, FieldEditable307, FieldEditable308, FieldEditable309, FieldEditable310, FieldEditable311, FieldEditable312, FieldEditable313, FieldEditable314, FieldEditable315, FieldEditable316, FieldEditable317, FieldEditable318, FieldEditable319, FieldEditable320, FieldEditable321, FieldEditable322, FieldEditable323, FieldEditable324, FieldEditable325, FieldEditable326, FieldEditable327, FieldEditable328, FieldEditable329, FieldEditable330, FieldEditable331, FieldEditable332, FieldEditable333, FieldEditable334, FieldEditable335, FieldEditable336, FieldEditable337, FieldEditable338, FieldEditable339, FieldEditable340, FieldEditable341, FieldEditable342, FieldEditable343, FieldEditable344, FieldEditable345, FieldEditable346, FieldEditable347, FieldEditable348, FieldEditable349, FieldEditable350, FieldEditable351, FieldEditable352, FieldEditable353, FieldEditable354, FieldEditable355, FieldEditable356, FieldEditable357, FieldEditable358, FieldEditable359, FieldEditable360, FieldEditable361, FieldEditable362, FieldEditable363, FieldEditable364, FieldEditable365, FieldEditable366, FieldEditable367, FieldEditable368, FieldEditable369, FieldEditable370, FieldEditable371, FieldEditable372, FieldEditable373, FieldEditable374, FieldEditable375, FieldEditable376, FieldEditable377, FieldEditable378, FieldEditable379, FieldEditable380, FieldEditable381, FieldEditable382, FieldEditable383, FieldEditable384, FieldEditable385, FieldEditable386, FieldEditable387, FieldEditable388, FieldEditable389, FieldEditable390, FieldEditable391, FieldEditable392, FieldEditable393, FieldEditable394, FieldEditable395, FieldEditable396, FieldEditable397, FieldEditable398, FieldEditable399, FieldEditable400 : boolean;
 }
