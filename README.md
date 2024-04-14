@@ -8,6 +8,10 @@ https://vld-nav.com/table-data-editor-for-bc-2-0
 
 ---
 
+# Tips
+- For the extension to work properly you must make sure that your BC user is using the **DET Data Editor Tool** or **SUPER** permission set.
+- For OnPrem you must have a license for objects with id 81000+
+
 # How to Install a Per Tenant Extension (.app file) in Business Central
 
 This guide provides step-by-step instructions for installing a Per Tenant Extension (PTE) `.app` file in Microsoft Dynamics 365 Business Central via the Extension Management page.
