@@ -1,3 +1,47 @@
+## v5.1
+
+### Issues
+
+- Issue 1019 CI/CD Workflow still being scheduled after it was disabled
+- Issue 1021 Error during Create Online Development Environment action
+- Issue 1022 Error querying artifacts: No such host is known. (bcartifacts-exdbf9fwegejdqak.blob.core.windows.net:443)
+- Issue 922 Deploy Reference Documentation (ALDoc) failed with custom
+- ContainerName used during build was invalid if project names contained special characters
+- Issue 1009 by adding a includeDependencies property in DeliverToAppSource
+- Issue 997 'Deliver to AppSource' action fails for projects containing a space
+- Issue 987 Resource not accessible by integration when creating release from specific version
+- Issue 979 Publish to AppSource Documentation
+- Issue 1018 Artifact setting - possibility to read version from app.json
+- Issue 1008 Allow PullRequestHandler to use ubuntu or self hosted runners for all jobs except for pregateCheck
+- Issue 962 Finer control of "shell"-property
+- Issue 1041 Harden the version comparison when incrementing version number
+- Issue 1042 Downloading artifacts from GitHub doesn't work with branch names which include forward slashes
+
+### Better artifact selection
+
+The artifact setting in your project settings file can now contain a `*` instead of the version number. This means that AL-Go for GitHub will determine the application dependency for your projects together with the `applicationDependency` setting and determine which Business Central version is needed for the project.
+- `"artifact": "//*//latest"` will give you the latest Business Central version, higher than your application dependency and with the same major.minor as your application dependency.
+- `"artifact": "//*//first"` will give you the first Business Central version, higher than your application dependency and with the same major.minor as your application dependency.
+
+### New Settings
+
+- `deliverToAppSource`: a JSON object containing the following properties
+  - **productId** must be the product Id from partner Center.
+  - **mainAppFolder** specifies the appFolder of the main app if you have multiple apps in the same project.
+  - **continuousDelivery** can be set to true to enable continuous delivery of every successful build to AppSource Validation. Note that the app will only be in preview in AppSource and you will need to manually press GO LIVE in order for the app to be promoted to production.
+  - **includeDependencies** can be set to an array of file names (incl. wildcards) which are the names of the dependencies to include in the AppSource submission. Note that you need to set `generateDependencyArtifact` in the project settings file to true in order to include dependencies.
+- Add `shell` as a property under `DeployTo` structure
+
+### Deprecated Settings
+
+- `appSourceContinuousDelivery` is moved to the `deliverToAppSource` structure
+- `appSourceMainAppFolder` is moved to the `deliverToAppSource` structure
+- `appSourceProductId` is moved to the `deliverToAppSource` structure
+
+### New parameter -clean on localdevenv and clouddevenv
+
+Adding -clean when running localdevenv or clouddevenv will create a clean development environment without compiling and publishing your apps.
+
 ## v5.0
 
 ### Issues
