@@ -93,7 +93,7 @@ codeunit 81001 "DET Data Editor Mgt."
             DictOfFieldKeyType.Add(KeyCount, Format(FieldRefVar2.Type));
         end;
 
-        BindSubscription(SingleInstanceStorage);
+        if BindSubscription(SingleInstanceStorage) then;
 
         RecordRefTemp := inRecRef.Duplicate();
         RecordRefTemp.Field(FieldRefVar.Number()).Value(NewValueAsVariant);
@@ -251,7 +251,7 @@ codeunit 81001 "DET Data Editor Mgt."
                 Error(RenamePKNotSuppErr);
         end;
 
-        UnbindSubscription(SingleInstanceStorage);
+        if UnbindSubscription(SingleInstanceStorage) then;
         SourceRecordId := inRecRef.RecordId();
     end;
 
