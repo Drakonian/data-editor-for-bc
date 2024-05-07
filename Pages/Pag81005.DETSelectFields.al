@@ -6,6 +6,8 @@ page 81005 "DET Select Fields"
     SourceTableTemporary = true;
     InsertAllowed = false;
     DeleteAllowed = false;
+    UsageCategory = None;
+    ApplicationArea = All;
 
     layout
     {
@@ -16,7 +18,6 @@ page 81005 "DET Select Fields"
                 ShowCaption = false;
                 field(IncludedField; Rec.Included)
                 {
-                    ApplicationArea = All;
                     Caption = 'Included';
                     ToolTip = 'Included';
                     Enabled = not Rec.IsPartOfPrimaryKey;
@@ -28,14 +29,12 @@ page 81005 "DET Select Fields"
                 }
                 field("Field Id"; Rec."Field Id")
                 {
-                    ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Field Id field.';
                 }
 
                 field(Name; Rec.Name)
                 {
                     Editable = false;
-                    ApplicationArea = All;
                     Caption = 'Name';
                     ToolTip = 'Specifies the names of the available Windows languages.';
                 }
@@ -49,13 +48,9 @@ page 81005 "DET Select Fields"
         {
             action("Set Included")
             {
-                ApplicationArea = All;
                 Caption = 'Set Included';
                 ToolTip = 'Set Included';
                 Image = Completed;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedOnly = true;
                 Visible = not OneFieldMode;
                 trigger OnAction()
                 begin
@@ -67,13 +62,9 @@ page 81005 "DET Select Fields"
             }
             action("Clear Included")
             {
-                ApplicationArea = All;
                 Caption = 'Clear Included';
                 ToolTip = 'Clear Included';
                 Image = ResetStatus;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedOnly = true;
                 Visible = not OneFieldMode;
                 trigger OnAction()
                 begin
@@ -88,6 +79,18 @@ page 81005 "DET Select Fields"
                     Rec.Reset();
                     CurrPage.Update(false);
                 end;
+            }
+        }
+        area(Promoted)
+        {
+            group(Category_Process)
+            {
+                actionref("Set Included_Promoted"; "Set Included")
+                {
+                }
+                actionref("Clear Included_Promoted"; "Clear Included")
+                {
+                }
             }
         }
     }

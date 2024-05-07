@@ -6,6 +6,7 @@ page 81007 "DET Find and Replace"
     SourceTable = "DET Find and Replace";
     InsertAllowed = false;
     DeleteAllowed = false;
+    UsageCategory = None;
 
     layout
     {
@@ -184,12 +185,12 @@ page 81007 "DET Find and Replace"
                         Rec."Record PK" := Format(Rec."Record Id");
                         Rec."Field Number" := FieldRefVar.Number();
                         Rec."Field Value" := FieldRefVar.Value();
-                        Rec."Field Caption" := FieldRefVar.Caption();
+                        Rec."Field Caption" := CopyStr(FieldRefVar.Caption(), 1, MaxStrLen(Rec."Field Caption"));
                         Rec."Is Editable" := (FieldRefVar.Class = FieldRefVar.Class::Normal);
                         if Replace and Rec."Is Editable" then begin
                             FieldRefToModify := RecRef.Field(Rec."Field Number");
                             FieldRefToModify.Value(ReplaceWith);
-                            Rec."Field Value" := ReplaceWith;
+                            Rec."Field Value" := CopyStr(ReplaceWith, 1, MaxStrLen(Rec."Field Value"));
                             if not GlobalWithoutValidate then
                                 FieldRefToModify.Validate();
                             ReplacedCounter += 1;
