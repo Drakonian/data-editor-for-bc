@@ -12,5 +12,10 @@ permissionset 81000 "DET Data Editor Tool"
         page "DET Edit Value" = X,
         page "DET Insert New Record" = X,
         page "DET Run Editor From Filter" = X,
-        page "DET Select Fields" = X;
+        page "DET Select Fields" = X,
+        tabledata "DET Find and Replace" = RIMD,
+        table "DET Find and Replace" = X,
+        codeunit "DET Data Editor Mgt." = X,
+        page "DET Find and Replace" = X,
+        page "DET Key" = X;
 }
