@@ -140,7 +140,7 @@ page 81001 "DET Data Editor"
         if CustomTableView <> '' then
             CustomFilterPageBuilder.SetView(SourceTableName, CustomTableView);
         CustomFilterPageBuilder.RunModal();
-        CustomTableView := CustomFilterPageBuilder.GetView(SourceTableName);
+        CustomTableView := CustomFilterPageBuilder.GetView(SourceTableName, false);
         SetNumberOfRecords(CustomTableView);
     end;
 
