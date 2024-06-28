@@ -2088,6 +2088,31 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table DET Find and Replace - Field Record PK - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 912511654 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Preset</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Query Preset - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 912511654 - Field 3004954119 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Code</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Query Preset - Field Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 912511654 - Field 3461834954 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Description</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Query Preset - Field Description - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 912511654 - Field 2961552353 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Query Preset - Field Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 912511654 - Field 2162216327 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Preset Json</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Query Preset - Field Preset Json - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Codeunit 11151320 - NamedType 3577291695" size-unit="char" translate="yes" xml:space="preserve">
           <source>Changing the primary key for &gt;15 values is not supported.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -2097,6 +2122,21 @@
           <source>Data Editor</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2312685416 - Method 2632236985 - NamedType 2248625104" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Preset name can not be empty.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Method DoSavePreset - NamedType PresetNameCanNotBeEmptyErr</note>
+        </trans-unit>
+        <trans-unit id="Page 2312685416 - Method 2651015917 - NamedType 3462392317" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Do you want to create a new preset %1?</source>
+          <note from="Developer" annotates="general" priority="2">%1 = Preset Code</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Method EnteredQueryPresetCode - NamedType CreateNewPresetQst</note>
+        </trans-unit>
+        <trans-unit id="Page 2312685416 - Method 1317895094 - NamedType 3217527263" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Do you really want to load the preset?\Existing settings will be overwritten.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Method ShouldLoadPreset - NamedType WantToLoadPresetExistingSettingsOverwrittenQst</note>
         </trans-unit>
         <trans-unit id="Page 2312685416 - Control 1018074862 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Set Initial Table Filter</source>
@@ -2137,6 +2177,36 @@
           <source>Number Of Records</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control NumberOfRecordsField - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2312685416 - Control 1954054342 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Preset</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control PresetCodeField - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2312685416 - Control 1954054342 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Preset</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control PresetCodeField - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2312685416 - Control 1331409676 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Preset Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control PresetNameField - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2312685416 - Control 1331409676 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Preset Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control PresetNameField - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2312685416 - Control 912508298 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Save Preset</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control SavePresetField - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2312685416 - Control 912508298 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Save Preset</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control SavePresetField - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2312685416 - Control 888177530 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Source Table Name</source>
@@ -4482,6 +4552,86 @@
           <source>Specifies the value of the Unique field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Key - Control Unique - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 912511654 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Data Editor Preset</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Query Preset - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 912511654 - Control 3004954119 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Code field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Query Preset - Control Code - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 912511654 - Control 3461834954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Description field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Query Preset - Control Description - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 912511654 - Control 400138913 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies wether the json data of this record is empty.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Query Preset - Control EmptyField - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 912511654 - Control 400138913 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Is Empty</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Query Preset - Control EmptyField - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 912511654 - Control 2961552353 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Name field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Query Preset - Control Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 912511654 - Action 3443543984 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Export Json</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Query Preset - Action Export Json - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 912511654 - Action 3443543984 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Export Json</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Query Preset - Action Export Json - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 912511654 - Action 3443543984 - Method 1377591017 - NamedType 2824124182" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Json is empty.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Query Preset - Action Export Json - Method OnAction - NamedType JsonIsEmptyErr</note>
+        </trans-unit>
+        <trans-unit id="Page 912511654 - Action 2690072103 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import Json</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Query Preset - Action Import Json - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 912511654 - Action 2690072103 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import Json</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Query Preset - Action Import Json - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 912511654 - Action 2690072103 - Method 1377591017 - NamedType 1163939131" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Do you want to overwrite existing data for %1</source>
+          <note from="Developer" annotates="general" priority="2">%1 = Preset Code</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Query Preset - Action Import Json - Method OnAction - NamedType WantToOverwriteExistingDataQst</note>
+        </trans-unit>
+        <trans-unit id="Page 912511654 - Action 2690072103 - Method 1377591017 - NamedType 3228695767" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import Json</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Query Preset - Action Import Json - Method OnAction - NamedType ImportJsonDialogTxt</note>
+        </trans-unit>
+        <trans-unit id="Page 912511654 - Action 2690072103 - Method 1377591017 - NamedType 629506247" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Json files (*.json)|*.json</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Query Preset - Action Import Json - Method OnAction - NamedType ImportFilterTxt</note>
+        </trans-unit>
+        <trans-unit id="Page 912511654 - Action 2327060554 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Show Json</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Query Preset - Action Show Json String - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 912511654 - Action 2327060554 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Show Json</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Query Preset - Action Show Json String - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1232699293 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Close Me</source>

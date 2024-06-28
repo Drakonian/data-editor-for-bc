@@ -17,5 +17,8 @@ permissionset 81000 "DET Data Editor Tool"
         table "DET Find and Replace" = X,
         codeunit "DET Data Editor Mgt." = X,
         page "DET Find and Replace" = X,
-        page "DET Key" = X;
+        page "DET Key" = X,
+        table "DET Query Preset" = X,
+        tabledata "DET Query Preset" = RMID,
+        page "DET Query Preset" = X;
 }

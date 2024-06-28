@@ -1,18 +1,49 @@
 page 81001 "DET Data Editor"
 {
-
     Caption = 'Data Editor';
     PageType = StandardDialog;
     ApplicationArea = All;
     UsageCategory = Tasks;
     InsertAllowed = false;
     AccessByPermission = tabledata "DET Data Editor Buffer" = RIMD;
+
     layout
     {
         area(content)
         {
             group(General)
             {
+                field(PresetCodeField; PresetCode)
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Preset';
+                    Caption = 'Preset';
+
+                    trigger OnLookup(var Text: Text): Boolean
+                    var
+                        QueryPreset: Record "DET Query Preset";
+                        QueryPresetList: Page "DET Query Preset";
+                    begin
+                        QueryPresetList.LookupMode(true);
+                        if (QueryPresetList.RunModal() in [Action::LookupOK, Action::OK]) then begin
+                            QueryPresetList.GetRecord(QueryPreset);
+                            PresetCode := QueryPreset.Code;
+                            EnteredQueryPresetCode(PresetCode);
+                        end;
+                    end;
+
+                    trigger OnValidate()
+                    begin
+                        EnteredQueryPresetCode(PresetCode);
+                    end;
+                }
+                field(PresetNameField; PresetName)
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Preset Name';
+                    Caption = 'Preset Name';
+                    Editable = false;
+                }
                 field(SourceTableNoField; SourceTableNo)
                 {
                     ApplicationArea = All;
@@ -20,17 +51,15 @@ page 81001 "DET Data Editor"
                     Caption = 'Source Table No.';
                     ShowMandatory = true;
                     trigger OnValidate()
-                    var
-                        AllObjWithCaption: Record AllObjWithCaption;
                     begin
                         if SourceTableNo = 0 then begin
                             SourceTableName := '';
                             exit;
                         end;
-                        AllObjWithCaption.Get(AllObjWithCaption."Object Type"::Table, SourceTableNo);
-                        SourceTableName := AllObjWithCaption."Object Name";
+                        SetTableCaption();
                         CustomTableView := '';
                         SetNumberOfRecords('');
+                        SetDirty();
                     end;
 
                     trigger OnLookup(var Text: Text): Boolean
@@ -50,6 +79,7 @@ page 81001 "DET Data Editor"
                         CustomTableView := '';
                         FieldFilter := '';
                         SetNumberOfRecords('');
+                        SetDirty();
                     end;
                 }
                 field(SourceTableNameField; SourceTableName)
@@ -68,6 +98,7 @@ page 81001 "DET Data Editor"
                     trigger OnDrillDown()
                     begin
                         SetCustomFilter();
+                        SetDirty();
                     end;
                 }
                 field(NumberOfRecordsField; NumberOfRecords)
@@ -86,6 +117,7 @@ page 81001 "DET Data Editor"
                     trigger OnDrillDown()
                     begin
                         SetFieldFilter();
+                        SetDirty();
                     end;
                 }
                 field(WithoutValidationField; WithoutValidation)
@@ -93,12 +125,28 @@ page 81001 "DET Data Editor"
                     ApplicationArea = All;
                     ToolTip = 'Without Validation';
                     Caption = 'Without Validation (Warning!)';
+                    trigger OnValidate()
+                    begin
+                        SetDirty();
+                    end;
                 }
                 field(ExcludeFlowFieldsField; ExcludeFlowFields)
                 {
                     ApplicationArea = All;
                     ToolTip = 'Exclude FlowField''s from loading';
                     Caption = 'Exclude FlowField''s';
+
+                    trigger OnValidate()
+                    begin
+                        SetDirty();
+                    end;
+                }
+                field(SavePresetField; SavePreset)
+                {
+                    ApplicationArea = All;
+                    Enabled = IsDirty and (PresetCode <> '');
+                    ToolTip = 'Save Preset';
+                    Caption = 'Save Preset';
                 }
             }
         }
@@ -109,6 +157,10 @@ page 81001 "DET Data Editor"
     begin
         if not (CloseAction in [CloseAction::OK, CloseAction::LookupOK]) then
             exit;
+
+        if IsDirty and SavePreset then
+            DoSavePreset();
+
         if SourceTableNo <> 0 then
             RunDataEditorList();
     end;
@@ -143,7 +195,7 @@ page 81001 "DET Data Editor"
         if CustomTableView <> '' then
             CustomFilterPageBuilder.SetView(SourceTableName, CustomTableView);
         CustomFilterPageBuilder.RunModal();
-        CustomTableView := CustomFilterPageBuilder.GetView(SourceTableName);
+        CustomTableView := CustomFilterPageBuilder.GetView(SourceTableName, false);
         SetNumberOfRecords(CustomTableView);
     end;
 
@@ -161,6 +213,109 @@ page 81001 "DET Data Editor"
         FieldFilter := SelectFields.GetFieldIdFilter();
     end;
 
+    local procedure EnteredQueryPresetCode(QueryPresetCode: Code[20])
+    var
+        QueryPreset: Record "DET Query Preset";
+        CreateNewPresetQst: Label 'Do you want to create a new preset %1?', Comment = '%1 = Preset Code';
+    begin
+        PresetName := '';
+        if QueryPreset.Get(QueryPresetCode) then begin
+            PresetName := QueryPreset.Name;
+            if ShouldLoadPreset() then
+                LoadPreset(QueryPreset);
+        end else
+            if Confirm(CreateNewPresetQst, false, QueryPresetCode) then begin
+                QueryPreset.Init();
+                QueryPreset.Code := QueryPresetCode;
+                QueryPreset.Insert(true);
+                SavePreset := true;
+            end;
+    end;
+
+    local procedure LoadPreset(var QueryPreset: Record "DET Query Preset")
+    var
+        PresetJsonObject: JsonObject;
+        PresetJsonToken: JsonToken;
+    begin
+        if QueryPreset.IsEmptyJson() then begin
+            IsDirty := true;
+            SavePreset := true;
+            exit;
+        end;
+
+        QueryPreset.GetJsonObject(PresetJsonObject);
+
+        if PresetJsonObject.Get('SourceTableNo', PresetJsonToken) then
+            SourceTableNo := PresetJsonToken.AsValue().AsInteger();
+        if PresetJsonObject.Get('CustomTableView', PresetJsonToken) then
+            CustomTableView := PresetJsonToken.AsValue().AsText();
+        if PresetJsonObject.Get('FieldFilter', PresetJsonToken) then
+            FieldFilter := PresetJsonToken.AsValue().AsText();
+        if PresetJsonObject.Get('ExcludeFlowFields', PresetJsonToken) then
+            ExcludeFlowFields := PresetJsonToken.AsValue().AsBoolean();
+        if PresetJsonObject.Get('WithoutValidation', PresetJsonToken) then
+            WithoutValidation := PresetJsonToken.AsValue().AsBoolean();
+
+        IsDirty := false;
+        SetTableCaption();
+        SetNumberOfRecords(CustomTableView);
+    end;
+
+    local procedure DoSavePreset()
+    var
+        QueryPreset: Record "DET Query Preset";
+        PresetNameCanNotBeEmptyErr: Label 'Preset name can not be empty.';
+        PresetJson: JsonObject;
+        PresetJsonString: Text;
+    begin
+        if PresetCode = '' then
+            Error(PresetNameCanNotBeEmptyErr);
+
+        QueryPreset.Get(PresetCode);
+
+        PresetJson.Add('SourceTableNo', SourceTableNo);
+        PresetJson.Add('CustomTableView', CustomTableView);
+        PresetJson.Add('FieldFilter', FieldFilter);
+        PresetJson.Add('ExcludeFlowFields', ExcludeFlowFields);
+        PresetJson.Add('WithoutValidation', WithoutValidation);
+        PresetJson.WriteTo(PresetJsonString);
+
+        QueryPreset.SetJson(PresetJsonString);
+#pragma warning disable AA0214
+        QueryPreset.Modify();
+#pragma warning restore AA0214
+
+        IsDirty := false;
+    end;
+
+    local procedure ShouldLoadPreset(): Boolean
+    var
+        WantToLoadPresetExistingSettingsOverwrittenQst: Label 'Do you really want to load the preset?\Existing settings will be overwritten.';
+    begin
+        if not IsDirty then
+            exit(true);
+
+        if IsDirty then
+            if Confirm(WantToLoadPresetExistingSettingsOverwrittenQst, false) then
+                exit(true);
+
+        exit(false);
+    end;
+
+    local procedure SetDirty()
+    begin
+        IsDirty := true;
+    end;
+
+
+    local procedure SetTableCaption()
+    var
+        AllObjWithCaption: Record AllObjWithCaption;
+    begin
+        AllObjWithCaption.Get(AllObjWithCaption."Object Type"::Table, SourceTableNo);
+        SourceTableName := AllObjWithCaption."Object Name";
+    end;
+
     var
         WithoutValidation: Boolean;
         ExcludeFlowFields: Boolean;
@@ -169,4 +324,8 @@ page 81001 "DET Data Editor"
         SourceTableName: Text;
         CustomTableView: Text;
         FieldFilter: Text;
+        PresetCode: Code[20];
+        SavePreset: Boolean;
+        IsDirty: Boolean;
+        PresetName: Text;
 }
