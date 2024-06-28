@@ -20,15 +20,12 @@ page 81001 "DET Data Editor"
                     Caption = 'Source Table No.';
                     ShowMandatory = true;
                     trigger OnValidate()
-                    var
-                        AllObjWithCaption: Record AllObjWithCaption;
                     begin
                         if SourceTableNo = 0 then begin
                             SourceTableName := '';
                             exit;
                         end;
-                        AllObjWithCaption.Get(AllObjWithCaption."Object Type"::Table, SourceTableNo);
-                        SourceTableName := AllObjWithCaption."Object Name";
+                        SetTableCaption();
                         CustomTableView := '';
                         SetNumberOfRecords('');
                     end;
@@ -159,6 +156,14 @@ page 81001 "DET Data Editor"
         if SelectFields.RunModal() <> Action::LookupOK then
             exit;
         FieldFilter := SelectFields.GetFieldIdFilter();
+    end;
+
+    local procedure SetTableCaption()
+    var
+        AllObjWithCaption: Record AllObjWithCaption;
+    begin
+        AllObjWithCaption.Get(AllObjWithCaption."Object Type"::Table, SourceTableNo);
+        SourceTableName := AllObjWithCaption."Object Name";
     end;
 
     var
