@@ -37,9 +37,11 @@ table 81003 "DET Query Preset"
     var
         OutStream: Outstream;
     begin
-        Rec."Preset Json".CreateOutStream(OutStream);
-        if (OutStream.WriteText(PresetJsonString) > 0) then
+        Rec."Preset Json".CreateOutStream(OutStream, TextEncoding::UTF8);
+        if (OutStream.WriteText(PresetJsonString) > 0) then begin
+            Rec.Modify();
             exit(true);
+        end;
 
         exit(false);
     end;
@@ -49,7 +51,7 @@ table 81003 "DET Query Preset"
         InStream: Instream;
     begin
         Rec.CalcFields("Preset Json");
-        Rec."Preset Json".CreateInStream(InStream);
+        Rec."Preset Json".CreateInStream(InStream, TextEncoding::UTF8);
         if (InStream.ReadText(PresetJsonString) > 0) then
             exit(true);
 
