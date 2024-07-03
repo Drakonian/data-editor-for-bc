@@ -265,6 +265,7 @@ page 81001 "DET Data Editor"
     var
         QueryPreset: Record "DET Query Preset";
         PresetNameCanNotBeEmptyErr: Label 'Preset name can not be empty.';
+        SourceTableNoCantBeEmptyErr: Label 'Source Table No. can''t be empty.';
         PresetJson: JsonObject;
         PresetJsonString: Text;
     begin
@@ -272,6 +273,9 @@ page 81001 "DET Data Editor"
             Error(PresetNameCanNotBeEmptyErr);
 
         QueryPreset.Get(PresetCode);
+
+        if SourceTableNo = 0 then
+            Error(SourceTableNoCantBeEmptyErr);
 
         PresetJson.Add('SourceTableNo', SourceTableNo);
         PresetJson.Add('CustomTableView', CustomTableView);
@@ -281,9 +285,6 @@ page 81001 "DET Data Editor"
         PresetJson.WriteTo(PresetJsonString);
 
         QueryPreset.SetJson(PresetJsonString);
-#pragma warning disable AA0214
-        QueryPreset.Modify();
-#pragma warning restore AA0214
 
         IsDirty := false;
     end;
