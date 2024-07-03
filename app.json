@@ -21,7 +21,7 @@
     }
   ],
   "contextSensitiveHelpUrl": "https://vld-nav.com/",
-  "runtime": "12.0",
+  "runtime": "13.0",
   "features": ["TranslationFile"],
   "resourceExposurePolicy":
     {
