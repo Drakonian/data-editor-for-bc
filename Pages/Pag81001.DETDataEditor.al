@@ -13,37 +13,6 @@ page 81001 "DET Data Editor"
         {
             group(General)
             {
-                field(PresetCodeField; PresetCode)
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Preset';
-                    Caption = 'Preset';
-
-                    trigger OnLookup(var Text: Text): Boolean
-                    var
-                        QueryPreset: Record "DET Query Preset";
-                        QueryPresetList: Page "DET Query Preset";
-                    begin
-                        QueryPresetList.LookupMode(true);
-                        if (QueryPresetList.RunModal() in [Action::LookupOK, Action::OK]) then begin
-                            QueryPresetList.GetRecord(QueryPreset);
-                            PresetCode := QueryPreset.Code;
-                            EnteredQueryPresetCode(PresetCode);
-                        end;
-                    end;
-
-                    trigger OnValidate()
-                    begin
-                        EnteredQueryPresetCode(PresetCode);
-                    end;
-                }
-                field(PresetNameField; PresetName)
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Preset Name';
-                    Caption = 'Preset Name';
-                    Editable = false;
-                }
                 field(SourceTableNoField; SourceTableNo)
                 {
                     ApplicationArea = All;
@@ -140,6 +109,37 @@ page 81001 "DET Data Editor"
                     begin
                         SetDirty();
                     end;
+                }
+                field(PresetCodeField; PresetCode)
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Preset';
+                    Caption = 'Preset';
+
+                    trigger OnLookup(var Text: Text): Boolean
+                    var
+                        QueryPreset: Record "DET Query Preset";
+                        QueryPresetList: Page "DET Query Preset";
+                    begin
+                        QueryPresetList.LookupMode(true);
+                        if (QueryPresetList.RunModal() in [Action::LookupOK, Action::OK]) then begin
+                            QueryPresetList.GetRecord(QueryPreset);
+                            PresetCode := QueryPreset.Code;
+                            EnteredQueryPresetCode(PresetCode);
+                        end;
+                    end;
+
+                    trigger OnValidate()
+                    begin
+                        EnteredQueryPresetCode(PresetCode);
+                    end;
+                }
+                field(PresetNameField; PresetName)
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Preset Name';
+                    Caption = 'Preset Name';
+                    Editable = false;
                 }
                 field(SavePresetField; SavePreset)
                 {
