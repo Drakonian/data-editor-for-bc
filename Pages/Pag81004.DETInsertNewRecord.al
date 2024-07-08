@@ -558,7 +558,7 @@ page 81004 "DET Insert New Record"
 
     local procedure OnValidateField(FieldCounter: Integer; NewValue: Text[2048])
     var
-        DataEditorBufferPage: Page "DET Data Editor Buffer";
+        DataEditorMgt: Codeunit "DET Data Editor Mgt.";
         FieldRefVar: FieldRef;
         FieldInfoDictionaty: Dictionary of [Integer, Text];
         OriginalFieldNo: Integer;
@@ -571,35 +571,35 @@ page 81004 "DET Insert New Record"
 
         case FieldCounter of
             1:
-                VariantValue1 := DataEditorBufferPage.TextValueAsVariant(FieldRefVar.Type(), NewValue);
+                VariantValue1 := DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue);
             2:
-                VariantValue2 := DataEditorBufferPage.TextValueAsVariant(FieldRefVar.Type(), NewValue);
+                VariantValue2 := DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue);
             3:
-                VariantValue3 := DataEditorBufferPage.TextValueAsVariant(FieldRefVar.Type(), NewValue);
+                VariantValue3 := DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue);
             4:
-                VariantValue4 := DataEditorBufferPage.TextValueAsVariant(FieldRefVar.Type(), NewValue);
+                VariantValue4 := DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue);
             5:
-                VariantValue5 := DataEditorBufferPage.TextValueAsVariant(FieldRefVar.Type(), NewValue);
+                VariantValue5 := DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue);
             6:
-                VariantValue6 := DataEditorBufferPage.TextValueAsVariant(FieldRefVar.Type(), NewValue);
+                VariantValue6 := DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue);
             7:
-                VariantValue7 := DataEditorBufferPage.TextValueAsVariant(FieldRefVar.Type(), NewValue);
+                VariantValue7 := DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue);
             8:
-                VariantValue8 := DataEditorBufferPage.TextValueAsVariant(FieldRefVar.Type(), NewValue);
+                VariantValue8 := DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue);
             9:
-                VariantValue9 := DataEditorBufferPage.TextValueAsVariant(FieldRefVar.Type(), NewValue);
+                VariantValue9 := DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue);
             10:
-                VariantValue10 := DataEditorBufferPage.TextValueAsVariant(FieldRefVar.Type(), NewValue);
+                VariantValue10 := DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue);
             11:
-                VariantValue11 := DataEditorBufferPage.TextValueAsVariant(FieldRefVar.Type(), NewValue);
+                VariantValue11 := DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue);
             12:
-                VariantValue12 := DataEditorBufferPage.TextValueAsVariant(FieldRefVar.Type(), NewValue);
+                VariantValue12 := DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue);
             13:
-                VariantValue13 := DataEditorBufferPage.TextValueAsVariant(FieldRefVar.Type(), NewValue);
+                VariantValue13 := DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue);
             14:
-                VariantValue14 := DataEditorBufferPage.TextValueAsVariant(FieldRefVar.Type(), NewValue);
+                VariantValue14 := DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue);
             15:
-                VariantValue15 := DataEditorBufferPage.TextValueAsVariant(FieldRefVar.Type(), NewValue);
+                VariantValue15 := DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue);
         end;
     end;
 

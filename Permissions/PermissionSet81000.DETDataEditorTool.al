@@ -20,5 +20,10 @@ permissionset 81000 "DET Data Editor Tool"
         page "DET Key" = X,
         table "DET Query Preset" = X,
         tabledata "DET Query Preset" = RMID,
-        page "DET Query Preset" = X;
+        page "DET Query Preset" = X,
+        tabledata "DET Data Editor Setup" = RIMD,
+        table "DET Data Editor Setup" = X,
+        tabledata "DET Data Editor Log" = RIMD,
+        table "DET Data Editor Log" = X,
+        page "DET Data Editor Setup" = X;
 }

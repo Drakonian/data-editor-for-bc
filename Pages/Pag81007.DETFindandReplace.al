@@ -120,10 +120,14 @@ page 81007 "DET Find and Replace"
 
     local procedure FindAndReplaceAll(Replace: Boolean)
     var
+        DataEditorSetup: Record "DET Data Editor Setup";
+        DataEditorMgt: Codeunit "DET Data Editor Mgt.";
         ResultNotification: Notification;
         RecRef: RecordRef;
+        xRecRef: RecordRef;
         RecRefToFilter: RecordRef;
         FieldRefToModify: FieldRef;
+        xFieldRefToModify: FieldRef;
         FieldRefVar: FieldRef;
         EntryNo: Integer;
         FieldCounter: Integer;
@@ -132,9 +136,14 @@ page 81007 "DET Find and Replace"
         ReplacedCounter: Integer;
         ReplacedTotal: Integer;
         FieldNo: Integer;
+        IsLogEnabled: Boolean;
     begin
         Rec.Reset();
         Rec.DeleteAll();
+
+        if DataEditorSetup.Get() then
+            IsLogEnabled := DataEditorSetup."Enable Data Editor Log";
+
         case true of
             MatchCase and MatchEntireFieldValue:
                 FindWhatFilter := FindWhat;
@@ -173,6 +182,7 @@ page 81007 "DET Find and Replace"
                     Clear(FieldRefVar);
                     Clear(RecRefToFilter);
                     RecRefToFilter := RecRef.Duplicate();
+                    xRecRef := RecRef.Duplicate();
                     RecRefToFilter.FilterGroup(20);
                     RecRefToFilter.SetRecFilter();
                     FieldRefVar := RecRefToFilter.Field(FieldNo);
@@ -189,11 +199,15 @@ page 81007 "DET Find and Replace"
                         Rec."Is Editable" := (FieldRefVar.Class = FieldRefVar.Class::Normal);
                         if Replace and Rec."Is Editable" then begin
                             FieldRefToModify := RecRef.Field(Rec."Field Number");
+                            xFieldRefToModify := xRecRef.Field(Rec."Field Number");
                             FieldRefToModify.Value(ReplaceWith);
                             Rec."Field Value" := CopyStr(ReplaceWith, 1, MaxStrLen(Rec."Field Value"));
                             if not GlobalWithoutValidate then
                                 FieldRefToModify.Validate();
                             ReplacedCounter += 1;
+                            if IsLogEnabled then
+                                DataEditorMgt.LogModify(RecRef.Number(), FieldRefToModify.Number(), RecRef.RecordId(), xFieldRefToModify,
+                                    FieldRefToModify, not GlobalWithoutValidate);
                         end;
                         Rec.Insert();
                     end;
@@ -228,14 +242,19 @@ page 81007 "DET Find and Replace"
 
     local procedure OnFieldEdit(IsDrillDown: Boolean; FieldNo: Integer; var NewValue: Text[2048])
     var
+        DataEditorSetup: Record "DET Data Editor Setup";
         TempNameValueBuffer: Record "Name/Value Buffer" temporary;
         DataEditorMgt: Codeunit "DET Data Editor Mgt.";
         RecRef: RecordRef;
+        xRecRef: RecordRef;
         FieldRefVar: FieldRef;
+        xFieldRefVar: FieldRef;
     begin
         if not RecRef.Get(Rec."Record Id") then
             exit;
+        xRecRef := RecRef.Duplicate();
         FieldRefVar := RecRef.Field(FieldNo);
+        xFieldRefVar := xRecRef.Field(FieldNo);
 
         if not IsDrillDown then
             FieldRefVar.Value(NewValue)
@@ -251,6 +270,13 @@ page 81007 "DET Find and Replace"
             NewValue := TempNameValueBuffer.Value
         else
             NewValue := format(FieldRefVar.Value());
+
+        if not DataEditorSetup.Get() then
+            exit;
+
+        if DataEditorSetup."Enable Data Editor Log" then
+            DataEditorMgt.LogModify(RecRef.Number(), FieldRefVar.Number(), RecRef.RecordId(), xFieldRefVar,
+                FieldRefVar, not GlobalWithoutValidate);
     end;
 
     procedure SetRecordInfo(TableNo: Integer; TableName: Text; WithoutValidate: Boolean; TableView: Text)

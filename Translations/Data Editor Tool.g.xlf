@@ -2023,6 +2023,86 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Buffer - Field Without Validate - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3483816548 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Data Editor Log</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Log - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3483816548 - Field 1060207642 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Action Type</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Log - Field Action Type - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3483816548 - Field 883711285 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Entry No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Log - Field Entry No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3483816548 - Field 3070320983 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Field Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Log - Field Field Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3483816548 - Field 3531868071 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Field No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Log - Field Field No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3483816548 - Field 2432660905 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>New Value</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Log - Field New Value - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3483816548 - Field 3123910104 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>New Value BLOB</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Log - Field New Value BLOB - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3483816548 - Field 3205443024 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Old Value</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Log - Field Old Value - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3483816548 - Field 4056079689 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Old Value BLOB</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Log - Field Old Value BLOB - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3483816548 - Field 1829115764 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Record Id</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Log - Field Record Id - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3483816548 - Field 3808951907 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Table Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Log - Field Table Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3483816548 - Field 3017471043 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Table No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Log - Field Table No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3483816548 - Field 1919185147 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>With Validation</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Log - Field With Validation - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4005927189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Data Editor Setup</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Setup - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4005927189 - Field 1220065664 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Enable Data Editor Log</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Setup - Field Enable Data Editor Log - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 4005927189 - Field 1663593181 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Primary Key</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Setup - Field Primary Key - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1032987457 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Field</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -2113,10 +2193,30 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table DET Query Preset - Field Preset Json - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Codeunit 11151320 - NamedType 3552429591" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import is finished.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit DET Data Editor Mgt. - NamedType ImportFinishedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 11151320 - NamedType 2335401280" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Inserted: %1</source>
+          <note from="Developer" annotates="general" priority="2">%1 = Inserted record count</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit DET Data Editor Mgt. - NamedType InsertedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 11151320 - NamedType 4248834573" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Modified: %1</source>
+          <note from="Developer" annotates="general" priority="2">%1 = Modified record count</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit DET Data Editor Mgt. - NamedType ModifiedLbl</note>
+        </trans-unit>
         <trans-unit id="Codeunit 11151320 - NamedType 3577291695" size-unit="char" translate="yes" xml:space="preserve">
           <source>Changing the primary key for &gt;15 values is not supported.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit DET Data Editor Mgt. - NamedType RenamePKNotSuppErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 11151320 - NamedType 3306272166" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Skipped: %1</source>
+          <note from="Developer" annotates="general" priority="2">%1 = Skipped record count</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit DET Data Editor Mgt. - NamedType SkippedLbl</note>
         </trans-unit>
         <trans-unit id="Page 2312685416 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Data Editor</source>
@@ -4308,6 +4408,26 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action DET Update Column - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 1713748232 - Action 1644678502 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Export Table Data, only loaded fields will be exported.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action ExportTableData - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1713748232 - Action 1644678502 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Export Table Data</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action ExportTableData - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1713748232 - Action 2678351021 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import Table Data, depends on previously selected validation.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action ImportTableData - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1713748232 - Action 2678351021 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import Table Data</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action ImportTableData - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 1713748232 - Action 3706613101 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Insert new record</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -4327,6 +4447,131 @@
           <source>Refresh</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action Refresh - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3483816548 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Data Editor Log</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Log - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3483816548 - Control 1060207642 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Action Type field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Log - Control Action Type - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3483816548 - Control 883711285 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Entry No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Log - Control Entry No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3483816548 - Control 3070320983 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Field Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Log - Control Field Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3483816548 - Control 3531868071 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Field No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Log - Control Field No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3483816548 - Control 2432660905 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the New Value field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Log - Control New Value - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3483816548 - Control 3205443024 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Old Value field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Log - Control Old Value - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3483816548 - Control 1829115764 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Record Id field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Log - Control Record Id - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3483816548 - Control 1829115764 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Record Id</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Log - Control Record Id - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3483816548 - Control 577209412 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the SystemCreatedAt field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Log - Control SystemCreatedAt - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3483816548 - Control 577209412 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Created At</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Log - Control SystemCreatedAt - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3483816548 - Control 4000648066 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the SystemCreatedBy field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Log - Control SystemCreatedBy - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3483816548 - Control 4000648066 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Created By</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Log - Control SystemCreatedBy - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3483816548 - Control 3808951907 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Table Name field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Log - Control Table Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3483816548 - Control 3017471043 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Table No. field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Log - Control Table No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3483816548 - Control 1919185147 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the With Validation field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Log - Control With Validation - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3483816548 - Action 2644281592 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Show New Value</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Log - Action ShowNewValue - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3483816548 - Action 2644281592 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Show New Value</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Log - Action ShowNewValue - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3483816548 - Action 1033146809 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Show Old Value</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Log - Action ShowOldValue - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 3483816548 - Action 1033146809 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Show Old Value</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Log - Action ShowOldValue - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4005927189 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Data Editor Setup</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Setup - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4005927189 - Control 2445482498 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>General</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Setup - Control General - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4005927189 - Control 1220065664 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>May adversely affect performance.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Setup - Control Enable Data Editor Log - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4005927189 - Action 3696303991 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Data Editor Log</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Setup - Action DataEditorLog - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4005927189 - Action 3696303991 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Data Editor Log</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Setup - Action DataEditorLog - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1334223894 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Edit Value</source>
@@ -4432,6 +4677,21 @@
           <source>Find &amp; Replace All</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - Action FindReplaceAll - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 278861421 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import/Export Dialog</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Import/Export Dialog - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 278861421 - Control 1262534867 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Action to do when imported record is already exist in database</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Import/Export Dialog - Control ImportOnFind - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 278861421 - Control 1262534867 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Import On Find</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Import/Export Dialog - Control ImportOnFind - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1854157029 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Insert New Record</source>
@@ -4692,6 +4952,46 @@
           <source>Set Included</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Select Fields - Action Set Included - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2422027088 - EnumValue 2248886284 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Error</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum DET Import On Find - EnumValue Error - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2422027088 - EnumValue 3817527484 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Modify</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum DET Import On Find - EnumValue Modify - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2422027088 - EnumValue 343736747 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Skip</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum DET Import On Find - EnumValue Skip - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1275746257 - EnumValue 1371923692 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source> </source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum DET Log Action Type - EnumValue   - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1275746257 - EnumValue 2477294019 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum DET Log Action Type - EnumValue Delete - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1275746257 - EnumValue 2049086889 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Insert</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum DET Log Action Type - EnumValue Insert - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1275746257 - EnumValue 3817527484 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Modify</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum DET Log Action Type - EnumValue Modify - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 1275746257 - EnumValue 3194217980 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rename</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum DET Log Action Type - EnumValue Rename - Property Caption</note>
         </trans-unit>
         <trans-unit id="PermissionSet 751298128 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Data Editor Tool</source>

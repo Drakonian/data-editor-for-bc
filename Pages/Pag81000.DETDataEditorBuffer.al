@@ -6414,16 +6414,51 @@ page 81000 "DET Data Editor Buffer"
     }
     actions
     {
+        area(Promoted)
+        {
+            actionref(InsertNew_promoted; InsertNew)
+            {
+
+            }
+            actionref("DET Delete Selected_Promoted"; "DET Delete Selected")
+            {
+
+            }
+            actionref("DET Update Column_promoted"; "DET Update Column")
+            {
+
+            }
+            actionref("DET Copy Column To Column_promoted"; "DET Copy Column To Column")
+            {
+
+            }
+            actionref("DET Sort_promoted"; "DET Sort")
+            {
+
+            }
+            actionref("DET Find & Replace_promoted"; "DET Find & Replace")
+            {
+
+            }
+            actionref(Refresh_promoted; Refresh)
+            {
+
+            }
+            actionref(ExportTableData_promoted; ExportTableData)
+            {
+
+            }
+            actionref(ImportTableData_promoted; ImportTableData)
+            {
+
+            }
+        }
         area(Processing)
         {
             action(InsertNew)
             {
                 ApplicationArea = All;
                 Image = Add;
-                Promoted = true;
-                PromotedIsBig = true;
-                PromotedCategory = Process;
-                PromotedOnly = true;
                 Caption = 'Insert new record';
                 ToolTip = 'Insert new record';
                 trigger OnAction()
@@ -6435,12 +6470,9 @@ page 81000 "DET Data Editor Buffer"
             {
                 ApplicationArea = All;
                 Image = Delete;
-                Promoted = true;
-                PromotedIsBig = true;
-                PromotedCategory = Process;
-                PromotedOnly = true;
                 Caption = 'Delete Selected';
                 ToolTip = 'Delete Selected';
+                Visible = false;// TODO: Do we really need this?
                 trigger OnAction()
                 var
                     DataEditorBuffer: Record "DET Data Editor Buffer";
@@ -6460,10 +6492,6 @@ page 81000 "DET Data Editor Buffer"
             {
                 ApplicationArea = All;
                 Image = Column;
-                Promoted = true;
-                PromotedIsBig = true;
-                PromotedCategory = Process;
-                PromotedOnly = true;
                 Caption = 'Update Column';
                 ToolTip = 'Update Column';
                 trigger OnAction()
@@ -6475,10 +6503,6 @@ page 81000 "DET Data Editor Buffer"
             {
                 ApplicationArea = All;
                 Image = Column;
-                Promoted = true;
-                PromotedIsBig = true;
-                PromotedCategory = Process;
-                PromotedOnly = true;
                 Caption = 'Copy Column To Column';
                 ToolTip = 'Copy Column To Column';
                 trigger OnAction()
@@ -6490,10 +6514,6 @@ page 81000 "DET Data Editor Buffer"
             {
                 ApplicationArea = All;
                 Image = SortAscending;
-                Promoted = true;
-                PromotedIsBig = true;
-                PromotedCategory = Process;
-                PromotedOnly = true;
                 Caption = 'Sort';
                 ToolTip = 'Sort';
                 trigger OnAction()
@@ -6505,10 +6525,6 @@ page 81000 "DET Data Editor Buffer"
             {
                 ApplicationArea = All;
                 Image = Find;
-                Promoted = true;
-                PromotedIsBig = true;
-                PromotedCategory = Process;
-                PromotedOnly = true;
                 Caption = 'Find & Replace';
                 ToolTip = 'Find & Replace';
                 trigger OnAction()
@@ -6520,10 +6536,6 @@ page 81000 "DET Data Editor Buffer"
             {
                 ApplicationArea = All;
                 Image = Refresh;
-                Promoted = true;
-                PromotedIsBig = true;
-                PromotedCategory = Process;
-                PromotedOnly = true;
                 Caption = 'Refresh';
                 ToolTip = 'Refresh this page with current filters';
 
@@ -6532,12 +6544,49 @@ page 81000 "DET Data Editor Buffer"
                     LoadData();
                 end;
             }
+            action(ExportTableData)
+            {
+                ApplicationArea = All;
+                Caption = 'Export Table Data';
+                ToolTip = 'Export Table Data, only loaded fields will be exported.';
+                Image = ExportDatabase;
+                trigger OnAction()
+                begin
+                    ExportTable();
+                end;
+            }
+            action(ImportTableData)
+            {
+                ApplicationArea = All;
+                Caption = 'Import Table Data';
+                ToolTip = 'Import Table Data, depends on previously selected validation.';
+                Image = ImportDatabase;
+                trigger OnAction()
+                begin
+                    ImportTable();
+                end;
+            }
         }
     }
 
     trigger OnDeleteRecord(): Boolean
     begin
         DeleteSourceRecord(Rec."Source Record ID");
+    end;
+
+    local procedure ExportTable()
+    var
+        DataEditorMgt: Codeunit "DET Data Editor Mgt.";
+    begin
+        DataEditorMgt.ExportTable(Rec, LoadFieldNoList);
+    end;
+
+    local procedure ImportTable()
+    var
+        DataEditorMgt: Codeunit "DET Data Editor Mgt.";
+    begin
+        DataEditorMgt.ImportTable(not WithoutValidate);
+        LoadData();
     end;
 
     local procedure FindAndReplace()
@@ -6556,8 +6605,10 @@ page 81000 "DET Data Editor Buffer"
         DataEditorMgt: Codeunit "DET Data Editor Mgt.";
         SelectFields: Page "DET Select Fields";
         RecRefDuplicate: RecordRef;
+        xRecRef: RecordRef;
         NewFieldRef: FieldRef;
         FieldRefVar: FieldRef;
+        xFieldRefVar: FieldRef;
     begin
         if RecRef.Number() = 0 then
             exit;
@@ -6579,11 +6630,16 @@ page 81000 "DET Data Editor Buffer"
         if Rec.FindSet() then
             repeat
                 RecRef.Get(Rec."Source Record ID");
+                xRecRef := RecRef.Duplicate();
                 FieldRefVar := RecRef.Field(TempDETField."Field Id");
+                xFieldRefVar := xRecRef.Field(TempDETField."Field Id");
                 FieldRefVar.Value(NewFieldRef.Value());
                 if not WithoutValidate then
                     FieldRefVar.Validate();
                 RecRef.Modify(not WithoutValidate);
+                if IsLogEnabled then
+                    DataEditorMgt.LogModify(RecRef.Number(), FieldRefVar.Number(), RecRef.RecordId(), xFieldRefVar,
+                        FieldRefVar, not WithoutValidate);
             until Rec.Next() = 0;
         LoadData();
     end;
@@ -6591,10 +6647,13 @@ page 81000 "DET Data Editor Buffer"
     local procedure CopyColumnToColumn()
     var
         TempDETField: Record "DET Field" temporary;
+        DataEditorMgt: Codeunit "DET Data Editor Mgt.";
         SelectFields: Page "DET Select Fields";
         RecRefDuplicate: RecordRef;
+        xRecRef: RecordRef;
         CopyFromFieldRef: FieldRef;
         CopyToFieldRef: FieldRef;
+        xCopyToFieldRef: FieldRef;
         CopyToFieldNo, CopyFromFieldNo : Integer;
     begin
         if RecRef.Number() = 0 then
@@ -6636,14 +6695,19 @@ page 81000 "DET Data Editor Buffer"
         if Rec.FindSet() then
             repeat
                 RecRef.Get(Rec."Source Record ID");
+                xRecRef := RecRef.Duplicate();
                 CopyFromFieldRef := RecRef.Field(CopyFromFieldNo);
                 if CopyFromFieldRef.Class() = FieldClass::FlowField then
                     CopyFromFieldRef.CalcField();
                 CopyToFieldRef := RecRef.Field(CopyToFieldNo);
+                xCopyToFieldRef := xRecRef.Field(CopyToFieldNo);
                 CopyToFieldRef.Value(CopyFromFieldRef.Value());
                 if not WithoutValidate then
                     CopyToFieldRef.Validate();
                 RecRef.Modify(not WithoutValidate);
+                if IsLogEnabled then
+                    DataEditorMgt.LogModify(RecRef.Number(), CopyToFieldRef.Number(), RecRef.RecordId(), xCopyToFieldRef,
+                        CopyToFieldRef, not WithoutValidate);
             until Rec.Next() = 0;
         LoadData();
     end;
@@ -6667,6 +6731,7 @@ page 81000 "DET Data Editor Buffer"
 
     local procedure InsertNewRecord()
     var
+        DataEditorMgt: Codeunit "DET Data Editor Mgt.";
         InsertNewRecordPage: Page "DET Insert New Record";
         NewRecordId: RecordId;
     begin
@@ -6679,18 +6744,28 @@ page 81000 "DET Data Editor Buffer"
         Rec.FindFirst();
         Rec.SetPosition(Rec.GetPosition());
         Rec.SetRange("Source Record ID");
+
+        if IsLogEnabled then
+            DataEditorMgt.LogInsert(RecRef.Number(), NewRecordId, not WithoutValidate);
+
         Message(RecordIsInsertedLbl, NewRecordId);
     end;
 
     local procedure DeleteSourceRecord(SourceRecordID: RecordId)
     var
+        DataEditorMgt: Codeunit "DET Data Editor Mgt.";
         SourceRecRef: RecordRef;
     begin
         if SourceRecRef.Get(SourceRecordID) then
             SourceRecRef.Delete(not WithoutValidate);
+
+        if IsLogEnabled then
+            DataEditorMgt.LogDelete(RecRef.Number(), SourceRecordID, not WithoutValidate);
     end;
 
     procedure LoadRecords(TableNo: Integer; inCustomTableView: Text; inFieldFilter: Text; inWithoutValidate: Boolean; inExcludeFlowFields: Boolean)
+    var
+        DataEditorSetup: Record "DET Data Editor Setup";
     begin
         WithoutValidate := inWithoutValidate;
         ExcludeFlowFields := inExcludeFlowFields;
@@ -6700,6 +6775,8 @@ page 81000 "DET Data Editor Buffer"
         InitVisibility();
         InitEditable();
         LoadData();
+        if DataEditorSetup.Get() then
+            IsLogEnabled := DataEditorSetup."Enable Data Editor Log";
     end;
 
     local procedure OpenRecord(TableNo: Integer)
@@ -6790,41 +6867,53 @@ page 81000 "DET Data Editor Buffer"
     local procedure OnValidateField(FieldCounter: Integer; NewValue: Text[2048])
     var
         DataEditorMgt: Codeunit "DET Data Editor Mgt.";
+        xRecRef: RecordRef;
         FieldRefVar: FieldRef;
+        xFieldRefVar: FieldRef;
         FieldInfo: Dictionary of [Integer, Text];
         OriginalFieldNo: Integer;
     begin
         if not RecRef.Get(Rec."Source Record ID") then
             exit;
+        xRecRef := RecRef.Duplicate();
         GenFieldInfoDict.Get(FieldCounter, FieldInfo);
         foreach OriginalFieldNo in FieldInfo.Keys() do
             FieldRefVar := RecRef.Field(OriginalFieldNo);
+        xFieldRefVar := xRecRef.Field(OriginalFieldNo);
 
         if DataEditorMgt.IsFieldIsPartOfPK(RecRef, FieldRefVar) then begin
             DataEditorMgt.RenamePKField(RecRef, FieldRefVar, Rec."Source Record ID", NewValue);
+            if IsLogEnabled then
+                DataEditorMgt.LogRename(RecRef.Number(), FieldRefVar.Number(), RecRef.RecordId(), xFieldRefVar, FieldRefVar, true);
             exit;
         end;
 
-        FieldRefVar.Value(TextValueAsVariant(FieldRefVar.Type(), NewValue));
+        FieldRefVar.Value(DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue));
         if not WithoutValidate then
             FieldRefVar.Validate();
         RecRef.Modify(not WithoutValidate);
 
+        if IsLogEnabled then
+            DataEditorMgt.LogModify(RecRef.Number(), FieldRefVar.Number(), Rec."Source Record ID", xFieldRefVar, FieldRefVar, not WithoutValidate);
     end;
 
     local procedure OnDrillDownField(FieldCounter: Integer; var NewValue: Text[2048])
     var
         TempNameValueBuffer: Record "Name/Value Buffer" temporary;
         DataEditorMgt: Codeunit "DET Data Editor Mgt.";
+        xRecRef: RecordRef;
         FieldRefVar: FieldRef;
+        xFieldRefVar: FieldRef;
         FieldInfo: Dictionary of [Integer, Text];
         OriginalFieldNo: Integer;
     begin
         if not RecRef.Get(Rec."Source Record ID") then
             exit;
+        xRecRef := RecRef.Duplicate();
         GenFieldInfoDict.Get(FieldCounter, FieldInfo);
         OriginalFieldNo := FieldInfo.Keys.Get(FieldInfo.Count());
         FieldRefVar := RecRef.Field(OriginalFieldNo);
+        xFieldRefVar := xRecRef.Field(OriginalFieldNo);
 
         if not DataEditorMgt.GetNewColumnValue(RecRef, FieldRefVar, Rec."Source Record ID", TempNameValueBuffer) then
             exit;
@@ -6837,76 +6926,9 @@ page 81000 "DET Data Editor Buffer"
             NewValue := TempNameValueBuffer.Value
         else
             NewValue := format(FieldRefVar.Value());
-    end;
 
-    procedure TextValueAsVariant(FieldTypeVar: FieldType; ValueAsText: Text[2048]): Variant
-    var
-        DateFormulaValue: DateFormula;
-        IntegerValue: Integer;
-        DecimalValue: Decimal;
-        BooleanValue: Boolean;
-        DateValue: Date;
-        DateTimeValue: DateTime;
-        TimeValue: Time;
-        GuidValue: Guid;
-        BigIntegerValue: BigInteger;
-    begin
-        case FieldTypeVar of
-            FieldTypeVar::Code, FieldTypeVar::Text:
-                exit(ValueAsText);
-            FieldTypeVar::Integer:
-                begin
-                    Evaluate(IntegerValue, ValueAsText);
-                    exit(IntegerValue);
-                end;
-            FieldTypeVar::Decimal:
-                begin
-                    Evaluate(DecimalValue, ValueAsText);
-                    exit(DecimalValue);
-                end;
-            FieldTypeVar::Boolean:
-                begin
-                    Evaluate(BooleanValue, ValueAsText);
-                    exit(BooleanValue);
-                end;
-            FieldTypeVar::Date:
-                begin
-                    Evaluate(DateValue, ValueAsText);
-                    exit(DateValue);
-                end;
-            FieldTypeVar::DateFormula:
-                begin
-                    Evaluate(DateFormulaValue, ValueAsText);
-                    exit(DateFormulaValue);
-                end;
-            FieldTypeVar::DateTime:
-                begin
-                    Evaluate(DateTimeValue, ValueAsText);
-                    exit(DateTimeValue);
-                end;
-            FieldTypeVar::Time:
-                begin
-                    Evaluate(TimeValue, ValueAsText);
-                    exit(TimeValue);
-                end;
-            FieldTypeVar::Guid:
-                begin
-                    Evaluate(GuidValue, ValueAsText);
-                    exit(GuidValue);
-                end;
-            FieldTypeVar::BigInteger:
-                begin
-                    Evaluate(BigIntegerValue, ValueAsText);
-                    exit(BigIntegerValue);
-                end;
-            FieldTypeVar::Option:
-                begin
-                    Evaluate(IntegerValue, ValueAsText);
-                    exit(IntegerValue);
-                end;
-            else
-                exit(ValueAsText);
-        end;
+        if IsLogEnabled then
+            DataEditorMgt.LogModify(RecRef.Number(), FieldRefVar.Number(), Rec."Source Record ID", xFieldRefVar, FieldRefVar, not WithoutValidate);
     end;
 
     local procedure InitLoadFields(var inRecRef: RecordRef)
@@ -7813,6 +7835,7 @@ page 81000 "DET Data Editor Buffer"
         RecRef: RecordRef;
         WithoutValidate: Boolean;
         ExcludeFlowFields: Boolean;
+        IsLogEnabled: Boolean;
         CustomTableView: text;
         FieldFilter: text;
         GenFieldInfoDict: Dictionary of [Integer, Dictionary of [Integer, Text]];
