@@ -4683,6 +4683,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Import/Export Dialog - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 278861421 - Control 4072933583 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>File Format</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Import/Export Dialog - Control FileFormat - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 278861421 - Control 4072933583 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>File Format</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Import/Export Dialog - Control FileFormat - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 278861421 - Control 1262534867 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Action to do when imported record is already exist in database</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -4952,6 +4962,16 @@
           <source>Set Included</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Select Fields - Action Set Included - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2951046972 - EnumValue 1819335129 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Excel</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum DET File Format - EnumValue Excel - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 2951046972 - EnumValue 2264048100 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>JSON</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum DET File Format - EnumValue JSON - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 2422027088 - EnumValue 2248886284 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Error</source>

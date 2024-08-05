@@ -200,10 +200,11 @@ page 81007 "DET Find and Replace"
                         if Replace and Rec."Is Editable" then begin
                             FieldRefToModify := RecRef.Field(Rec."Field Number");
                             xFieldRefToModify := xRecRef.Field(Rec."Field Number");
-                            FieldRefToModify.Value(ReplaceWith);
+                            if GlobalWithoutValidate then
+                                FieldRefToModify.Value(ReplaceWith)
+                            else
+                                FieldRefToModify.Validate(ReplaceWith);
                             Rec."Field Value" := CopyStr(ReplaceWith, 1, MaxStrLen(Rec."Field Value"));
-                            if not GlobalWithoutValidate then
-                                FieldRefToModify.Validate();
                             ReplacedCounter += 1;
                             if IsLogEnabled then
                                 DataEditorMgt.LogModify(RecRef.Number(), FieldRefToModify.Number(), RecRef.RecordId(), xFieldRefToModify,
@@ -256,14 +257,15 @@ page 81007 "DET Find and Replace"
         FieldRefVar := RecRef.Field(FieldNo);
         xFieldRefVar := xRecRef.Field(FieldNo);
 
-        if not IsDrillDown then
-            FieldRefVar.Value(NewValue)
-        else
-            if not DataEditorMgt.GetNewColumnValue(RecRef, FieldRefVar, Rec."Record Id", TempNameValueBuffer) then
+        if not IsDrillDown then begin
+            if GlobalWithoutValidate then
+                FieldRefVar.Value(NewValue)
+            else
+                FieldRefVar.Validate(NewValue);
+        end else
+            if not DataEditorMgt.GetNewColumnValue(RecRef, FieldRefVar, Rec."Record Id", TempNameValueBuffer, not GlobalWithoutValidate) then
                 exit;
 
-        if not GlobalWithoutValidate then
-            FieldRefVar.Validate();
         RecRef.Modify(not GlobalWithoutValidate);
 
         if FieldRefVar.Type() = FieldRefVar.Type::Option then

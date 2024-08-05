@@ -6623,7 +6623,7 @@ page 81000 "DET Data Editor Buffer"
         SelectFields.GetRecord(TempDETField);
         RecRefDuplicate := RecRef.Duplicate();
         NewFieldRef := RecRefDuplicate.Field(TempDETField."Field Id");
-        if not DataEditorMgt.GetNewColumnValue(RecRef, NewFieldRef, Rec."Source Record ID", TempNameValueBuffer) then
+        if not DataEditorMgt.GetNewColumnValue(RecRef, NewFieldRef, Rec."Source Record ID", TempNameValueBuffer, not WithoutValidate) then
             exit;
         if not Confirm(ColumnUpdateConfirmLbl, false, TempDETField.Name, Rec.Count(), RecRef.Name()) then
             exit;
@@ -6633,9 +6633,10 @@ page 81000 "DET Data Editor Buffer"
                 xRecRef := RecRef.Duplicate();
                 FieldRefVar := RecRef.Field(TempDETField."Field Id");
                 xFieldRefVar := xRecRef.Field(TempDETField."Field Id");
-                FieldRefVar.Value(NewFieldRef.Value());
-                if not WithoutValidate then
-                    FieldRefVar.Validate();
+                if WithoutValidate then
+                    FieldRefVar.Value(NewFieldRef.Value())
+                else
+                    FieldRefVar.Validate(NewFieldRef.Value());
                 RecRef.Modify(not WithoutValidate);
                 if IsLogEnabled then
                     DataEditorMgt.LogModify(RecRef.Number(), FieldRefVar.Number(), RecRef.RecordId(), xFieldRefVar,
@@ -6701,9 +6702,10 @@ page 81000 "DET Data Editor Buffer"
                     CopyFromFieldRef.CalcField();
                 CopyToFieldRef := RecRef.Field(CopyToFieldNo);
                 xCopyToFieldRef := xRecRef.Field(CopyToFieldNo);
-                CopyToFieldRef.Value(CopyFromFieldRef.Value());
-                if not WithoutValidate then
-                    CopyToFieldRef.Validate();
+                if WithoutValidate then
+                    CopyToFieldRef.Value(CopyFromFieldRef.Value())
+                else
+                    CopyToFieldRef.Validate(CopyFromFieldRef.Value());
                 RecRef.Modify(not WithoutValidate);
                 if IsLogEnabled then
                     DataEditorMgt.LogModify(RecRef.Number(), CopyToFieldRef.Number(), RecRef.RecordId(), xCopyToFieldRef,
@@ -6887,10 +6889,10 @@ page 81000 "DET Data Editor Buffer"
                 DataEditorMgt.LogRename(RecRef.Number(), FieldRefVar.Number(), RecRef.RecordId(), xFieldRefVar, FieldRefVar, true);
             exit;
         end;
-
-        FieldRefVar.Value(DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue));
-        if not WithoutValidate then
-            FieldRefVar.Validate();
+        if WithoutValidate then
+            FieldRefVar.Value(DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue))
+        else
+            FieldRefVar.Validate(DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue));
         RecRef.Modify(not WithoutValidate);
 
         if IsLogEnabled then
@@ -6915,11 +6917,9 @@ page 81000 "DET Data Editor Buffer"
         FieldRefVar := RecRef.Field(OriginalFieldNo);
         xFieldRefVar := xRecRef.Field(OriginalFieldNo);
 
-        if not DataEditorMgt.GetNewColumnValue(RecRef, FieldRefVar, Rec."Source Record ID", TempNameValueBuffer) then
+        if not DataEditorMgt.GetNewColumnValue(RecRef, FieldRefVar, Rec."Source Record ID", TempNameValueBuffer, not WithoutValidate) then
             exit;
 
-        if not WithoutValidate then
-            FieldRefVar.Validate();
         RecRef.Modify(not WithoutValidate);
 
         if FieldRefVar.Type() = FieldRefVar.Type::Option then

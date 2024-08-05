@@ -15,7 +15,7 @@ codeunit 81001 "DET Data Editor Mgt."
      tabledata "Service Invoice Header" = RMID, TableData "Service Cr.Memo Header" = RMID, TableData "Issued Reminder Header" = RMID, TableData "Issued Fin. Charge Memo Header" = RMID,
      tabledata "G/L Entry - VAT Entry Link" = RMID;
 
-    procedure GetNewColumnValue(var RecRef: RecordRef; var FieldRefVar: FieldRef; var SourceRecordId: RecordId; var TempNameValueBuffer: Record "Name/Value Buffer" temporary): Boolean
+    procedure GetNewColumnValue(var RecRef: RecordRef; var FieldRefVar: FieldRef; var SourceRecordId: RecordId; var TempNameValueBuffer: Record "Name/Value Buffer" temporary; WithValidate: Boolean): Boolean
     var
         FieldRec: Record Field;
         DataEditorSetup: Record "DET Data Editor Setup";
@@ -64,16 +64,25 @@ codeunit 81001 "DET Data Editor Mgt."
                 ResultVariant := FieldNo;
             end;
             RenamePKField(RecRef, FieldRefVar, SourceRecordId, ResultVariant);
-            if FieldRefVar.Type() = FieldRefVar.Type::Option then
-                FieldRefVar.Value(TempNameValueBuffer.Value)
-            else
-                FieldRefVar.Value(format(ResultVariant));
+            if FieldRefVar.Type() = FieldRefVar.Type::Option then begin
+                if WithValidate then
+                    FieldRefVar.Validate(TempNameValueBuffer.Value)
+                else
+                    FieldRefVar.Value(TempNameValueBuffer.Value);
+            end else
+                if WithValidate then
+                    FieldRefVar.Validate(format(ResultVariant))
+                else
+                    FieldRefVar.Value(format(ResultVariant));
             if DataEditorSetup.Get() then
                 if DataEditorSetup."Enable Data Editor Log" then
                     LogRename(RecRef.Number(), FieldRefVar.Number(), RecRef.RecordId(), xFieldRefVar, FieldRefVar, true);
             exit(true);
         end;
-        FieldRefVar.Value(ResultVariant);
+        if WithValidate then
+            FieldRefVar.Validate(ResultVariant)
+        else
+            FieldRefVar.Value(ResultVariant);
         exit(true);
     end;
 
@@ -286,12 +295,142 @@ codeunit 81001 "DET Data Editor Mgt."
     var
         TempBlob: Codeunit "Temp Blob";
         ImportExportDialog: Page "DET Import/Export Dialog";
+        ImportOnFind: Enum "DET Import On Find";
+        FileFormat: Enum "DET File Format";
+        FileInStream: InStream;
+        FileFilter: Text;
+    begin
+        ImportExportDialog.Caption('Import Dialog');
+        ImportExportDialog.SetIsImport(true);
+        if GuiAllowed() then
+            if not (ImportExportDialog.RunModal() in [Action::OK, Action::LookupOK]) then
+                exit;
+        ImportOnFind := ImportExportDialog.GetImportOnFind();
+        FileFormat := ImportExportDialog.GetFileFormat();
+
+        case FileFormat of
+            FileFormat::JSON:
+                FileFilter := JSONFilterLbl;
+            FileFormat::Excel:
+                FileFilter := ExcelFilterLbl;
+        end;
+
+        TempBlob.CreateInStream(FileInStream, TextEncoding::UTF8);
+        if not UploadIntoStream(FileFilter, FileInStream) then
+            exit;
+
+        case FileFormat of
+            FileFormat::JSON:
+                ImportJSON(FileInStream, ImportOnFind, WithValidation);
+            FileFormat::Excel:
+                ImportExcel(FileInStream, ImportOnFind, WithValidation);
+        end;
+    end;
+
+    local procedure ImportExcel(var FileInStream: InStream; ImportOnFind: Enum "DET Import On Find"; WithValidation: Boolean)
+    var
+        TempExcelBuffer: Record "Excel Buffer" temporary;
+        TempNameValueBuffer: Record "Name/Value Buffer" temporary;
         RecRef: RecordRef;
         xRecRef: RecordRef;
         FieldRef: FieldRef;
-        xFieldRef: FieldRef;
-        ImportOnFind: Enum "DET Import On Find";
-        InStreamVar: InStream;
+        CellValueInStream: InStream;
+        TableNo: Integer;
+        ColumnFieldNoDict: Dictionary of [Integer, Integer];
+        Skipped, Inserted, Modified : Integer;
+        IsPKReady, IsRecordExist : Boolean;
+        ResultMsg: TextBuilder;
+        ValueAsTxt: Text;
+        ErrorText: Text;
+    begin
+        TempExcelBuffer.GetSheetsNameListFromStream(FileInStream, TempNameValueBuffer);
+
+        TempNameValueBuffer.SetRange(Value, 'Data');
+        TempNameValueBuffer.FindFirst();
+
+        ClearLastError();
+        ErrorText := TempExcelBuffer.OpenBookStream(FileInStream, TempNameValueBuffer.Value);
+        if ErrorText <> '' then
+            Error(ErrorText);
+
+        TempExcelBuffer.ReadSheetContinous('Data', true);
+
+        Evaluate(TableNo, TempExcelBuffer.GetValueByCellName('B1'));
+
+        RecRef.Open(TableNo);
+        RecRef.ReadIsolation := RecRef.ReadIsolation::ReadCommitted;
+
+        xRecRef.Open(TableNo);
+        xRecRef.ReadIsolation := xRecRef.ReadIsolation::ReadCommitted;
+
+        TempExcelBuffer.SetCurrentKey("Row No.");
+        if TempExcelBuffer.FindSet() then begin
+            repeat
+                TempExcelBuffer.SetRange("Row No.", TempExcelBuffer."Row No.");
+                Clear(IsPKReady);
+                Clear(IsRecordExist);
+
+                RecRef.Init();
+
+                repeat
+                    Clear(ValueAsTxt);
+                    if TempExcelBuffer."Cell Value as Blob".HasValue() then begin
+                        TempExcelBuffer.CalcFields("Cell Value as Blob");
+                        TempExcelBuffer."Cell Value as Blob".CreateInStream(CellValueInStream, TextEncoding::Windows);
+                        CellValueInStream.ReadText(ValueAsTxt);
+                    end else
+                        ValueAsTxt := TempExcelBuffer."Cell Value as Text";
+
+                    case true of
+                        TempExcelBuffer."Row No." = 3:
+                            begin
+                                FieldRef := RecRef.Field(GetFieldNoFromName(TableNo, ValueAsTxt));
+                                if FieldRef.Class() = FieldRef.Class() ::Normal then
+                                    ColumnFieldNoDict.Add(TempExcelBuffer."Column No.", FieldRef.Number());
+                            end;
+
+                        TempExcelBuffer."Row No." > 3:
+                            if ColumnFieldNoDict.ContainsKey(TempExcelBuffer."Column No.") then begin
+                                FieldRef := RecRef.Field(ColumnFieldNoDict.Get(TempExcelBuffer."Column No."));
+                                UpdateRecord(ValueAsTxt, RecRef, xRecRef, FieldRef, ImportOnFind, IsPKReady, IsRecordExist, WithValidation);
+                            end;
+                    end;
+                until TempExcelBuffer.Next() = 0;
+
+                if TempExcelBuffer."Row No." > 3 then
+                    SaveRecord(RecRef, ImportOnFind, WithValidation, IsRecordExist, Inserted, Skipped, Modified);
+
+                TempExcelBuffer.SetRange("Row No.");
+            until TempExcelBuffer.Next() = 0;
+
+            RecRef.Close();
+            xRecRef.Close();
+        end;
+
+        ResultMsg.AppendLine(ImportFinishedLbl);
+        ResultMsg.AppendLine(StrSubstNo(InsertedLbl, Inserted));
+        ResultMsg.AppendLine(StrSubstNo(ModifiedLbl, Modified));
+        ResultMsg.AppendLine(StrSubstNo(SkippedLbl, Skipped));
+
+        if GuiAllowed() then
+            Message(ResultMsg.ToText());
+    end;
+
+    local procedure GetFieldNoFromName(TableNo: Integer; FieldName: Text): Integer
+    var
+        FieldRec: Record Field;
+    begin
+        FieldRec.SetRange(TableNo, TableNo);
+        FieldRec.SetRange(FieldName, FieldName);
+        FieldRec.FindFirst();
+        exit(FieldRec."No.");
+    end;
+
+    local procedure ImportJSON(var FileInStream: InStream; ImportOnFind: Enum "DET Import On Find"; WithValidation: Boolean)
+    var
+        RecRef: RecordRef;
+        xRecRef: RecordRef;
+        FieldRef: FieldRef;
         JObject: JsonObject;
         JToken: JsonToken;
         JTokenField: JsonToken;
@@ -304,16 +443,8 @@ codeunit 81001 "DET Data Editor Mgt."
         IsPKReady, IsRecordExist : Boolean;
         ResultMsg: TextBuilder;
     begin
-        ImportExportDialog.Caption('Import Dialog');
-        if not (ImportExportDialog.RunModal() in [Action::OK, Action::LookupOK]) then
-            exit;
-        ImportOnFind := ImportExportDialog.GetImportOnFind();
+        JObject.ReadFrom(FileInStream);
 
-        TempBlob.CreateInStream(InStreamVar, TextEncoding::UTF8);
-        if not UploadIntoStream(JSONFilterLbl, InStreamVar) then
-            exit;
-
-        JObject.ReadFrom(InStreamVar);
         ListOfTables := JObject.Keys();
         foreach TableNoAsTxt in ListOfTables do begin
             JObject.Get(TableNoAsTxt, JToken);
@@ -329,6 +460,9 @@ codeunit 81001 "DET Data Editor Mgt."
             JArray := JToken.AsArray();
 
             foreach JToken in JArray do begin
+                Clear(IsPKReady);
+                Clear(IsRecordExist);
+
                 RecRef.Init();
                 ListOfFields := JToken.AsObject().Keys();
 
@@ -337,49 +471,15 @@ codeunit 81001 "DET Data Editor Mgt."
                     Evaluate(FieldNo, FieldNoAsTxt);
                     FieldRef := RecRef.Field(FieldNo);
 
-                    if not IsPKReady then
-                        if not IsFieldIsPartOfPK(RecRef, FieldRef) then begin
-                            IsRecordExist := xRecRef.Get(RecRef.RecordId());
-                            IsPKReady := true;
-                        end;
-
-                    if IsRecordExist then
-                        xFieldRef := xRecRef.Field(FieldNo);
-
-                    FieldRef.Value(TextValueAsVariant(FieldRef.Type, CopyStr(JTokenField.AsValue().AsText(), 1, 2048)));
-                    if WithValidation then
-                        FieldRef.Validate();
-
-                    if IsRecordExist and (ImportOnFind = ImportOnFind::Modify) then
-                        LogModify(RecRef.Number(), FieldNo, RecRef.RecordId(), xFieldRef, FieldRef, WithValidation);
+                    UpdateRecord(JTokenField.AsValue().AsText(), RecRef, xRecRef, FieldRef, ImportOnFind, IsPKReady, IsRecordExist, WithValidation);
                 end;
 
-                case ImportOnFind of
-                    ImportOnFind::Error:
-                        begin
-                            RecRef.Insert(WithValidation);
-                            LogInsert(RecRef.Number(), RecRef.RecordId(), WithValidation);
-                            Inserted += 1;
-                        end;
-                    ImportOnFind::Skip:
-                        if RecRef.Insert(WithValidation) then begin
-                            LogInsert(RecRef.Number(), RecRef.RecordId(), WithValidation);
-                            Inserted += 1;
-                        end else
-                            Skipped += 1;
-                    ImportOnFind::Modify:
-                        if RecRef.Insert(WithValidation) then begin
-                            LogInsert(RecRef.Number(), RecRef.RecordId(), WithValidation);
-                            Inserted += 1;
-                        end else begin
-                            RecRef.Modify(WithValidation);
-                            Modified += 1;
-                        end;
-                end;
-
+                SaveRecord(RecRef, ImportOnFind, WithValidation, IsRecordExist, Inserted, Skipped, Modified);
             end;
             RecRef.Close();
+            xRecRef.Close();
         end;
+
         ResultMsg.AppendLine(ImportFinishedLbl);
         ResultMsg.AppendLine(StrSubstNo(InsertedLbl, Inserted));
         ResultMsg.AppendLine(StrSubstNo(ModifiedLbl, Modified));
@@ -389,19 +489,178 @@ codeunit 81001 "DET Data Editor Mgt."
             Message(ResultMsg.ToText());
     end;
 
+    local procedure UpdateRecord(ValueAsTxt: Text; var RecRef: RecordRef; var xRecRef: RecordRef; var FieldRef: FieldRef; ImportOnFind: Enum "DET Import On Find"; var IsPKReady: Boolean; var IsRecordExist: Boolean; WithValidation: Boolean)
+    var
+        xFieldRef: FieldRef;
+    begin
+        if not IsPKReady then
+            if not IsFieldIsPartOfPK(RecRef, FieldRef) then begin
+                IsRecordExist := xRecRef.Get(RecRef.RecordId());
+                IsPKReady := true;
+            end;
+
+        if IsRecordExist and (ImportOnFind = ImportOnFind::Skip) then
+            exit;
+
+        if IsRecordExist then
+            xFieldRef := xRecRef.Field(FieldRef.Number());
+
+        if WithValidation then
+            FieldRef.Validate(TextValueAsVariant(FieldRef.Type, CopyStr(ValueAsTxt, 1, 2048)))
+        else
+            FieldRef.Value(TextValueAsVariant(FieldRef.Type, CopyStr(ValueAsTxt, 1, 2048)));
+
+        if IsRecordExist and (ImportOnFind = ImportOnFind::Modify) then
+            LogModify(RecRef.Number(), FieldRef.Number(), RecRef.RecordId(), xFieldRef, FieldRef, WithValidation);
+    end;
+
+    local procedure SaveRecord(var RecRef: RecordRef; ImportOnFind: Enum "DET Import On Find"; WithValidation: Boolean; IsRecordExist: Boolean; var Inserted: Integer; var Skipped: Integer; var Modified: Integer)
+    begin
+        case ImportOnFind of
+            ImportOnFind::Error:
+                begin
+                    RecRef.Insert(WithValidation);
+                    LogInsert(RecRef.Number(), RecRef.RecordId(), WithValidation);
+                    Inserted += 1;
+                end;
+            ImportOnFind::Skip:
+                if IsRecordExist then
+                    Skipped += 1
+                else begin
+                    RecRef.Insert(WithValidation);
+                    LogInsert(RecRef.Number(), RecRef.RecordId(), WithValidation);
+                    Inserted += 1;
+                end;
+            ImportOnFind::Modify:
+                if IsRecordExist then begin
+                    RecRef.Modify(WithValidation);
+                    Modified += 1
+                end else begin
+                    RecRef.Insert(WithValidation);
+                    LogInsert(RecRef.Number(), RecRef.RecordId(), WithValidation);
+                    Inserted += 1;
+                end;
+        end;
+    end;
+
     procedure ExportTable(var DataEditorBuffer: Record "DET Data Editor Buffer"; FieldIdsToExport: List of [Integer])
     var
-        TempBlob: Codeunit "Temp Blob";
-        RecRef: RecordRef;
-        JArray: JsonArray;
-        JObjectRoot: JsonObject;
-        InStreamVar: InStream;
-        OutStreamVar: OutStream;
-        FileName: Text;
+        ImportExportDialog: Page "DET Import/Export Dialog";
+        FileFormat: Enum "DET File Format";
     begin
         if DataEditorBuffer.IsEmpty() then
             exit;
 
+        ImportExportDialog.Caption('Export Dialog');
+        if not (ImportExportDialog.RunModal() in [Action::OK, Action::LookupOK]) then
+            exit;
+        FileFormat := ImportExportDialog.GetFileFormat();
+
+        case FileFormat of
+            FileFormat::JSON:
+                ExportJSON(DataEditorBuffer, FieldIdsToExport);
+            FileFormat::Excel:
+                ExportExcel(DataEditorBuffer, FieldIdsToExport);
+        end;
+    end;
+
+    local procedure ExportExcel(var DataEditorBuffer: Record "DET Data Editor Buffer"; FieldIdsToExport: List of [Integer])
+    var
+        TempExcelBuffer: Record "Excel Buffer" temporary;
+        TempBlob: Codeunit "Temp Blob";
+        RecRef: RecordRef;
+        InStreamVar: InStream;
+        OutStreamVar: OutStream;
+        FileName: Text;
+    begin
+        if DataEditorBuffer.FindSet() then begin
+            RecRef.Open(DataEditorBuffer."Source Record ID".TableNo());
+            RecRef.ReadIsolation := RecRef.ReadIsolation::ReadCommitted;
+
+            CreateExcelHeader(RecRef, TempExcelBuffer, FieldIdsToExport);
+
+            repeat
+                RecRef.Get(DataEditorBuffer."Source Record ID");
+                CreateExcelRow(RecRef, TempExcelBuffer, FieldIdsToExport);
+            until DataEditorBuffer.Next() = 0;
+        end;
+
+        FileName := StrSubstNo(FileNameLbl, RecRef.Caption(),
+            Format(CurrentDateTime, 0, '<Day,2>-<Month,2>-<Year>_<Hours24,2>.<Minutes,2>.<Seconds,2>'), 'xlsx');
+
+        RecRef.Close();
+
+        TempBlob.CreateInStream(InStreamVar);
+        TempBlob.CreateOutStream(OutStreamVar);
+
+        TempExcelBuffer.CreateNewBook('Data');
+        TempExcelBuffer.WriteSheet('Data', CompanyName(), UserId());
+        TempExcelBuffer.CloseBook();
+        TempExcelBuffer.SetFriendlyFilename(FileName);
+        TempExcelBuffer.SaveToStream(OutStreamVar, true);
+
+        DownloadFromStream(InStreamVar, '', '', '', FileName);
+    end;
+
+    local procedure CreateExcelHeader(var RecRef: RecordRef; var TempExcelBuffer: Record "Excel Buffer" temporary; FieldIdsToExport: List of [Integer])
+    var
+        FieldRefVar: FieldRef;
+        i: Integer;
+    begin
+        TempExcelBuffer.NewRow();
+        TempExcelBuffer.AddColumn('Table Number', false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(RecRef.Number(), false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+
+        TempExcelBuffer.NewRow();
+        TempExcelBuffer.AddColumn('Table Name', false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(RecRef.Name(), false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.NewRow();
+
+        for i := 1 to RecRef.FieldCount() do begin
+            FieldRefVar := RecRef.FieldIndex(i);
+            if FieldIdsToExport.Contains(FieldRefVar.Number()) then
+                if (FieldRefVar.Class = FieldClass::Normal) and not (FieldRefVar.Type in [FieldType::Blob, FieldType::Media, FieldType::MediaSet]) then
+                    TempExcelBuffer.AddColumn(FieldRefVar.Name(), false, '', true, false, true, '', TempExcelBuffer."Cell Type"::Text);
+        end;
+    end;
+
+    local procedure CreateExcelRow(var RecRef: RecordRef; var TempExcelBuffer: Record "Excel Buffer" temporary; FieldIdsToExport: List of [Integer])
+    var
+        FieldRefVar: FieldRef;
+        i: Integer;
+    begin
+        TempExcelBuffer.NewRow();
+
+        for i := 1 to RecRef.FieldCount() do begin
+            FieldRefVar := RecRef.FieldIndex(i);
+            if FieldIdsToExport.Contains(FieldRefVar.Number()) then
+                if (FieldRefVar.Class = FieldClass::Normal) and not (FieldRefVar.Type in [FieldType::Blob, FieldType::Media, FieldType::MediaSet]) then
+                    case FieldRefVar.Type() of
+                        FieldRefVar.Type::Option:
+                            TempExcelBuffer.AddColumn(FieldRefVar.OptionMembers.Split(',').IndexOf(FieldRefVar.Value) - 1,
+                                false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
+                        FieldRefVar.Type::Integer, FieldRefVar.Type::BigInteger, FieldRefVar.Type::Decimal, FieldRefVar.Type::Boolean:
+                            TempExcelBuffer.AddColumn(FieldRefVar.Value(), false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
+                        FieldRefVar.Type::Date, FieldRefVar.Type::DateTime:
+                            TempExcelBuffer.AddColumn(FieldRefVar.Value(), false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Date);
+                        FieldRefVar.Type::Time:
+                            TempExcelBuffer.AddColumn(FieldRefVar.Value(), false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Time);
+                        else
+                            TempExcelBuffer.AddColumn(FieldRefVar.Value(), false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    end;
+        end;
+    end;
+
+    local procedure ExportJSON(var DataEditorBuffer: Record "DET Data Editor Buffer"; FieldIdsToExport: List of [Integer])
+    var
+        TempBlob: Codeunit "Temp Blob";
+        RecRef: RecordRef;
+        JObjectRoot: JsonObject;
+        JArray: JsonArray;
+        InStreamVar: InStream;
+        OutStreamVar: OutStream;
+        FileName: Text;
+    begin
         if DataEditorBuffer.FindSet() then begin
             RecRef.Open(DataEditorBuffer."Source Record ID".TableNo());
             RecRef.ReadIsolation := RecRef.ReadIsolation::ReadCommitted;
@@ -413,7 +672,8 @@ codeunit 81001 "DET Data Editor Mgt."
 
         JObjectRoot.Add(Format(RecRef.Number()), JArray);
 
-        FileName := StrSubstNo(FileNameLbl, RecRef.Caption(), Format(CurrentDateTime, 0, '<Day,2>-<Month,2>-<Year>_<Hours24,2>.<Minutes,2>.<Seconds,2>'), 'json');
+        FileName := StrSubstNo(FileNameLbl, RecRef.Caption(),
+            Format(CurrentDateTime, 0, '<Day,2>-<Month,2>-<Year>_<Hours24,2>.<Minutes,2>.<Seconds,2>'), 'json');
 
         RecRef.Close();
 
@@ -594,4 +854,5 @@ codeunit 81001 "DET Data Editor Mgt."
         LogNumberSequenceLbl: Label 'DETNSqwerty', Locked = true;
         FileNameLbl: Label '%1_%2.%3', Locked = true;
         JSONFilterLbl: Label 'JSON files (*.json, *.txt)|*.json;*.txt', Locked = true;
+        ExcelFilterLbl: Label 'Excel files (*.xlsx)|*.xlsx', Locked = true;
 }
