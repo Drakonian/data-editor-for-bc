@@ -13,7 +13,7 @@ codeunit 81001 "DET Data Editor Mgt."
      tabledata "Workflow Step Instance Archive" = RMID, tabledata "G/L Entry" = RMID, tabledata "Approval Entry" = RMID, tabledata "Warehouse Entry" = RMID,
      tabledata "Value Entry" = RMID, tabledata "Item Register" = RMID, tabledata "G/L Register" = RIMD, tabledata "Vat Entry" = RMID, tabledata "Dimension Set Entry" = RIMD,
      tabledata "Service Invoice Header" = RMID, TableData "Service Cr.Memo Header" = RMID, TableData "Issued Reminder Header" = RMID, TableData "Issued Fin. Charge Memo Header" = RMID,
-     tabledata "G/L Entry - VAT Entry Link" = RMID;
+     tabledata "G/L Entry - VAT Entry Link" = RMID, tabledata "Item Application Entry" = RMID, tabledata "Item Application Entry History" = RMID;
 
     procedure GetNewColumnValue(var RecRef: RecordRef; var FieldRefVar: FieldRef; var SourceRecordId: RecordId; var TempNameValueBuffer: Record "Name/Value Buffer" temporary; WithValidate: Boolean): Boolean
     var
