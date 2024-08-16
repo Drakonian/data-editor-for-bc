@@ -7,7 +7,6 @@ page 81005 "DET Select Fields"
     InsertAllowed = false;
     DeleteAllowed = false;
     UsageCategory = None;
-    ApplicationArea = All;
 
     layout
     {
@@ -18,6 +17,7 @@ page 81005 "DET Select Fields"
                 ShowCaption = false;
                 field(IncludedField; Rec.Included)
                 {
+                    ApplicationArea = All;
                     Caption = 'Included';
                     ToolTip = 'Included';
                     Enabled = not Rec.IsPartOfPrimaryKey;
@@ -30,6 +30,7 @@ page 81005 "DET Select Fields"
                 field("Field Id"; Rec."Field Id")
                 {
                     ToolTip = 'Specifies the value of the Field Id field.';
+                    ApplicationArea = All;
                 }
 
                 field(Name; Rec.Name)
@@ -37,6 +38,7 @@ page 81005 "DET Select Fields"
                     Editable = false;
                     Caption = 'Name';
                     ToolTip = 'Specifies the names of the available Windows languages.';
+                    ApplicationArea = All;
                 }
             }
         }
@@ -52,6 +54,11 @@ page 81005 "DET Select Fields"
                 ToolTip = 'Set Included';
                 Image = Completed;
                 Visible = not OneFieldMode;
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
                 trigger OnAction()
                 begin
                     CurrPage.SetSelectionFilter(Rec);
@@ -66,6 +73,11 @@ page 81005 "DET Select Fields"
                 ToolTip = 'Clear Included';
                 Image = ResetStatus;
                 Visible = not OneFieldMode;
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
                 trigger OnAction()
                 begin
                     CurrPage.SetSelectionFilter(Rec);
@@ -79,18 +91,6 @@ page 81005 "DET Select Fields"
                     Rec.Reset();
                     CurrPage.Update(false);
                 end;
-            }
-        }
-        area(Promoted)
-        {
-            group(Category_Process)
-            {
-                actionref("Set Included_Promoted"; "Set Included")
-                {
-                }
-                actionref("Clear Included_Promoted"; "Clear Included")
-                {
-                }
             }
         }
     }

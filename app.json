@@ -21,12 +21,7 @@
     }
   ],
   "contextSensitiveHelpUrl": "https://vld-nav.com/",
-  "runtime": "12.2",
+  "runtime": "7.0",
   "features": ["TranslationFile"],
-  "resourceExposurePolicy":
-    {
-      "allowDebugging": true,
-      "allowDownloadingSource": true,
-      "includeSourceInSymbolFile": true
-    }
+  "showMyCode": true
 }

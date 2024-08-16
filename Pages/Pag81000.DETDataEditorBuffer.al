@@ -6414,45 +6414,6 @@ page 81000 "DET Data Editor Buffer"
     }
     actions
     {
-        area(Promoted)
-        {
-            actionref(InsertNew_promoted; InsertNew)
-            {
-
-            }
-            actionref("DET Delete Selected_Promoted"; "DET Delete Selected")
-            {
-
-            }
-            actionref("DET Update Column_promoted"; "DET Update Column")
-            {
-
-            }
-            actionref("DET Copy Column To Column_promoted"; "DET Copy Column To Column")
-            {
-
-            }
-            actionref("DET Sort_promoted"; "DET Sort")
-            {
-
-            }
-            actionref("DET Find & Replace_promoted"; "DET Find & Replace")
-            {
-
-            }
-            actionref(Refresh_promoted; Refresh)
-            {
-
-            }
-            actionref(ExportTableData_promoted; ExportTableData)
-            {
-
-            }
-            actionref(ImportTableData_promoted; ImportTableData)
-            {
-
-            }
-        }
         area(Processing)
         {
             action(InsertNew)
@@ -6461,6 +6422,10 @@ page 81000 "DET Data Editor Buffer"
                 Image = Add;
                 Caption = 'Insert new record';
                 ToolTip = 'Insert new record';
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
                 trigger OnAction()
                 begin
                     InsertNewRecord();
@@ -6494,6 +6459,10 @@ page 81000 "DET Data Editor Buffer"
                 Image = Column;
                 Caption = 'Update Column';
                 ToolTip = 'Update Column';
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
                 trigger OnAction()
                 begin
                     UpdateColumn();
@@ -6505,6 +6474,10 @@ page 81000 "DET Data Editor Buffer"
                 Image = Column;
                 Caption = 'Copy Column To Column';
                 ToolTip = 'Copy Column To Column';
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
                 trigger OnAction()
                 begin
                     CopyColumnToColumn();
@@ -6516,6 +6489,10 @@ page 81000 "DET Data Editor Buffer"
                 Image = SortAscending;
                 Caption = 'Sort';
                 ToolTip = 'Sort';
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
                 trigger OnAction()
                 begin
                     SetCustomSort();
@@ -6527,6 +6504,10 @@ page 81000 "DET Data Editor Buffer"
                 Image = Find;
                 Caption = 'Find & Replace';
                 ToolTip = 'Find & Replace';
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
                 trigger OnAction()
                 begin
                     FindAndReplace();
@@ -6538,6 +6519,10 @@ page 81000 "DET Data Editor Buffer"
                 Image = Refresh;
                 Caption = 'Refresh';
                 ToolTip = 'Refresh this page with current filters';
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
 
                 trigger OnAction()
                 begin
@@ -6550,6 +6535,10 @@ page 81000 "DET Data Editor Buffer"
                 Caption = 'Export Table Data';
                 ToolTip = 'Export Table Data, only loaded fields will be exported.';
                 Image = ExportDatabase;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
                 trigger OnAction()
                 begin
                     ExportTable();
@@ -6561,6 +6550,10 @@ page 81000 "DET Data Editor Buffer"
                 Caption = 'Import Table Data';
                 ToolTip = 'Import Table Data, depends on previously selected validation.';
                 Image = ImportDatabase;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
                 trigger OnAction()
                 begin
                     ImportTable();
@@ -6837,7 +6830,6 @@ page 81000 "DET Data Editor Buffer"
         if CustomTableView <> '' then
             RecRef.SetView(CustomTableView);
 
-        RecRef.ReadIsolation := RecRef.ReadIsolation::ReadCommitted;
         if FieldFilter <> '' then
             InitLoadFields(RecRef);
 

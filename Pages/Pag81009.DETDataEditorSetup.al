@@ -17,19 +17,13 @@ page 81009 "DET Data Editor Setup"
                 field("Enable Data Editor Log"; Rec."Enable Data Editor Log")
                 {
                     ToolTip = 'May adversely affect performance.', Comment = '%';
+                    ApplicationArea = All;
                 }
             }
         }
     }
     actions
     {
-        area(Promoted)
-        {
-            actionref(DataEditorLog_promoted; DataEditorLog)
-            {
-
-            }
-        }
         area(Processing)
         {
             action(DataEditorLog)
@@ -39,6 +33,10 @@ page 81009 "DET Data Editor Setup"
                 ToolTip = 'Data Editor Log';
                 Image = ShowList;
                 RunObject = page "DET Data Editor Log";
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
             }
         }
     }

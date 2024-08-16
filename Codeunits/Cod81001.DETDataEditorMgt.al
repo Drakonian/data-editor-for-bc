@@ -358,10 +358,7 @@ codeunit 81001 "DET Data Editor Mgt."
         Evaluate(TableNo, TempExcelBuffer.GetValueByCellName('B1'));
 
         RecRef.Open(TableNo);
-        RecRef.ReadIsolation := RecRef.ReadIsolation::ReadCommitted;
-
         xRecRef.Open(TableNo);
-        xRecRef.ReadIsolation := xRecRef.ReadIsolation::ReadCommitted;
 
         TempExcelBuffer.SetCurrentKey("Row No.");
         if TempExcelBuffer.FindSet() then begin
@@ -452,10 +449,8 @@ codeunit 81001 "DET Data Editor Mgt."
             Clear(RecRef);
 
             RecRef.Open(TableNo);
-            RecRef.ReadIsolation := RecRef.ReadIsolation::ReadCommitted;
 
             xRecRef.Open(TableNo);
-            xRecRef.ReadIsolation := xRecRef.ReadIsolation::ReadCommitted;
 
             JArray := JToken.AsArray();
 
@@ -575,7 +570,6 @@ codeunit 81001 "DET Data Editor Mgt."
     begin
         if DataEditorBuffer.FindSet() then begin
             RecRef.Open(DataEditorBuffer."Source Record ID".TableNo());
-            RecRef.ReadIsolation := RecRef.ReadIsolation::ReadCommitted;
 
             CreateExcelHeader(RecRef, TempExcelBuffer, FieldIdsToExport);
 
@@ -663,7 +657,6 @@ codeunit 81001 "DET Data Editor Mgt."
     begin
         if DataEditorBuffer.FindSet() then begin
             RecRef.Open(DataEditorBuffer."Source Record ID".TableNo());
-            RecRef.ReadIsolation := RecRef.ReadIsolation::ReadCommitted;
             repeat
                 RecRef.Get(DataEditorBuffer."Source Record ID");
                 JArray.Add(CreateJSONObjectFromRecord(RecRef, FieldIdsToExport));
