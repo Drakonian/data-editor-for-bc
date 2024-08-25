@@ -35,7 +35,7 @@ codeunit 81001 "DET Data Editor Mgt."
             exit;
 
         if FieldRefVar.Type() = FieldRefVar.Type::Option then begin
-            ListOfOptions := FieldRefVar.OptionMembers().Split(',');
+            ListOfOptions := FieldRefVar.OptionCaption().Split(',');
             foreach OptionValue in ListOfOptions do
                 NameValueLookup.AddItem(Format(FieldRefVar.GetEnumValueOrdinal(ListOfOptions.IndexOf(OptionValue))), CopyStr(OptionValue, 1, MaxStrLen(TempNameValueBuffer.Value)));
             NameValueLookup.Caption(FieldRefVar.Caption());
@@ -66,9 +66,9 @@ codeunit 81001 "DET Data Editor Mgt."
             RenamePKField(RecRef, FieldRefVar, SourceRecordId, ResultVariant);
             if FieldRefVar.Type() = FieldRefVar.Type::Option then begin
                 if WithValidate then
-                    FieldRefVar.Validate(TempNameValueBuffer.Value)
+                    FieldRefVar.Validate(TempNameValueBuffer.Name)
                 else
-                    FieldRefVar.Value(TempNameValueBuffer.Value);
+                    FieldRefVar.Value(TempNameValueBuffer.Name);
             end else
                 if WithValidate then
                     FieldRefVar.Validate(format(ResultVariant))
@@ -121,7 +121,7 @@ codeunit 81001 "DET Data Editor Mgt."
             FieldRefVar2 := KeyRefVar.FieldIndex(KeyCount);
             if FieldRefVar2.Number() <> FieldRefVar.Number() then
                 if FieldRefVar2.Type() = FieldRefVar2.Type::Option then
-                    KeyValueIndexRelDict.Add(KeyCount, Format(FieldRefVar2.OptionMembers().Split(',').IndexOf(FieldRefVar2.Value()) - 1))
+                    KeyValueIndexRelDict.Add(KeyCount, Format(FieldRefVar2.OptionCaption().Split(',').IndexOf(FieldRefVar2.Value()) - 1))
                 else
                     KeyValueIndexRelDict.Add(KeyCount, Format(FieldRefVar2.Value()))
             else
@@ -631,7 +631,7 @@ codeunit 81001 "DET Data Editor Mgt."
                 if (FieldRefVar.Class = FieldClass::Normal) and not (FieldRefVar.Type in [FieldType::Blob, FieldType::Media, FieldType::MediaSet]) then
                     case FieldRefVar.Type() of
                         FieldRefVar.Type::Option:
-                            TempExcelBuffer.AddColumn(FieldRefVar.OptionMembers.Split(',').IndexOf(FieldRefVar.Value) - 1,
+                            TempExcelBuffer.AddColumn(FieldRefVar.OptionCaption().Split(',').IndexOf(FieldRefVar.Value()) - 1,
                                 false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
                         FieldRefVar.Type::Integer, FieldRefVar.Type::BigInteger, FieldRefVar.Type::Decimal, FieldRefVar.Type::Boolean:
                             TempExcelBuffer.AddColumn(FieldRefVar.Value(), false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
@@ -688,7 +688,7 @@ codeunit 81001 "DET Data Editor Mgt."
                 if (FieldRefVar.Class = FieldClass::Normal) and not (FieldRefVar.Type in [FieldType::Blob, FieldType::Media, FieldType::MediaSet]) then
                     case FieldRefVar.Type() of
                         FieldRefVar.Type::Option:
-                            JObject.Add(Format(FieldRefVar.Number()), FieldRefVar.OptionMembers.Split(',').IndexOf(FieldRefVar.Value) - 1);
+                            JObject.Add(Format(FieldRefVar.Number()), FieldRefVar.OptionCaption().Split(',').IndexOf(FieldRefVar.Value) - 1);
                         FieldRefVar.Type::Boolean:
                             begin
                                 Evaluate(BooleanValue, format(FieldRefVar.Value, 0, 9));

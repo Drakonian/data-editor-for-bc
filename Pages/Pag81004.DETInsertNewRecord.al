@@ -496,7 +496,7 @@ page 81004 "DET Insert New Record"
             exit;
 
         if FieldRefVar.Type() = FieldRefVar.Type::Option then begin
-            ListOfOptions := FieldRefVar.OptionMembers().Split(',');
+            ListOfOptions := FieldRefVar.OptionCaption().Split(',');
             foreach OptionValue in ListOfOptions do
                 NameValueLookup.AddItem(Format(FieldRefVar.GetEnumValueOrdinal(ListOfOptions.IndexOf(OptionValue))), CopyStr(OptionValue, 1, MaxStrLen(TempNameValueBuffer.Value)));
             NameValueLookup.Caption(FieldRefVar.Caption());
