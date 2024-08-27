@@ -749,7 +749,7 @@ codeunit 81001 "DET Data Editor Mgt."
             NumberSequence.Insert(LogNumberSequenceLbl);
 
         DataEditorLog.Init();
-        DataEditorLog."Entry No." := NumberSequence.Next(LogNumberSequenceLbl);
+        DataEditorLog."Entry No." := NumberSequence.Next(LogNumberSequenceLbl) + 1;
         DataEditorLog."Action Type" := ActionType;
         DataEditorLog."Record Id" := SourceRecordId;
         DataEditorLog."Table No." := TableNo;
