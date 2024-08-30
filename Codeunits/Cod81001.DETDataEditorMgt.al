@@ -71,9 +71,9 @@ codeunit 81001 "DET Data Editor Mgt."
                     FieldRefVar.Value(TempNameValueBuffer.Name);
             end else
                 if WithValidate then
-                    FieldRefVar.Validate(format(ResultVariant))
+                    FieldRefVar.Validate(ResultVariant)
                 else
-                    FieldRefVar.Value(format(ResultVariant));
+                    FieldRefVar.Value(ResultVariant);
             if DataEditorSetup.Get() then
                 if DataEditorSetup."Enable Data Editor Log" then
                     LogRename(RecRef.Number(), FieldRefVar.Number(), RecRef.RecordId(), xFieldRefVar, FieldRefVar, true);
