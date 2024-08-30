@@ -132,7 +132,7 @@ codeunit 81001 "DET Data Editor Mgt."
         if BindSubscription(SingleInstanceStorage) then;
 
         RecordRefTemp := inRecRef.Duplicate();
-        RecordRefTemp.Field(FieldRefVar.Number()).Value(NewValueAsVariant);
+        RecordRefTemp.Field(FieldRefVar.Number()).Value(TextValueAsVariant(FieldRefVar.Type(), Format(NewValueAsVariant)));
 
         case KeyValueIndexRelDict.Count() of
             1:
