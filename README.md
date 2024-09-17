@@ -11,6 +11,8 @@ https://vld-nav.com/table-data-editor-general
 # Tips
 - For the extension to work properly you must make sure that your BC user is using the **DET Data Editor Tool** or **SUPER** permission set.
 - For OnPrem you must have a license for objects with id 81000+
+- Project tested and compiled on latest Cloud BC version.
+- Branch for older versions BC 18+ https://github.com/Drakonian/data-editor-for-bc/tree/BC18-19-20-21-22-23
 
 # How to Install a Per Tenant Extension (.app file) in Business Central
 
