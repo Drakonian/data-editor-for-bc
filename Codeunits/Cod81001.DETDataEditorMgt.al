@@ -331,6 +331,7 @@ codeunit 81001 "DET Data Editor Mgt."
     var
         TempExcelBuffer: Record "Excel Buffer" temporary;
         TempNameValueBuffer: Record "Name/Value Buffer" temporary;
+        DataEditorSetup: Record "DET Data Editor Setup";
         RecRef: RecordRef;
         xRecRef: RecordRef;
         FieldRef: FieldRef;
@@ -338,7 +339,7 @@ codeunit 81001 "DET Data Editor Mgt."
         TableNo: Integer;
         ColumnFieldNoDict: Dictionary of [Integer, Integer];
         Skipped, Inserted, Modified : Integer;
-        IsPKReady, IsRecordExist : Boolean;
+        IsPKReady, IsRecordExist, IsLogEnabled : Boolean;
         ResultMsg: TextBuilder;
         ValueAsTxt: Text;
         ErrorText: Text;
@@ -347,6 +348,9 @@ codeunit 81001 "DET Data Editor Mgt."
 
         TempNameValueBuffer.SetRange(Value, 'Data');
         TempNameValueBuffer.FindFirst();
+
+        if DataEditorSetup.Get() then
+            IsLogEnabled := DataEditorSetup."Enable Data Editor Log";
 
         ClearLastError();
         ErrorText := TempExcelBuffer.OpenBookStream(FileInStream, TempNameValueBuffer.Value);
@@ -392,13 +396,13 @@ codeunit 81001 "DET Data Editor Mgt."
                         TempExcelBuffer."Row No." > 3:
                             if ColumnFieldNoDict.ContainsKey(TempExcelBuffer."Column No.") then begin
                                 FieldRef := RecRef.Field(ColumnFieldNoDict.Get(TempExcelBuffer."Column No."));
-                                UpdateRecord(ValueAsTxt, RecRef, xRecRef, FieldRef, ImportOnFind, IsPKReady, IsRecordExist, WithValidation);
+                                UpdateRecord(ValueAsTxt, RecRef, xRecRef, FieldRef, ImportOnFind, IsPKReady, IsRecordExist, WithValidation, IsLogEnabled);
                             end;
                     end;
                 until TempExcelBuffer.Next() = 0;
 
                 if TempExcelBuffer."Row No." > 3 then
-                    SaveRecord(RecRef, ImportOnFind, WithValidation, IsRecordExist, Inserted, Skipped, Modified);
+                    SaveRecord(RecRef, ImportOnFind, WithValidation, IsRecordExist, Inserted, Skipped, Modified, IsLogEnabled);
 
                 TempExcelBuffer.SetRange("Row No.");
             until TempExcelBuffer.Next() = 0;
@@ -428,6 +432,7 @@ codeunit 81001 "DET Data Editor Mgt."
 
     local procedure ImportJSON(var FileInStream: InStream; ImportOnFind: Enum "DET Import On Find"; WithValidation: Boolean)
     var
+        DataEditorSetup: Record "DET Data Editor Setup";
         RecRef: RecordRef;
         xRecRef: RecordRef;
         FieldRef: FieldRef;
@@ -440,10 +445,13 @@ codeunit 81001 "DET Data Editor Mgt."
         TableNoAsTxt, FieldNoAsTxt : Text;
         TableNo, FieldNo : Integer;
         Skipped, Inserted, Modified : Integer;
-        IsPKReady, IsRecordExist : Boolean;
+        IsPKReady, IsRecordExist, IsLogEnabled : Boolean;
         ResultMsg: TextBuilder;
     begin
         JObject.ReadFrom(FileInStream);
+
+        if DataEditorSetup.Get() then
+            IsLogEnabled := DataEditorSetup."Enable Data Editor Log";
 
         ListOfTables := JObject.Keys();
         foreach TableNoAsTxt in ListOfTables do begin
@@ -471,10 +479,10 @@ codeunit 81001 "DET Data Editor Mgt."
                     Evaluate(FieldNo, FieldNoAsTxt);
                     FieldRef := RecRef.Field(FieldNo);
 
-                    UpdateRecord(JTokenField.AsValue().AsText(), RecRef, xRecRef, FieldRef, ImportOnFind, IsPKReady, IsRecordExist, WithValidation);
+                    UpdateRecord(JTokenField.AsValue().AsText(), RecRef, xRecRef, FieldRef, ImportOnFind, IsPKReady, IsRecordExist, WithValidation, IsLogEnabled);
                 end;
 
-                SaveRecord(RecRef, ImportOnFind, WithValidation, IsRecordExist, Inserted, Skipped, Modified);
+                SaveRecord(RecRef, ImportOnFind, WithValidation, IsRecordExist, Inserted, Skipped, Modified, IsLogEnabled);
             end;
             RecRef.Close();
             xRecRef.Close();
@@ -489,7 +497,7 @@ codeunit 81001 "DET Data Editor Mgt."
             Message(ResultMsg.ToText());
     end;
 
-    local procedure UpdateRecord(ValueAsTxt: Text; var RecRef: RecordRef; var xRecRef: RecordRef; var FieldRef: FieldRef; ImportOnFind: Enum "DET Import On Find"; var IsPKReady: Boolean; var IsRecordExist: Boolean; WithValidation: Boolean)
+    local procedure UpdateRecord(ValueAsTxt: Text; var RecRef: RecordRef; var xRecRef: RecordRef; var FieldRef: FieldRef; ImportOnFind: Enum "DET Import On Find"; var IsPKReady: Boolean; var IsRecordExist: Boolean; WithValidation: Boolean; IsLogEnabled: Boolean)
     var
         xFieldRef: FieldRef;
     begin
@@ -510,17 +518,21 @@ codeunit 81001 "DET Data Editor Mgt."
         else
             FieldRef.Value(TextValueAsVariant(FieldRef.Type, CopyStr(ValueAsTxt, 1, 2048)));
 
+        if not IsLogEnabled then
+            exit;
+
         if IsRecordExist and (ImportOnFind = ImportOnFind::Modify) then
             LogModify(RecRef.Number(), FieldRef.Number(), RecRef.RecordId(), xFieldRef, FieldRef, WithValidation);
     end;
 
-    local procedure SaveRecord(var RecRef: RecordRef; ImportOnFind: Enum "DET Import On Find"; WithValidation: Boolean; IsRecordExist: Boolean; var Inserted: Integer; var Skipped: Integer; var Modified: Integer)
+    local procedure SaveRecord(var RecRef: RecordRef; ImportOnFind: Enum "DET Import On Find"; WithValidation: Boolean; IsRecordExist: Boolean; var Inserted: Integer; var Skipped: Integer; var Modified: Integer; IsLogEnabled: Boolean)
     begin
         case ImportOnFind of
             ImportOnFind::Error:
                 begin
                     RecRef.Insert(WithValidation);
-                    LogInsert(RecRef.Number(), RecRef.RecordId(), WithValidation);
+                    if IsLogEnabled then
+                        LogInsert(RecRef.Number(), RecRef.RecordId(), WithValidation);
                     Inserted += 1;
                 end;
             ImportOnFind::Skip:
@@ -528,7 +540,8 @@ codeunit 81001 "DET Data Editor Mgt."
                     Skipped += 1
                 else begin
                     RecRef.Insert(WithValidation);
-                    LogInsert(RecRef.Number(), RecRef.RecordId(), WithValidation);
+                    if IsLogEnabled then
+                        LogInsert(RecRef.Number(), RecRef.RecordId(), WithValidation);
                     Inserted += 1;
                 end;
             ImportOnFind::Modify:
@@ -537,7 +550,8 @@ codeunit 81001 "DET Data Editor Mgt."
                     Modified += 1
                 end else begin
                     RecRef.Insert(WithValidation);
-                    LogInsert(RecRef.Number(), RecRef.RecordId(), WithValidation);
+                    if IsLogEnabled then
+                        LogInsert(RecRef.Number(), RecRef.RecordId(), WithValidation);
                     Inserted += 1;
                 end;
         end;

@@ -2358,6 +2358,11 @@
           <note from="Developer" annotates="general" priority="2">%1 = Field Caption., %2 = Record Count, %3 = Record name</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - NamedType ColumnUpdateConfirmLbl</note>
         </trans-unit>
+        <trans-unit id="Page 1713748232 - NamedType 3207865190" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Are sure you want to delete %1 entries?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - NamedType DeleteAllLbl</note>
+        </trans-unit>
         <trans-unit id="Page 1713748232 - NamedType 3803850085" size-unit="char" translate="yes" xml:space="preserve">
           <source>Record %1 is inserted.</source>
           <note from="Developer" annotates="general" priority="2">%1 = RecordId of new record.</note>
@@ -4368,15 +4373,15 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action DET Copy Column To Column - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 1713748232 - Action 3749158599 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Delete Selected</source>
+        <trans-unit id="Page 1713748232 - Action 744081807 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deletes all filtered data, used to simplify deletion when the page has not loaded all data pages.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action DET Delete Selected - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action DET Delete All - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Page 1713748232 - Action 3749158599 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Delete Selected</source>
+        <trans-unit id="Page 1713748232 - Action 744081807 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Delete All</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action DET Delete Selected - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Action DET Delete All - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1713748232 - Action 2209620926 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Find &amp; Replace</source>
