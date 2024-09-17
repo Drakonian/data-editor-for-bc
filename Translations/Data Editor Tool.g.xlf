@@ -2360,7 +2360,7 @@
         </trans-unit>
         <trans-unit id="Page 1713748232 - NamedType 3207865190" size-unit="char" translate="yes" xml:space="preserve">
           <source>Are sure you want to delete %1 entries?</source>
-          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Developer" annotates="general" priority="2">%1 = Count of entries.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - NamedType DeleteAllLbl</note>
         </trans-unit>
         <trans-unit id="Page 1713748232 - NamedType 3803850085" size-unit="char" translate="yes" xml:space="preserve">
