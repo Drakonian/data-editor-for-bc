@@ -2218,6 +2218,11 @@
           <note from="Developer" annotates="general" priority="2">%1 = Skipped record count</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit DET Data Editor Mgt. - NamedType SkippedLbl</note>
         </trans-unit>
+        <trans-unit id="Codeunit 11151320 - NamedType 3674730532" size-unit="char" translate="yes" xml:space="preserve">
+          <source>This table is protected from editing.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit DET Data Editor Mgt. - NamedType TableNotEditableErr</note>
+        </trans-unit>
         <trans-unit id="Page 2312685416 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Data Editor</source>
           <note from="Developer" annotates="general" priority="2"></note>
