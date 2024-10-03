@@ -1,5 +1,5 @@
 # Table Data Editor Application for Business Central
-You probably remember the glory days when we had direct access to data in Navision tables. But with the move to Cloud Business Central, we lost that ability. It's probably much safer and more correct, but what if we need to fix some data problem and we know what we're doing? We can write a routine that fixes that problem. But I suggest a better option, this Data Editor extension that allows you to change and delete information from any table in Business Central
+Table Data Editor is an open-source application for Business Central. This application allows you to easily manipulate data in Business Central tables. Table Data Editor is completely free and open-source, distributed under the MIT license. Anyone can contribute or share their ideas for the development of Table Data Editor on GitHub.
 
 https://vld-nav.com/table-data-editor-general
 
@@ -9,6 +9,7 @@ https://vld-nav.com/table-data-editor-general
 ---
 
 # Tips
+- Type **Data Editor** in the Business Central search to get started.
 - For the extension to work properly you must make sure that your BC user is using the **DET Data Editor Tool** or **SUPER** permission set.
 - For OnPrem you must have a license for objects with id 81000+
 - Project tested and compiled on older BC OnPrem versions started from 18.
