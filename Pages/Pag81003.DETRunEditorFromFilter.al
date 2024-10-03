@@ -17,6 +17,7 @@ page 81003 "DET Run Editor From Filter"
 
     local procedure RunDataEditorList()
     var
+        DataEditorMgt: Codeunit "DET Data Editor Mgt.";
         DataEditorBufferList: Page "DET Data Editor Buffer";
         SourceTableNo: Integer;
         ExcludeFlowFields: Boolean;
@@ -25,6 +26,7 @@ page 81003 "DET Run Editor From Filter"
         if Rec.GetFilter("Table Number") = '' then
             exit;
         Evaluate(SourceTableNo, Rec.GetFilter("Table Number"));
+        DataEditorMgt.TestTableEditable(SourceTableNo);
         if Rec.GetFilter("Without Validate") <> '' then
             Evaluate(WithoutValidate, Rec.GetFilter("Without Validate"));
         if Rec.GetFilter("Exclude FlowFields") <> '' then

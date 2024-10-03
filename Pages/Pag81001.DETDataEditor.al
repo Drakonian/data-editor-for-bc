@@ -20,7 +20,10 @@ page 81001 "DET Data Editor"
                     Caption = 'Source Table No.';
                     ShowMandatory = true;
                     trigger OnValidate()
+                    var
+                        DataEditorMgt: Codeunit "DET Data Editor Mgt.";
                     begin
+                        DataEditorMgt.TestTableEditable(SourceTableNo);
                         if SourceTableNo = 0 then begin
                             SourceTableName := '';
                             exit;
@@ -34,6 +37,7 @@ page 81001 "DET Data Editor"
                     trigger OnLookup(var Text: Text): Boolean
                     var
                         AllObjWithCaption: Record AllObjWithCaption;
+                        DataEditorMgt: Codeunit "DET Data Editor Mgt.";
                         AllObjWithCaptionPage: Page "All Objects with Caption";
                     begin
                         AllObjWithCaption.SetRange("Object Type", AllObjWithCaption."Object Type"::Table);
@@ -43,6 +47,7 @@ page 81001 "DET Data Editor"
                         if AllObjWithCaptionPage.RunModal() <> Action::LookupOK then
                             exit;
                         AllObjWithCaptionPage.GetRecord(AllObjWithCaption);
+                        DataEditorMgt.TestTableEditable(AllObjWithCaption."Object ID");
                         SourceTableNo := AllObjWithCaption."Object ID";
                         SourceTableName := AllObjWithCaption."Object Name";
                         CustomTableView := '';

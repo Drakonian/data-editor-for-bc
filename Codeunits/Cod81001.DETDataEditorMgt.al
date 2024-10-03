@@ -859,6 +859,12 @@ codeunit 81001 "DET Data Editor Mgt."
         end;
     end;
 
+    procedure TestTableEditable(TableNo: Integer)
+    begin
+        if TableNo in [Database::"DET Data Editor Setup", Database::"DET Data Editor Log"] then
+            Error(TableNotEditableErr);
+    end;
+
     var
         RenamePKNotSuppErr: Label 'Changing the primary key for >15 values is not supported.';
         ImportFinishedLbl: Label 'Import is finished.';
@@ -869,4 +875,5 @@ codeunit 81001 "DET Data Editor Mgt."
         FileNameLbl: Label '%1_%2.%3', Locked = true;
         JSONFilterLbl: Label 'JSON files (*.json, *.txt)|*.json;*.txt', Locked = true;
         ExcelFilterLbl: Label 'Excel files (*.xlsx)|*.xlsx', Locked = true;
+        TableNotEditableErr: Label 'This table is protected from editing.';
 }
