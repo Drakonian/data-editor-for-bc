@@ -21,7 +21,9 @@ page 81000 "DET Data Editor Buffer"
      tabledata "Value Entry" = RMID, tabledata "Item Register" = RMID, tabledata "G/L Register" = RIMD, tabledata "Vat Entry" = RMID, tabledata "Dimension Set Entry" = RIMD,
      tabledata "Service Invoice Header" = RMID, TableData "Service Cr.Memo Header" = RMID, TableData "Issued Reminder Header" = RMID, TableData "Issued Fin. Charge Memo Header" = RMID,
      tabledata "G/L Entry - VAT Entry Link" = RMID, tabledata "Item Application Entry" = RMID, tabledata "Item Application Entry History" = RMID,
-     tabledata "Return Shipment Header" = RMID, tabledata "Return Shipment Line" = RMID, tabledata "Return Receipt Header" = RMID, tabledata "Return Receipt Line" = RMID;
+     tabledata "Return Shipment Header" = RMID, tabledata "Return Shipment Line" = RMID, tabledata "Return Receipt Header" = RMID, tabledata "Return Receipt Line" = RMID,
+     tabledata "Invt. Receipt Header" = RMID, tabledata "Invt. Receipt Line" = RMID, tabledata "Invt. Shipment Header" = RMID, tabledata "Invt. Shipment Line" = RMID,
+     tabledata "Pstd. Phys. Invt. Record Hdr" = RMID, tabledata "Pstd. Phys. Invt. Record Line" = RMID, tabledata "Pstd. Phys. Invt. Order Hdr" = RMID, tabledata "Pstd. Phys. Invt. Order Line" = RMID;
 
     layout
     {
