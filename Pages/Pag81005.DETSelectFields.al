@@ -132,6 +132,7 @@ page 81005 "DET Select Fields"
         SelectionFilterManagement: Codeunit SelectionFilterManagement;
         RecRef: RecordRef;
     begin
+        Rec.Reset();
         Rec.SetRange(Included, true);
         RecRef.GetTable(Rec);
         FieldIdFilter := SelectionFilterManagement.GetSelectionFilter(RecRef, Rec.FieldNo("Field Id"));
