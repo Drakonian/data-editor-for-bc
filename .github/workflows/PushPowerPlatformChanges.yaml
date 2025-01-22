@@ -29,7 +29,7 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v6.2
+        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v6.3
         with:
           shell: powershell
 
@@ -43,14 +43,14 @@ jobs:
           Add-Content -encoding utf8 -Path $env:GITHUB_ENV -Value "envName=$envName"
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v6.2
+        uses: microsoft/AL-Go-Actions/ReadSettings@v6.3
         with:
           shell: powershell
           get: powerPlatformSolutionFolder
 
       - name: Read secrets
         id: ReadSecrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@v6.2
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v6.3
         with:
           shell: powershell
           gitHubSecrets: ${{ toJson(secrets) }}
@@ -58,7 +58,7 @@ jobs:
 
       - name: Determine Deployment Environments
         id: DetermineDeploymentEnvironments
-        uses: microsoft/AL-Go-Actions/DetermineDeploymentEnvironments@v6.2
+        uses: microsoft/AL-Go-Actions/DetermineDeploymentEnvironments@v6.3
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
@@ -80,7 +80,7 @@ jobs:
           Add-Content -encoding utf8 -Path $env:GITHUB_ENV -Value "solutionFolder=$solutionFolder"
 
       - name: Export and push changes to Power Platform
-        uses: microsoft/AL-Go-Actions/DeployPowerPlatform@v6.2
+        uses: microsoft/AL-Go-Actions/DeployPowerPlatform@v6.3
         env:
           Secrets: '${{ steps.ReadSecrets.outputs.Secrets }}'
         with:
@@ -91,7 +91,7 @@ jobs:
 
       - name: Finalize the workflow
         if: always()
-        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v6.2
+        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v6.3
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
