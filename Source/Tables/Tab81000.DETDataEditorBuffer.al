@@ -428,6 +428,16 @@ table 81000 "DET Data Editor Buffer"
             DataClassification = CustomerContent;
             Caption = 'Exclude FlowFields';
         }
+        field(404; "Data To Process"; Blob)
+        {
+            DataClassification = CustomerContent;
+            Caption = 'Data To Process';
+        }
+        field(405; "Modified At"; DateTime)
+        {
+            DataClassification = CustomerContent;
+            Caption = 'Modified At';
+        }
     }
     keys
     {
@@ -440,6 +450,7 @@ table 81000 "DET Data Editor Buffer"
 
         }
     }
+
     local procedure GetCaption(FieldNo: Integer): Text
     var
         SingleInstanceStorage: Codeunit "DET Single Instance Storage";

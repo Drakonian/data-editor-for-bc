@@ -31,7 +31,7 @@ page 81003 "DET Run Editor From Filter"
             Evaluate(WithoutValidate, Rec.GetFilter("Without Validate"));
         if Rec.GetFilter("Exclude FlowFields") <> '' then
             Evaluate(ExcludeFlowFields, Rec.GetFilter("Exclude FlowFields"));
-        DataEditorBufferList.LoadRecords(SourceTableNo, '', '', WithoutValidate, ExcludeFlowFields);
+        DataEditorBufferList.LoadRecords(SourceTableNo, '', '', WithoutValidate, ExcludeFlowFields, false);
         DataEditorBufferList.Run();
     end;
 }

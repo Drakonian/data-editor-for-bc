@@ -33,6 +33,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Buffer - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1713748232 - Field 3534007756 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Data To Process</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Buffer - Field Data To Process - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1713748232 - Field 883711285 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Entry No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -42,6 +47,11 @@
           <source>Exclude FlowFields</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Buffer - Field Exclude FlowFields - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1713748232 - Field 3301121544 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Modified At</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Buffer - Field Modified At - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1713748232 - Field 2649378047 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Source Record ID</source>
@@ -2123,6 +2133,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Setup - Field Enable Data Editor Log - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4005927189 - Field 3603942489 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Number of Threads</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Setup - Field Number of Threads - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 4005927189 - Field 1663593181 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Primary Key</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -2248,10 +2263,20 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit DET Data Editor Mgt. - NamedType TableNotEditableErr</note>
         </trans-unit>
+        <trans-unit id="Codeunit 2797395997 - NamedType 955664947" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Processing %1 records out of %2</source>
+          <note from="Developer" annotates="general" priority="2">%1 = table name; %2 = number of processed records (integer); %3 = total number records (integer).</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit DET Read Data Batch - NamedType ProgressStatusTxt</note>
+        </trans-unit>
         <trans-unit id="Page 2312685416 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Data Editor</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2312685416 - Property 3863440606" size-unit="char" translate="yes" xml:space="preserve">
+          <source>table data editor, table edit, edit table, data editor tool, modify table</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Property AdditionalSearchTerms</note>
         </trans-unit>
         <trans-unit id="Page 2312685416 - Method 2632236985 - NamedType 2248625104" size-unit="char" translate="yes" xml:space="preserve">
           <source>Preset name can not be empty.</source>
@@ -2284,7 +2309,7 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control CustomTableViewField - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2312685416 - Control 3522160761 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Exclude FlowField's from loading</source>
+          <source>Exclude FlowField's from loading. For best performance, always exclude FlowField's.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control ExcludeFlowFieldsField - Property ToolTip</note>
         </trans-unit>
@@ -2332,6 +2357,16 @@
           <source>Preset Name</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control PresetNameField - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2312685416 - Control 4176256642 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reading data in multiple parallel threads can speed up loading</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control ReadInParallel - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2312685416 - Control 4176256642 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Read in Parallel</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control ReadInParallel - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2312685416 - Control 912508298 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Save Preset</source>
@@ -2393,6 +2428,11 @@
           <note from="Developer" annotates="general" priority="2">%1 = Count of entries.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - NamedType DeleteAllLbl</note>
         </trans-unit>
+        <trans-unit id="Page 1713748232 - NamedType 3603708091" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Processing</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - NamedType ProcessingLbl</note>
+        </trans-unit>
         <trans-unit id="Page 1713748232 - NamedType 3803850085" size-unit="char" translate="yes" xml:space="preserve">
           <source>Record %1 is inserted.</source>
           <note from="Developer" annotates="general" priority="2">%1 = RecordId of new record.</note>
@@ -2402,6 +2442,16 @@
           <source>Specifies the value of the Entry No. field</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Entry No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1713748232 - Control 2649378047 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Source Record ID field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control Source Record ID - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1713748232 - Control 2453272523 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the SystemModifiedAt field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - Control SystemModifiedAt - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 1713748232 - Control 3572377161 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Value 10 field</source>
@@ -4597,6 +4647,11 @@
           <source>May adversely affect performance.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Setup - Control Enable Data Editor Log - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4005927189 - Control 3603942489 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specify the number of parallel threads to load the data. From 2 to 8.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Setup - Control Number of Threads - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 4005927189 - Action 3696303991 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Data Editor Log</source>

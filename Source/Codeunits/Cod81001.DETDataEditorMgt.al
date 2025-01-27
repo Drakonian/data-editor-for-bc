@@ -1047,6 +1047,17 @@ codeunit 81001 "DET Data Editor Mgt."
                 ListOfInteger.Add(EntryAsInteger);
     end;
 
+    procedure ConvertIntegerListToText(ListToConvert: List of [Integer]; Separator: Text) Response: Text
+    var
+        Entry: Integer;
+    begin
+        foreach Entry in ListToConvert do
+            if Response = '' then
+                Response := Format(Entry)
+            else
+                Response += Separator + Format(Entry);
+    end;
+
     procedure SplitTextIntoChunks(TextToSplit: Text; ChunkSize: Integer) Result: List of [text]
     var
         Chunk: Text;
@@ -1066,6 +1077,114 @@ codeunit 81001 "DET Data Editor Mgt."
             Result.Add(Chunk);
             Position += ChunkSize;
         end;
+    end;
+
+    procedure ReadRecord(var TempDataEditorBuffer: Record "DET Data Editor Buffer" temporary; JObject: JsonObject; NumberOfThreads: Integer; TotalRecordCount: Integer) ActiveSessionId: Integer
+    var
+        OutStreamToProcess: OutStream;
+    begin
+        if not TempDataEditorBuffer.Get(0) then begin
+            TempDataEditorBuffer.Init();
+            TempDataEditorBuffer."Entry No." := 0;
+            TempDataEditorBuffer."Data To Process".CreateOutStream(OutStreamToProcess);
+            JObject.WriteTo(OutStreamToProcess);
+            TempDataEditorBuffer.Insert();
+        end else begin
+            TempDataEditorBuffer."Data To Process".CreateOutStream(OutStreamToProcess);
+            JObject.WriteTo(OutStreamToProcess);
+            TempDataEditorBuffer.Modify();
+        end;
+
+        TempDataEditorBuffer.CalcFields("Data To Process");
+
+        //There is no point to run process in background session if there is only 1 thread or small amount of records
+        if (NumberOfThreads > 1) and (TotalRecordCount > 500) then
+            StartSession(ActiveSessionId, Codeunit::"DET Read Data Batch", CompanyName(), TempDataEditorBuffer)
+        else
+            Codeunit.Run(Codeunit::"DET Read Data Batch", TempDataEditorBuffer);
+    end;
+
+    procedure MergeBufferData(var TempDataEditorBufferResult: Record "DET Data Editor Buffer" temporary;
+        var TempDataEditorBuffer1: Record "DET Data Editor Buffer" temporary;
+        var TempDataEditorBuffer2: Record "DET Data Editor Buffer" temporary;
+        var TempDataEditorBuffer3: Record "DET Data Editor Buffer" temporary;
+        var TempDataEditorBuffer4: Record "DET Data Editor Buffer" temporary;
+        var TempDataEditorBuffer5: Record "DET Data Editor Buffer" temporary;
+        var TempDataEditorBuffer6: Record "DET Data Editor Buffer" temporary;
+        var TempDataEditorBuffer7: Record "DET Data Editor Buffer" temporary;
+        var TempDataEditorBuffer8: Record "DET Data Editor Buffer" temporary)
+    var
+        PrevFilters: Text;
+    begin
+        PrevFilters := TempDataEditorBufferResult.GetView(false);
+        TempDataEditorBufferResult.Reset();
+        TempDataEditorBufferResult.DeleteAll();
+
+        TempDataEditorBuffer1.SetFilter("Entry No.", '<>%1', 0);
+        if TempDataEditorBuffer1.FindSet() then
+            repeat
+                TempDataEditorBufferResult.Init();
+                TempDataEditorBufferResult := TempDataEditorBuffer1;
+                TempDataEditorBufferResult.Insert();
+            until TempDataEditorBuffer1.Next() = 0;
+
+        TempDataEditorBuffer2.SetFilter("Entry No.", '<>%1', 0);
+        if TempDataEditorBuffer2.FindSet() then
+            repeat
+                TempDataEditorBufferResult.Init();
+                TempDataEditorBufferResult := TempDataEditorBuffer2;
+                TempDataEditorBufferResult.Insert();
+            until TempDataEditorBuffer2.Next() = 0;
+
+        TempDataEditorBuffer3.SetFilter("Entry No.", '<>%1', 0);
+        if TempDataEditorBuffer3.FindSet() then
+            repeat
+                TempDataEditorBufferResult.Init();
+                TempDataEditorBufferResult := TempDataEditorBuffer3;
+                TempDataEditorBufferResult.Insert();
+            until TempDataEditorBuffer3.Next() = 0;
+
+        TempDataEditorBuffer4.SetFilter("Entry No.", '<>%1', 0);
+        if TempDataEditorBuffer4.FindSet() then
+            repeat
+                TempDataEditorBufferResult.Init();
+                TempDataEditorBufferResult := TempDataEditorBuffer4;
+                TempDataEditorBufferResult.Insert();
+            until TempDataEditorBuffer4.Next() = 0;
+
+        TempDataEditorBuffer5.SetFilter("Entry No.", '<>%1', 0);
+        if TempDataEditorBuffer5.FindSet() then
+            repeat
+                TempDataEditorBufferResult.Init();
+                TempDataEditorBufferResult := TempDataEditorBuffer5;
+                TempDataEditorBufferResult.Insert();
+            until TempDataEditorBuffer5.Next() = 0;
+
+        TempDataEditorBuffer6.SetFilter("Entry No.", '<>%1', 0);
+        if TempDataEditorBuffer6.FindSet() then
+            repeat
+                TempDataEditorBufferResult.Init();
+                TempDataEditorBufferResult := TempDataEditorBuffer6;
+                TempDataEditorBufferResult.Insert();
+            until TempDataEditorBuffer6.Next() = 0;
+
+        TempDataEditorBuffer7.SetFilter("Entry No.", '<>%1', 0);
+        if TempDataEditorBuffer7.FindSet() then
+            repeat
+                TempDataEditorBufferResult.Init();
+                TempDataEditorBufferResult := TempDataEditorBuffer7;
+                TempDataEditorBufferResult.Insert();
+            until TempDataEditorBuffer7.Next() = 0;
+
+        TempDataEditorBuffer8.SetFilter("Entry No.", '<>%1', 0);
+        if TempDataEditorBuffer8.FindSet() then
+            repeat
+                TempDataEditorBufferResult.Init();
+                TempDataEditorBufferResult := TempDataEditorBuffer8;
+                TempDataEditorBufferResult.Insert();
+            until TempDataEditorBuffer8.Next() = 0;
+
+        TempDataEditorBufferResult.SetView(PrevFilters);
     end;
 
     var

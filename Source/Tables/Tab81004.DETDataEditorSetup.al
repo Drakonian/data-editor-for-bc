@@ -29,6 +29,14 @@ table 81004 "DET Data Editor Setup"
                 DataEditorMgt.LogModify(RecRef.Number(), Rec.FieldNo("Enable Data Editor Log"), Rec.RecordId(), xFieldRef, FieldRef, true);
             end;
         }
+        field(3; "Number of Threads"; Integer)
+        {
+            DataClassification = CustomerContent;
+            Caption = 'Number of Threads';
+            MinValue = 2;
+            MaxValue = 8;
+            InitValue = 6;
+        }
     }
     keys
     {

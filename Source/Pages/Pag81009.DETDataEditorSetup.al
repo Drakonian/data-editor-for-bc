@@ -18,6 +18,10 @@ page 81009 "DET Data Editor Setup"
                 {
                     ToolTip = 'May adversely affect performance.', Comment = '%';
                 }
+                field("Number of Threads"; Rec."Number of Threads")
+                {
+                    ToolTip = 'Specify the number of parallel threads to load the data. From 2 to 8.', Comment = '%';
+                }
             }
         }
     }

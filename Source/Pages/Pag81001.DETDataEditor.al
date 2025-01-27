@@ -6,6 +6,7 @@ page 81001 "DET Data Editor"
     UsageCategory = Tasks;
     InsertAllowed = false;
     AccessByPermission = tabledata "DET Data Editor Buffer" = RIMD;
+    AdditionalSearchTerms = 'table data editor, table edit, edit table, data editor tool, modify table';
 
     layout
     {
@@ -107,8 +108,19 @@ page 81001 "DET Data Editor"
                 field(ExcludeFlowFieldsField; ExcludeFlowFields)
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Exclude FlowField''s from loading';
+                    ToolTip = 'Exclude FlowField''s from loading. For best performance, always exclude FlowField''s.';
                     Caption = 'Exclude FlowField''s';
+
+                    trigger OnValidate()
+                    begin
+                        SetDirty();
+                    end;
+                }
+                field(ReadInParallel; ReadInParallel)
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Reading data in multiple parallel threads can speed up loading';
+                    Caption = 'Read in Parallel';
 
                     trigger OnValidate()
                     begin
@@ -158,6 +170,11 @@ page 81001 "DET Data Editor"
 
     }
 
+    trigger OnOpenPage()
+    begin
+        ExcludeFlowFields := true; //much better for performance
+    end;
+
     trigger OnQueryClosePage(CloseAction: Action): Boolean
     begin
         if not (CloseAction in [CloseAction::OK, CloseAction::LookupOK]) then
@@ -174,7 +191,7 @@ page 81001 "DET Data Editor"
     var
         DataEditorBufferList: Page "DET Data Editor Buffer";
     begin
-        DataEditorBufferList.LoadRecords(SourceTableNo, CustomTableView, FieldFilter, WithoutValidation, ExcludeFlowFields);
+        DataEditorBufferList.LoadRecords(SourceTableNo, CustomTableView, FieldFilter, WithoutValidation, ExcludeFlowFields, ReadInParallel);
         DataEditorBufferList.Run();
     end;
 
@@ -260,6 +277,8 @@ page 81001 "DET Data Editor"
             ExcludeFlowFields := PresetJsonToken.AsValue().AsBoolean();
         if PresetJsonObject.Get('WithoutValidation', PresetJsonToken) then
             WithoutValidation := PresetJsonToken.AsValue().AsBoolean();
+        if PresetJsonObject.Get('ReadInParallel', PresetJsonToken) then
+            ReadInParallel := PresetJsonToken.AsValue().AsBoolean();
 
         IsDirty := false;
         SetTableCaption();
@@ -287,6 +306,7 @@ page 81001 "DET Data Editor"
         PresetJson.Add('FieldFilter', FieldFilter);
         PresetJson.Add('ExcludeFlowFields', ExcludeFlowFields);
         PresetJson.Add('WithoutValidation', WithoutValidation);
+        PresetJson.Add('ReadInParallel', ReadInParallel);
         PresetJson.WriteTo(PresetJsonString);
 
         QueryPreset.SetJson(PresetJsonString);
@@ -325,6 +345,7 @@ page 81001 "DET Data Editor"
     var
         WithoutValidation: Boolean;
         ExcludeFlowFields: Boolean;
+        ReadInParallel: Boolean;
         SourceTableNo: Integer;
         NumberOfRecords: Integer;
         SourceTableName: Text;
