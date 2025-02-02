@@ -31,6 +31,7 @@ codeunit 81001 "DET Data Editor Mgt."
         FieldNo: Integer;
         ResultVariant: Variant;
     begin
+        //test
         if not RecRef.Get(SourceRecordId) then
             exit;
 
