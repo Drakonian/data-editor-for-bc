@@ -2,7 +2,7 @@ name: 'Pull Request Build'
 
 on:
   pull_request_target:
-    branches: [ 'main' ]
+    branches: [ 'master' ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}

@@ -10,5 +10,7 @@
             "path": "Test"
         }
     ],
-    "settings": {}
+    "settings": {
+        "al.enableCodeAnalysis": true
+    }
 }
