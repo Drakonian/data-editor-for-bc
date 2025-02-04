@@ -2148,6 +2148,21 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table DET Field - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1032987457 - Field 1256520770 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>App Name</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Field - Field App Name - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1032987457 - Field 1367742458 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>App Package ID</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Field - Field App Package ID - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1032987457 - Field 1606374689 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Publisher</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Field - Field App Publisher - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1032987457 - Field 4095765489 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Field Id</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -5042,6 +5057,16 @@
           <source>Select Fields</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Select Fields - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 971391312 - Control 1256520770 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the name of the Extension that this field belongs to.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Select Fields - Control App Name - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 971391312 - Control 1606374689 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the publisher of the Extension that this field belongs to.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Select Fields - Control App Publisher - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 971391312 - Control 4095765489 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Field Id field.</source>
