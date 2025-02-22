@@ -6595,6 +6595,22 @@ page 81000 "DET Data Editor Buffer"
         DeleteSourceRecord(Rec."Source Record ID");
     end;
 
+    trigger OnClosePage()
+    begin
+        RunDataEditorBufferList();
+    end;
+
+    local procedure RunDataEditorBufferList()
+    var
+        DataEditorPage: Page "DET Data Editor";
+    begin
+        if not RunAfter then
+            exit;
+
+        DataEditorPage.SetRunAfter(RunAfter);
+        DataEditorPage.Run();
+    end;
+
     local procedure ExportTable()
     var
         DataEditorMgt: Codeunit "DET Data Editor Mgt.";
@@ -6786,7 +6802,7 @@ page 81000 "DET Data Editor Buffer"
             DataEditorMgt.LogDelete(RecRef.Number(), SourceRecordID, not WithoutValidate);
     end;
 
-    procedure LoadRecords(TableNo: Integer; inCustomTableView: Text; inFieldFilter: Text; inWithoutValidate: Boolean; inExcludeFlowFields: Boolean; inReadInParallel: Boolean)
+    procedure LoadRecords(TableNo: Integer; inCustomTableView: Text; inFieldFilter: Text; inWithoutValidate: Boolean; inExcludeFlowFields: Boolean; inReadInParallel: Boolean; inRunAfter: Boolean)
     var
         DataEditorSetup: Record "DET Data Editor Setup";
     begin
@@ -6798,6 +6814,7 @@ page 81000 "DET Data Editor Buffer"
         ReadInParallel := inReadInParallel;
         CustomTableView := inCustomTableView;
         FieldFilter := inFieldFilter;
+        RunAfter := inRunAfter;
         OpenRecord(TableNo);
         InitVisibility();
         InitEditable();
@@ -7964,6 +7981,7 @@ page 81000 "DET Data Editor Buffer"
         ExcludeFlowFields: Boolean;
         IsLogEnabled: Boolean;
         ReadInParallel: Boolean;
+        RunAfter: Boolean;
         IsTestMode: Boolean;
         CustomTableView: text;
         FieldFilter: text;

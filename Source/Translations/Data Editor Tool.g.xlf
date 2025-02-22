@@ -2143,6 +2143,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Setup - Field Primary Key - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 4005927189 - Field 3762543834 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Show Run After</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table DET Data Editor Setup - Field Show Run After - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1032987457 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Field</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -2382,6 +2387,16 @@
           <source>Read in Parallel</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control ReadInParallel - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2312685416 - Control 92693191 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Run After</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control RunAfter - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2312685416 - Control 92693191 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Run After</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor - Control RunAfter - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 2312685416 - Control 912508298 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Save Preset</source>
@@ -4667,6 +4682,11 @@
           <source>Specify the number of parallel threads to load the data. From 2 to 8.</source>
           <note from="Developer" annotates="general" priority="2">%</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Setup - Control Number of Threads - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4005927189 - Control 3762543834 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Show Run After field.</source>
+          <note from="Developer" annotates="general" priority="2">%</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Setup - Control Show Run After - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 4005927189 - Action 3696303991 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Data Editor Log</source>

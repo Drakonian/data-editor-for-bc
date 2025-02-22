@@ -37,6 +37,11 @@ table 81004 "DET Data Editor Setup"
             MaxValue = 8;
             InitValue = 6;
         }
+        field(4; "Show Run After"; Boolean)
+        {
+            DataClassification = CustomerContent;
+            Caption = 'Show Run After';
+        }
     }
     keys
     {

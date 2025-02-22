@@ -127,6 +127,13 @@ page 81001 "DET Data Editor"
                         SetDirty();
                     end;
                 }
+                field(RunAfter; RunAfter)
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Run After';
+                    Caption = 'Run After';
+                    Visible = ShowRunAfter;
+                }
                 field(PresetCodeField; PresetCode)
                 {
                     ApplicationArea = All;
@@ -171,8 +178,13 @@ page 81001 "DET Data Editor"
     }
 
     trigger OnOpenPage()
+    var
+        DataEditorSetup: Record "DET Data Editor Setup";
     begin
         ExcludeFlowFields := true; //much better for performance
+
+        if DataEditorSetup.Get() then
+            ShowRunAfter := DataEditorSetup."Show Run After";
     end;
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean
@@ -191,7 +203,7 @@ page 81001 "DET Data Editor"
     var
         DataEditorBufferList: Page "DET Data Editor Buffer";
     begin
-        DataEditorBufferList.LoadRecords(SourceTableNo, CustomTableView, FieldFilter, WithoutValidation, ExcludeFlowFields, ReadInParallel);
+        DataEditorBufferList.LoadRecords(SourceTableNo, CustomTableView, FieldFilter, WithoutValidation, ExcludeFlowFields, ReadInParallel, RunAfter);
         DataEditorBufferList.Run();
     end;
 
@@ -333,13 +345,17 @@ page 81001 "DET Data Editor"
         IsDirty := true;
     end;
 
-
     local procedure SetTableCaption()
     var
         AllObjWithCaption: Record AllObjWithCaption;
     begin
         AllObjWithCaption.Get(AllObjWithCaption."Object Type"::Table, SourceTableNo);
         SourceTableName := AllObjWithCaption."Object Name";
+    end;
+
+    procedure SetRunAfter(NewRunAfter: Boolean)
+    begin
+        RunAfter := NewRunAfter;
     end;
 
     var
@@ -354,5 +370,7 @@ page 81001 "DET Data Editor"
         PresetCode: Code[20];
         SavePreset: Boolean;
         IsDirty: Boolean;
+        ShowRunAfter: Boolean;
+        RunAfter: Boolean;
         PresetName: Text;
 }
