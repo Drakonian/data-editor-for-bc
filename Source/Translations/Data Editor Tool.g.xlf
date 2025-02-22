@@ -4753,6 +4753,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - Control MatchEntireFieldValue - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 77930169 - Control 1489689570 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Replace Entire Field Value</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - Control ReplaceEntireValue - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 77930169 - Control 1489689570 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Replace Entire Field Value</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Find and Replace - Control ReplaceEntireValue - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 77930169 - Control 3537699386 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Replace With</source>
           <note from="Developer" annotates="general" priority="2"></note>
