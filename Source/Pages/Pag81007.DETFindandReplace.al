@@ -33,6 +33,11 @@ page 81007 "DET Find and Replace"
                 ToolTip = 'Replace With';
                 Caption = 'Replace With';
             }
+            field(ReplaceEntireValue; ReplaceEntireValue)
+            {
+                ToolTip = 'Replace Entire Field Value';
+                Caption = 'Replace Entire Field Value';
+            }
             field(MatchCase; MatchCase)
             {
                 ToolTip = 'Match Case';
@@ -131,6 +136,7 @@ page 81007 "DET Find and Replace"
         FieldRefVar: FieldRef;
         EntryNo: Integer;
         FieldCounter: Integer;
+        FieldValueAsTxt: Text;
         FindWhatFilter: Text;
         FoundFieldList: List of [Integer];
         ReplacedCounter: Integer;
@@ -200,11 +206,19 @@ page 81007 "DET Find and Replace"
                         if Replace and Rec."Is Editable" then begin
                             FieldRefToModify := RecRef.Field(Rec."Field Number");
                             xFieldRefToModify := xRecRef.Field(Rec."Field Number");
-                            if GlobalWithoutValidate then
-                                FieldRefToModify.Value(ReplaceWith)
+
+                            FieldValueAsTxt := Format(FieldRefToModify.Value());
+                            if ReplaceEntireValue then
+                                FieldValueAsTxt := ReplaceWith
                             else
-                                FieldRefToModify.Validate(ReplaceWith);
-                            Rec."Field Value" := CopyStr(ReplaceWith, 1, MaxStrLen(Rec."Field Value"));
+                                ReplaceNoCase(FieldValueAsTxt, FindWhat, ReplaceWith);
+
+                            if GlobalWithoutValidate then
+                                FieldRefToModify.Value(FieldValueAsTxt)
+                            else
+                                FieldRefToModify.Validate(FieldValueAsTxt);
+
+                            Rec."Field Value" := CopyStr(FieldValueAsTxt, 1, MaxStrLen(Rec."Field Value"));
                             ReplacedCounter += 1;
                             if IsLogEnabled then
                                 DataEditorMgt.LogModify(RecRef.Number(), FieldRefToModify.Number(), RecRef.RecordId(), xFieldRefToModify,
@@ -227,6 +241,28 @@ page 81007 "DET Find and Replace"
         ResultNotification.Scope := NotificationScope::LocalScope;
         ResultNotification.Send();
     end;
+
+    procedure ReplaceNoCase(var TextVariable: Text; OldValue: Text; NewValue: Text)
+    var
+        Position: Integer;
+        OldValueLen: Integer;
+    begin
+        if OldValue = '' then
+            exit;
+
+        OldValueLen := StrLen(OldValue);
+
+        repeat
+            Position := StrPos(LowerCase(TextVariable), LowerCase(OldValue));
+
+            if Position > 0 then
+                TextVariable :=
+                    CopyStr(TextVariable, 1, Position - 1) +
+                    NewValue +
+                    CopyStr(TextVariable, Position + OldValueLen);
+        until Position = 0;
+    end;
+
 
     local procedure SetCustomFilter()
     var
@@ -300,5 +336,6 @@ page 81007 "DET Find and Replace"
         GlobalWithoutValidate: Boolean;
         MatchCase: Boolean;
         MatchEntireFieldValue: Boolean;
+        ReplaceEntireValue: Boolean;
         GlobalGuid: Guid;
 }
