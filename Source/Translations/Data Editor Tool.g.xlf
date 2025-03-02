@@ -4818,10 +4818,10 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Import/Export Dialog - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 278861421 - NamedType 3182483960" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Page 278861421 - Control 2445482498 - Property 1968111052" size-unit="char" translate="yes" xml:space="preserve">
           <source>Keep in mind that FlowFields and MediaSet fields will not be processed during Data Export/Import, Flow fields will be automatically calculated in the database after import. However, for JSON, you can enable experimental export of BLOB and Media fields. Excel in progress.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Import/Export Dialog - NamedType InfoLbl</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Import/Export Dialog - Control General - Property InstructionalText</note>
         </trans-unit>
         <trans-unit id="Page 278861421 - Control 131047609 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Enable export of data from BLOB fields in Base64.</source>
@@ -4862,16 +4862,6 @@
           <source>Import On Find</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Import/Export Dialog - Control ImportOnFind - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 278861421 - Control 2022467170 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Info</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Import/Export Dialog - Control InfoTxt - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 278861421 - Control 2022467170 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Info</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page DET Import/Export Dialog - Control InfoTxt - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1854157029 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Insert New Record</source>
