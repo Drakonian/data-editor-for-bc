@@ -163,7 +163,7 @@ codeunit 81002 "DET Read Data Batch"
         ValueInStream: InStream;
         BufferTxt: Text;
     begin
-        TempBlob.CreateInStream(ValueInStream);
+        TempBlob.CreateInStream(ValueInStream, TextEncoding::UTF8);
         while not ValueInStream.EOS() do begin
             ValueInStream.Read(BufferTxt);
             Response += BufferTxt;

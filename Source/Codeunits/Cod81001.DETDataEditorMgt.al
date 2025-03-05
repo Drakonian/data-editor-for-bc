@@ -1087,11 +1087,11 @@ codeunit 81001 "DET Data Editor Mgt."
         if not TempDataEditorBuffer.Get(0) then begin
             TempDataEditorBuffer.Init();
             TempDataEditorBuffer."Entry No." := 0;
-            TempDataEditorBuffer."Data To Process".CreateOutStream(OutStreamToProcess);
+            TempDataEditorBuffer."Data To Process".CreateOutStream(OutStreamToProcess, TextEncoding::UTF8);
             JObject.WriteTo(OutStreamToProcess);
             TempDataEditorBuffer.Insert();
         end else begin
-            TempDataEditorBuffer."Data To Process".CreateOutStream(OutStreamToProcess);
+            TempDataEditorBuffer."Data To Process".CreateOutStream(OutStreamToProcess, TextEncoding::UTF8);
             JObject.WriteTo(OutStreamToProcess);
             TempDataEditorBuffer.Modify();
         end;
