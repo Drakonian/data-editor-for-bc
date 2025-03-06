@@ -1188,6 +1188,27 @@ codeunit 81001 "DET Data Editor Mgt."
         TempDataEditorBufferResult.SetView(PrevFilters);
     end;
 
+    #region Insert New Record
+    internal procedure InsertNewRecord(var InsertingRecRef: RecordRef; WithValidation: Boolean): Boolean
+    begin
+        exit(InsertingRecRef.Insert(WithValidation));
+    end;
+    #endregion
+
+    #region Modify Record
+    internal procedure ModifyRecord(var ModifyingRecRef: RecordRef; WithValidation: Boolean): Boolean
+    begin
+        exit(ModifyingRecRef.Modify(WithValidation));
+    end;
+    #endregion
+
+    #region Delete Record
+    internal procedure DeleteRecord(var DeletingRecRef: RecordRef; WithValidation: Boolean): Boolean
+    begin
+        exit(DeletingRecRef.Delete(WithValidation));
+    end;
+    #endregion
+
     var
         RenamePKNotSuppErr: Label 'Changing the primary key for >15 values is not supported.';
         ImportFinishedLbl: Label 'Import is finished.';
