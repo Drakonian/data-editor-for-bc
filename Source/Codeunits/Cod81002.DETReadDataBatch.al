@@ -53,7 +53,11 @@ codeunit 81002 "DET Read Data Batch"
         if GuiAllowed() then
             ConfigProgressBar.Init(TotalCount, 1, RecRef.Caption());
 
-        RecRef.Next(StartIndex);
+        if StartIndex = 1 then
+            RecRef.FindSet()
+        else
+            RecRef.Next(StartIndex);
+
         repeat
             Counter := 0;
             TempDataEditorBufferRecRef.Init();
