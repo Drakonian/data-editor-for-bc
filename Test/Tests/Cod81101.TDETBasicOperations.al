@@ -14,6 +14,36 @@ codeunit 81101 "TDET Basic Operations"
 
     [Test]
     [TransactionModel(TransactionModel::AutoRollback)]
+    procedure LoadTableCompanyInformation()
+    var
+        CompanyInformation: Record "Company Information";
+        DataEditorBufferTestMode: Codeunit "TDET DE Buffer Test Mode";
+        DataEditor: TestPage "DET Data Editor";
+        DataEditorBuffer: TestPage "DET Data Editor Buffer";
+        ListOfRecorIds: List of [RecordId];
+        FieldNoFilter: List of [Integer];
+    begin
+        Init();
+        CompanyInformation.Get();
+
+        ListOfRecorIds.Add(CompanyInformation.RecordId());
+
+        DataEditorBuffer.Trap();
+
+        DataEditor.OpenEdit();
+        DataEditor.SourceTableNoField.SetValue(Database::"Company Information");
+        DataEditor.ExcludeFlowFieldsField.SetValue(false);
+        BindSubscription(DataEditorBufferTestMode);
+        DataEditor.OK().Invoke();
+        UnbindSubscription(DataEditorBufferTestMode);
+
+        Assert.AreEqual(CompanyInformation.TableCaption(), DataEditorBuffer.Caption(), '');
+
+        LibraryDataEditor.VerifyBufferFieldsWithSourceRecord(DataEditorBuffer, ListOfRecorIds, FieldNoFilter, false);
+    end;
+
+    [Test]
+    [TransactionModel(TransactionModel::AutoRollback)]
     procedure LoadTableCustomer()
     var
         Customer: Record Customer;
