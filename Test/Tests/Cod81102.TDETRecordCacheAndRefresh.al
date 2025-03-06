@@ -7,7 +7,6 @@ codeunit 81102 "TDET Record Cache And Refresh"
         LibrarySales: Codeunit "Library - Sales";
         LibraryRandom: Codeunit "Library - Random";
         LibraryDataEditor: Codeunit "TDET Library - Data Editor";
-        LibraryDialogHandler: Codeunit "Library - Dialog Handler";
         LibraryVariableStorage: Codeunit "Library - Variable Storage";
         Assert: Codeunit "Library Assert";
 

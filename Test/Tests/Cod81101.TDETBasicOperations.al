@@ -499,6 +499,48 @@ codeunit 81101 "TDET Basic Operations"
         Assert.RecordIsEmpty(Customer);
     end;
 
+    [Test]
+    [HandlerFunctions('SetCustomerFilter')]
+    [TransactionModel(TransactionModel::AutoRollback)]
+    procedure FilterWithNonASCIISymbols()
+    var
+        Customer: Record Customer;
+        DataEditorBufferTestMode: Codeunit "TDET DE Buffer Test Mode";
+        DataEditor: TestPage "DET Data Editor";
+        DataEditorBuffer: TestPage "DET Data Editor Buffer";
+        ListOfRecorIds: List of [RecordId];
+        FieldNoFilter: List of [Integer];
+        UTF8String: Text[100];
+    begin
+        Init();
+        Customer.DeleteAll();
+
+        UTF8String := '☀Ü☁';
+
+        LibrarySales.CreateCustomer(Customer);
+        Customer.Name := UTF8String;
+        Customer.Modify(true);
+
+        ListOfRecorIds.Add(Customer.RecordId());
+
+        DataEditorBuffer.Trap();
+
+        LibraryVariableStorage.Enqueue(Customer.FieldNo(Name));
+        LibraryVariableStorage.Enqueue(UTF8String);
+
+        DataEditor.OpenEdit();
+        DataEditor.SourceTableNoField.SetValue(Database::Customer);
+        DataEditor.CustomTableViewField.Drilldown();
+        DataEditor.ExcludeFlowFieldsField.SetValue(false);
+        BindSubscription(DataEditorBufferTestMode);
+        DataEditor.OK().Invoke();
+        UnbindSubscription(DataEditorBufferTestMode);
+
+        Assert.AreEqual(Customer.TableCaption(), DataEditorBuffer.Caption(), '');
+
+        LibraryDataEditor.VerifyBufferFieldsWithSourceRecord(DataEditorBuffer, ListOfRecorIds, FieldNoFilter, false);
+    end;
+
     [ModalPageHandler]
     procedure EditICDirectionType(var NameValueLookup: TestPage "Name/Value Lookup")
     begin
@@ -545,6 +587,15 @@ codeunit 81101 "TDET Basic Operations"
     procedure GenericMessageHandler(Message: Text)
     begin
         LibraryDialogHandler.HandleMessage(Message);
+    end;
+
+    [FilterPageHandler]
+    procedure SetCustomerFilter(var Record1: RecordRef): Boolean
+    var
+        FieldRefToFilter: FieldRef;
+    begin
+        FieldRefToFilter := Record1.Field(LibraryVariableStorage.DequeueInteger());
+        FieldRefToFilter.SetFilter(LibraryVariableStorage.DequeueText());
     end;
 
     local procedure Init()
