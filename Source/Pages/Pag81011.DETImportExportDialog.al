@@ -10,14 +10,7 @@ page 81011 "DET Import/Export Dialog"
         {
             group(General)
             {
-                field(InfoTxt; InfoTxt)
-                {
-                    ApplicationArea = All;
-                    Caption = 'Info';
-                    ToolTip = 'Info';
-                    Editable = false;
-                    MultiLine = true;
-                }
+                InstructionalText = 'Keep in mind that FlowFields and MediaSet fields will not be processed during Data Export/Import, Flow fields will be automatically calculated in the database after import. However, for JSON, you can enable experimental export of BLOB and Media fields. Excel in progress.';
                 field(FileFormat; FileFormat)
                 {
                     ApplicationArea = All;
@@ -56,10 +49,6 @@ page 81011 "DET Import/Export Dialog"
             }
         }
     }
-    trigger OnOpenPage()
-    begin
-        InfoTxt := InfoLbl;
-    end;
 
     procedure SetIsImport(inIsImport: Boolean)
     begin
@@ -93,5 +82,4 @@ page 81011 "DET Import/Export Dialog"
         ExportMedia: Boolean;
         ImportOnFind: Enum "DET Import On Find";
         FileFormat: Enum "DET File Format";
-        InfoLbl: Label 'Keep in mind that FlowFields and MediaSet fields will not be processed during Data Export/Import, Flow fields will be automatically calculated in the database after import. However, for JSON, you can enable experimental export of BLOB and Media fields. Excel in progress.';
 }
