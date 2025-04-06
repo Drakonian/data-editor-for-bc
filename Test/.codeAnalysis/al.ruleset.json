@@ -1,0 +1,26 @@
+{
+    "name": "Ruleset",
+    "description": "Adjusted Rules",
+    "rules": [    
+        {
+            "id": "AS0013",
+            "action": "Hidden",
+            "justification": "allocated to per-tenant customizations"
+        },
+        {
+            "id": "AA0215",
+            "action": "Hidden",
+            "justification": "Object names"
+        }, 
+        {
+            "id": "AS0084",
+            "action": "Hidden",
+            "justification": "Range ids"
+        },
+        {
+            "id": "AS0092",
+            "action": "Hidden",
+            "justification": "applicationInsightsKey"
+        }
+    ]
+}

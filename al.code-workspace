@@ -1,0 +1,16 @@
+{
+    "folders": [
+        {
+            "path": ".AL-Go"
+        },
+        {
+            "path": "Source"
+        },
+        {
+            "path": "Test"
+        }
+    ],
+    "settings": {
+        "al.enableCodeAnalysis": true
+    }
+}

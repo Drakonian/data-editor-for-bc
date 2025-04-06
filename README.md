@@ -1,7 +1,7 @@
 # Table Data Editor Application for Business Central
 Table Data Editor is an open-source application for Business Central. This application allows you to easily manipulate data in Business Central tables. Table Data Editor is completely free and open-source, distributed under the MIT license. Anyone can contribute or share their ideas for the development of Table Data Editor on GitHub.
 
-https://vld-nav.com/table-data-editor-general
+https://vld-bc.com/table-data-editor-general
 
 
 ![Data Editor](https://static.tildacdn.com/tild3565-3631-4636-b463-303765396635/OpenTable.gif)

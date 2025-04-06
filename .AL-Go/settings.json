@@ -1,0 +1,10 @@
+{
+  "country": "us",
+  "appFolders": [
+    "Source"
+  ],
+  "testFolders": [
+    "Test"
+  ],
+  "bcptTestFolders": []
+}

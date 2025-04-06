@@ -1,0 +1,69 @@
+{
+  "id": "54854e1c-17cb-41e5-b89d-a937d576345d",
+  "name": "Data Editor Tool - Tests",
+  "publisher": "Volodymyr Dvernytskyi",
+  "version": "1.0.0.0",
+  "brief": "https://vld-bc.com/",
+  "description": "https://vld-bc.com/",
+  "privacyStatement": "https://vld-bc.com/",
+  "EULA": "https://vld-bc.com/",
+  "help": "https://vld-bc.com/",
+  "url": "https://vld-bc.com/",
+  "logo": "./logo.png",
+  "dependencies": [
+    {
+      "id": "dd0be2ea-f733-4d65-bb34-a28f4624fb14",
+      "publisher": "Microsoft",
+      "name": "Library Assert",
+      "version": "24.0.0.0"
+    },
+    {
+      "id": "e7320ebb-08b3-4406-b1ec-b4927d3e280b",
+      "publisher": "Microsoft",
+      "name": "Any",
+      "version": "24.0.0.0"
+    },
+    {
+      "id": "9856ae4f-d1a7-46ef-89bb-6ef056398228",
+      "publisher": "Microsoft",
+      "name": "System Application Test Library",
+      "version": "24.0.0.0"
+    },
+    {
+      "id": "5d86850b-0d76-4eca-bd7b-951ad998e997",
+      "publisher": "Microsoft",
+      "name": "Tests-TestLibraries",
+      "version": "24.0.0.0"
+    },
+    {
+      "id": "5095f467-0a01-4b99-99d1-9ff1237d286f",
+      "publisher": "Microsoft",
+      "version": "24.0.0.0",
+      "name": "Library Variable Storage"
+    },
+    {
+      "id": "e28d62da-ceb0-46e7-9e06-774bc46f4bac",
+      "publisher": "Volodymyr Dvernytskyi",
+      "version": "1.0.0.0",
+      "name": "Data Editor Tool"
+    }
+  ],
+  "screenshots": [],
+  "platform": "24.0.0.0",
+  "application": "24.0.0.0",
+  "idRanges": [
+    {
+      "from": 81101,
+      "to": 81200
+    }
+  ],
+  "contextSensitiveHelpUrl": "https://vld-bc.com/",
+  "runtime": "13.0",
+  "features": ["TranslationFile"],
+  "resourceExposurePolicy":
+    {
+      "allowDebugging": true,
+      "allowDownloadingSource": true,
+      "includeSourceInSymbolFile": true
+    }
+}
