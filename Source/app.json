@@ -12,15 +12,15 @@
   "logo": "./logo.png",
   "dependencies": [],
   "screenshots": [],
-  "platform": "24.0.0.0",
-  "application": "24.0.0.0",
+  "platform": "17.0.0.0",
+  "application": "17.0.0.0",
   "idRanges": [
     {
       "from": 81000,
       "to": 81100
     }
   ],
-  "contextSensitiveHelpUrl": "https://vld-nav.com/",
+  "contextSensitiveHelpUrl": "https://vld-bc.com/",
   "runtime": "7.0",
   "features": ["TranslationFile"],
   "showMyCode": true
