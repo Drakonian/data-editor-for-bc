@@ -1,7 +1,5 @@
 {
-  "artifact": "////closest",
+  "artifact": "///17/latest",
   "cacheImageName": "",
-  "versioningStrategy": 15,
-  "version": "17.0.0.0",
-  "type": "OnPrem"
+  "versioningStrategy": 15
 }
