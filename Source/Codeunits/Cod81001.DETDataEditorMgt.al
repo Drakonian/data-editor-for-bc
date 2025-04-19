@@ -366,7 +366,6 @@ codeunit 81001 "DET Data Editor Mgt."
         RecRef: RecordRef;
         xRecRef: RecordRef;
         FieldRef: FieldRef;
-        CellValueInStream: InStream;
         TableNo, ColumnCount, ColumnNumber : Integer;
         ColumnFieldNoDict: Dictionary of [Integer, Integer];
         PKColumnFieldNoDict: Dictionary of [Integer, Integer];
@@ -434,12 +433,7 @@ codeunit 81001 "DET Data Editor Mgt."
                     Clear(ValueAsTxt);
 
                     if TempExcelBuffer.Get(TempExcelBuffer."Row No.", ColumnNumber) then begin
-                        if TempExcelBuffer."Cell Value as Blob".HasValue() then begin
-                            TempExcelBuffer.CalcFields("Cell Value as Blob");
-                            TempExcelBuffer."Cell Value as Blob".CreateInStream(CellValueInStream, TextEncoding::Windows);
-                            CellValueInStream.ReadText(ValueAsTxt);
-                        end else
-                            ValueAsTxt := TempExcelBuffer."Cell Value as Text";
+                        ValueAsTxt := TempExcelBuffer."Cell Value as Text";
 
                         if TempExcelBuffer."Row No." = 3 then begin
                             FieldRef := RecRef.Field(GetFieldNoFromName(TableNo, ValueAsTxt));
@@ -740,7 +734,6 @@ FieldName: Text): Integer
         FieldRefVar: FieldRef;
         TxtBuilder: TextBuilder;
         DataAsInStream: InStream;
-        DataAsOutStream: OutStream;
         i: Integer;
     begin
         TempExcelBuffer.NewRow();
@@ -764,18 +757,15 @@ FieldName: Text): Integer
                         FieldRefVar.Type::Media:
                             if ExportMedia then begin
                                 TempBinaryDataBuffer."Some Media" := FieldRefVar.Value();
-                                TempExcelBuffer.AddColumn('', false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                                TempExcelBuffer."Cell Value as Blob".CreateOutStream(DataAsOutStream);
-                                DataAsOutStream.Write(ConvertMediaToBase64(TempBinaryDataBuffer."Some Media".MediaId()));
+                                TempExcelBuffer.AddColumn(ConvertMediaToBase64(TempBinaryDataBuffer."Some Media".MediaId()), false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                                 TempExcelBuffer.Modify();
                             end;
                         FieldRefVar.Type::Blob:
                             if ExportBLOB then begin
                                 FieldRefVar.CalcField();
                                 TempBlob.FromFieldRef(FieldRefVar);
-                                TempExcelBuffer.AddColumn('', false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                                TempExcelBuffer."Cell Value as Blob".CreateOutStream(DataAsOutStream);
-                                DataAsOutStream.Write(Base64Convert.ToBase64(TempBlob.CreateInStream()));
+                                TempBlob.CreateInStream(DataAsInStream);
+                                TempExcelBuffer.AddColumn(Base64Convert.ToBase64(DataAsInStream), false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                                 TempExcelBuffer.Modify();
                             end;
                         else
@@ -821,6 +811,7 @@ FieldName: Text): Integer
         TempBlob: Codeunit "Temp Blob";
         Base64Convert: Codeunit "Base64 Convert";
         FieldRefVar: FieldRef;
+        DataInStream: InStream;
         BooleanValue: Boolean;
         i: Integer;
     begin
@@ -847,7 +838,8 @@ FieldName: Text): Integer
                                     if ExportBLOB then begin
                                         FieldRefVar.CalcField();
                                         TempBlob.FromFieldRef(FieldRefVar);
-                                        JObject.Add(Format(FieldRefVar.Number()), Base64Convert.ToBase64(TempBlob.CreateInStream()));
+                                        TempBlob.CreateInStream(DataInStream);
+                                        JObject.Add(Format(FieldRefVar.Number()), Base64Convert.ToBase64(DataInStream));
                                     end;
                                 else
                                     JObject.Add(Format(FieldRefVar.Number()), Format(FieldRefVar.Value));

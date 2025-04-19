@@ -21,6 +21,16 @@
             "id": "AS0092",
             "action": "Hidden",
             "justification": "applicationInsightsKey"
+        },
+        {
+            "id": "PTE0005",
+            "action": "Hidden",
+            "justification": "OnPrem version"
+        },
+        {
+            "id": "AS0053",
+            "action": "Hidden",
+            "justification": "OnPrem version"
         }
     ]
 }

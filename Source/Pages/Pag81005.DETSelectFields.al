@@ -43,10 +43,12 @@ page 81005 "DET Select Fields"
                 field("App Name"; Rec."App Name")
                 {
                     ToolTip = 'Specifies the name of the Extension that this field belongs to.';
+                    ApplicationArea = All;
                 }
                 field("App Publisher"; Rec."App Publisher")
                 {
                     ToolTip = 'Specifies the publisher of the Extension that this field belongs to.';
+                    ApplicationArea = All;
                 }
             }
         }
@@ -129,7 +131,6 @@ page 81005 "DET Select Fields"
                 Rec.IsPartOfPrimaryKey := FieldRec.IsPartOfPrimaryKey;
                 Rec.Included := FieldRec.IsPartOfPrimaryKey or not FieldRec2.IsEmpty();
                 Rec.Name := FieldRec."Field Caption";
-                Rec."App Package ID" := FieldRec."App Package ID";
                 Rec.Insert();
             until FieldRec.Next() = 0;
 

@@ -1,5 +1,5 @@
 {
   "type": "PTE",
-  "artifact": "//18.5/us/latest",
+  "artifact": "//18.1/us/latest",
   "templateUrl": "https://github.com/microsoft/AL-Go-PTE@main"
 }

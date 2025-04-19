@@ -43,7 +43,6 @@ codeunit 81002 "DET Read Data Batch"
 
         RecRef.Open(TableNo);
         RecRef.SetView(FilterView);
-        RecRef.ReadIsolation := RecRef.ReadIsolation::ReadCommitted;
         InitLoadFields(RecRef);
 
         TempDataEditorBufferRecRef.GetTable(Rec);

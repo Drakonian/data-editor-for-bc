@@ -38,6 +38,7 @@ page 81007 "DET Find and Replace"
             {
                 ToolTip = 'Replace Entire Field Value';
                 Caption = 'Replace Entire Field Value';
+                ApplicationArea = All;
             }
             field(MatchCase; MatchCase)
             {

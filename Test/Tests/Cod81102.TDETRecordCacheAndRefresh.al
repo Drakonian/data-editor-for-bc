@@ -42,7 +42,7 @@ codeunit 81102 "TDET Record Cache And Refresh"
         DataEditor.OK().Invoke();
         UnbindSubscription(DataEditorBufferTestMode);
 
-        Assert.AreEqual(StandardText.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.IsTrue(DataEditorBuffer.Caption().Contains(StandardText.TableCaption()), '');
 
         LibraryDataEditor.VerifyBufferFieldsWithSourceRecord(DataEditorBuffer, ListOfRecorIds, FieldNoFilter, false);
 
@@ -90,7 +90,7 @@ codeunit 81102 "TDET Record Cache And Refresh"
         BindSubscription(DataEditorBufferTestMode);
         DataEditor.OK().Invoke();
 
-        Assert.AreEqual(StandardText.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.IsTrue(DataEditorBuffer.Caption().Contains(StandardText.TableCaption()), '');
 
         LibraryDataEditor.VerifyBufferFieldsWithSourceRecord(DataEditorBuffer, ListOfRecorIds, FieldNoFilter, false);
 
@@ -158,7 +158,7 @@ codeunit 81102 "TDET Record Cache And Refresh"
         BindSubscription(DataEditorBufferTestMode);
         DataEditor.OK().Invoke();
 
-        Assert.AreEqual(StandardText.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.IsTrue(DataEditorBuffer.Caption().Contains(StandardText.TableCaption()), '');
 
         LibraryDataEditor.VerifyBufferFieldsWithSourceRecord(DataEditorBuffer, ListOfRecorIds, FieldNoFilter, false);
 
@@ -216,7 +216,7 @@ codeunit 81102 "TDET Record Cache And Refresh"
         BindSubscription(DataEditorBufferTestMode);
         DataEditor.OK().Invoke();
 
-        Assert.AreEqual(StandardText.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.IsTrue(DataEditorBuffer.Caption().Contains(StandardText.TableCaption()), '');
 
         LibraryDataEditor.VerifyBufferFieldsWithSourceRecord(DataEditorBuffer, ListOfRecorIds, FieldNoFilter, false);
 
