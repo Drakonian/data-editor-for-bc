@@ -6,5 +6,6 @@
   "testFolders": [
     "Test"
   ],
-  "bcptTestFolders": []
+  "bcptTestFolders": [],
+  "rulesetFile": "Source\\.codeAnalysis\\al.ruleset.json"
 }
