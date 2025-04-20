@@ -1,0 +1,11 @@
+{
+  "country": "us",
+  "appFolders": [
+    "Source"
+  ],
+  "testFolders": [
+    "Test"
+  ],
+  "bcptTestFolders": [],
+  "rulesetFile": "Source\\.codeAnalysis\\al.ruleset.json"
+}

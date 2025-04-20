@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en-US" target-language="en-US" original="Data Editor Tool - Tests">
+    <body>
+      <group id="body">
+        <trans-unit id="Codeunit 672003831 - Method 2091360679 - NamedType 3207865190" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Are sure you want to delete %1 entries?</source>
+          <note from="Developer" annotates="general" priority="2">%1 = Count of entries.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET Basic Operations - Method DeleteAllRecordsWithoutValiation - NamedType DeleteAllLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 672003831 - Method 566919557 - NamedType 3207865190" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Are sure you want to delete %1 entries?</source>
+          <note from="Developer" annotates="general" priority="2">%1 = Count of entries.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET Basic Operations - Method DeleteAllRecordsWithValiation - NamedType DeleteAllLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 672003831 - Method 914551780 - NamedType 49602008" size-unit="char" translate="yes" xml:space="preserve">
+          <source>%1 must not contain letters</source>
+          <note from="Developer" annotates="general" priority="2">%1 FieldCaption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET Basic Operations - Method DirectEditWithValidation - NamedType PhoneNoCannotContainLettersErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 672003831 - Method 17573270 - NamedType 2551427998" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Do you want to change %1?</source>
+          <note from="Developer" annotates="general" priority="2">%1 = a Field Caption like Currency Code</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET Basic Operations - Method SelectNewCustomerLookup - NamedType ConfirmChangeQst</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 672003831 - Method 17573270 - NamedType 4127743745" size-unit="char" translate="yes" xml:space="preserve">
+          <source>If you change %1, the existing sales lines will be deleted and new sales lines based on the new information on the header will be created.\\Do you want to continue?</source>
+          <note from="Developer" annotates="general" priority="2">%1: FieldCaption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET Basic Operations - Method SelectNewCustomerLookup - NamedType RecreateSalesLinesMsg</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 4217209666 - Method 3874196933 - NamedType 3353806735" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Expected Value is %1, Current Value is %2. FieldIndex is %3. Record Id is %4.</source>
+          <note from="Developer" annotates="general" priority="2">%1 = FieldValue, %2 = CurrentValue, %3 = FieldIndex, %4 = RecordId</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET Data Editor Buffer Helper - Method AssertBufferFieldValue - NamedType WrongValueErr</note>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>
