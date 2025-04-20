@@ -2,7 +2,7 @@ name: 'Pull Request Build'
 
 on:
   pull_request_target:
-    branches: [ 'master', 'BC18-19-20-21-22-23' ]
+    branches: [ 'master', 'OnPremise' ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
