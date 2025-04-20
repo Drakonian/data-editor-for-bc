@@ -1,5 +1,6 @@
 codeunit 81000 "DET Single Instance Storage"
 {
+    //test
     SingleInstance = true;
     EventSubscriberInstance = Manual;
     procedure SetCaptionDictionary(var inCaptionDictionary: Dictionary of [Integer, Text])
