@@ -8,6 +8,10 @@ https://vld-bc.com/table-data-editor-general
 
 ---
 
+# This is the OnPremise version of the app.
+
+---
+
 # Tips
 - Type **Data Editor** in the Business Central search to get started.
 - For the extension to work properly you must make sure that your BC user is using the **DET Data Editor Tool** or **SUPER** permission set.
