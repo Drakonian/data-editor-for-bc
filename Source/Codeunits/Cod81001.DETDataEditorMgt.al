@@ -1188,6 +1188,14 @@ codeunit 81001 "DET Data Editor Mgt."
         TempDataEditorBufferResult.SetView(PrevFilters);
     end;
 
+    procedure IsSystemField(SourceFieldRef: FieldRef): Boolean
+    var
+        RecRef: RecordRef;
+    begin
+        exit(SourceFieldRef.Number() in [RecRef.SystemIdNo(), RecRef.SystemCreatedAtNo(),
+            RecRef.SystemCreatedByNo(), RecRef.SystemModifiedAtNo(), RecRef.SystemModifiedByNo()]);
+    end;
+
     var
         RenamePKNotSuppErr: Label 'Changing the primary key for >15 values is not supported.';
         ImportFinishedLbl: Label 'Import is finished.';

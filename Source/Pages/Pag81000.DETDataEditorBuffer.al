@@ -6838,7 +6838,9 @@ page 81000 "DET Data Editor Buffer"
         FieldRec.FilterGroup(10);
         FieldRec.SetFilter("No.", FieldFilter);
         FieldRec.FilterGroup(0);
-        for FieldID := 1 to RecRef.FieldCount() do begin
+
+        //By +5 we will loop through system fields as well
+        for FieldID := 1 to (RecRef.FieldCount() + 5) do begin
             FieldRefVar := RecRef.FieldIndex(FieldID);
             FieldRec.SetRange("No.", FieldRefVar.Number());
             SkipField := (FieldRefVar.Class() = FieldClass::FlowFilter) or
@@ -6854,6 +6856,7 @@ page 81000 "DET Data Editor Buffer"
                 Clear(FieldInfoDictionaty);
             end;
         end;
+
         InitFieldsCaptions(CaptionDictionary);
     end;
 
@@ -7116,6 +7119,9 @@ page 81000 "DET Data Editor Buffer"
         OriginalFieldNo := FieldInfo.Keys.Get(FieldInfo.Count());
         FieldRefVar := RecRef.Field(OriginalFieldNo);
         xFieldRefVar := xRecRef.Field(OriginalFieldNo);
+
+        if DataEditorMgt.IsSystemField(FieldRefVar) then
+            exit;
 
         if not DataEditorMgt.GetNewColumnValue(RecRef, FieldRefVar, Rec."Source Record ID", TempNameValueBuffer, not WithoutValidate) then
             exit;
@@ -7941,6 +7947,7 @@ page 81000 "DET Data Editor Buffer"
 
     local procedure GetEditable(FieldCounter: Integer): Boolean
     var
+        DataEditorMgt: Codeunit "DET Data Editor Mgt.";
         SourceFieldRef: FieldRef;
         FieldInfo: Dictionary of [Integer, Text];
         FieldTypeAsText: Text;
@@ -7950,6 +7957,9 @@ page 81000 "DET Data Editor Buffer"
         GenFieldInfoDict.Get(FieldCounter, FieldInfo);
         if RecRef.Number() <> 0 then
             SourceFieldRef := RecRef.Field(FieldInfo.Keys().Get(1));
+
+        if DataEditorMgt.IsSystemField(SourceFieldRef) then
+            exit(false);
 
         FieldTypeAsText := FieldInfo.Values().Get(1);
 

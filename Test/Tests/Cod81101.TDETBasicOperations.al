@@ -541,6 +541,110 @@ codeunit 81101 "TDET Basic Operations"
         LibraryDataEditor.VerifyBufferFieldsWithSourceRecord(DataEditorBuffer, ListOfRecorIds, FieldNoFilter, false);
     end;
 
+    [Test]
+    [TransactionModel(TransactionModel::AutoRollback)]
+    procedure LoadTableWithSystemFields()
+    var
+        Language: Record Language;
+        DataEditorBufferTestMode: Codeunit "TDET DE Buffer Test Mode";
+        DataEditor: TestPage "DET Data Editor";
+        DataEditorBuffer: TestPage "DET Data Editor Buffer";
+        ListOfRecorIds: List of [RecordId];
+        FieldNoFilter: List of [Integer];
+    begin
+        Init();
+
+        if Language.FindSet() then
+            repeat
+                ListOfRecorIds.Add(Language.RecordId());
+            until Language.Next() = 0;
+
+        DataEditorBuffer.Trap();
+
+        DataEditor.OpenEdit();
+        DataEditor.SourceTableNoField.SetValue(Database::Language);
+        DataEditor.ExcludeFlowFieldsField.SetValue(false);
+        BindSubscription(DataEditorBufferTestMode);
+        DataEditor.OK().Invoke();
+        UnbindSubscription(DataEditorBufferTestMode);
+
+        Assert.AreEqual(Language.TableCaption(), DataEditorBuffer.Caption(), '');
+
+        LibraryDataEditor.VerifyBufferFieldsWithSourceRecord(DataEditorBuffer, ListOfRecorIds, FieldNoFilter, false);
+
+        //Check that last record is match system field values and captions
+        Assert.AreEqual(Language.FieldCaption(SystemId), DataEditorBuffer."Text Value 6".Caption(), '');
+        Assert.AreEqual(Language.FieldCaption(SystemCreatedAt), DataEditorBuffer."Text Value 7".Caption(), '');
+        Assert.AreEqual(Language.FieldCaption(SystemCreatedBy), DataEditorBuffer."Text Value 8".Caption(), '');
+        Assert.AreEqual(Language.FieldCaption(SystemModifiedAt), DataEditorBuffer."Text Value 9".Caption(), '');
+        Assert.AreEqual(Language.FieldCaption(SystemModifiedBy), DataEditorBuffer."Text Value 10".Caption(), '');
+
+        Assert.IsFalse(DataEditorBuffer."Text Value 6".Editable(), '');
+        Assert.IsFalse(DataEditorBuffer."Text Value 7".Editable(), '');
+        Assert.IsFalse(DataEditorBuffer."Text Value 8".Editable(), '');
+        Assert.IsFalse(DataEditorBuffer."Text Value 9".Editable(), '');
+        Assert.IsFalse(DataEditorBuffer."Text Value 10".Editable(), '');
+
+        Assert.AreEqual(Format(Language.SystemId), DataEditorBuffer."Text Value 6".Value(), '');
+        Assert.AreEqual(Format(Language.SystemCreatedAt), DataEditorBuffer."Text Value 7".Value(), '');
+        Assert.AreEqual(Format(Language.SystemCreatedBy), DataEditorBuffer."Text Value 8".Value(), '');
+        Assert.AreEqual(Format(Language.SystemModifiedAt), DataEditorBuffer."Text Value 9".Value(), '');
+        Assert.AreEqual(Format(Language.SystemModifiedBy), DataEditorBuffer."Text Value 10".Value(), '');
+    end;
+
+    [Test]
+    [TransactionModel(TransactionModel::AutoRollback)]
+    procedure LoadTableWithoutSystemFields()
+    var
+        Language: Record Language;
+        DataEditorBufferTestMode: Codeunit "TDET DE Buffer Test Mode";
+        DataEditor: TestPage "DET Data Editor";
+        DataEditorBuffer: TestPage "DET Data Editor Buffer";
+        ListOfRecorIds: List of [RecordId];
+        FieldNoFilter: List of [Integer];
+    begin
+        Init();
+
+        if Language.FindSet() then
+            repeat
+                ListOfRecorIds.Add(Language.RecordId());
+            until Language.Next() = 0;
+
+        FieldNoFilter.Add(Language.FieldNo(Code));
+        FieldNoFilter.Add(Language.FieldNo(Name));
+
+        DataEditorBuffer.Trap();
+
+        DataEditor.OpenEdit();
+        DataEditor.SourceTableNoField.SetValue(Database::Language);
+        DataEditor.ExcludeFlowFieldsField.SetValue(false);
+        DataEditor.FieldFilter.SetValue(StrSubstNo('%1|%2', FieldNoFilter.Get(1), FieldNoFilter.Get(2)));
+        BindSubscription(DataEditorBufferTestMode);
+        DataEditor.OK().Invoke();
+        UnbindSubscription(DataEditorBufferTestMode);
+
+        Assert.AreEqual(Language.TableCaption(), DataEditorBuffer.Caption(), '');
+
+        LibraryDataEditor.VerifyBufferFieldsWithSourceRecord(DataEditorBuffer, ListOfRecorIds, FieldNoFilter, false);
+
+        //Check that field filter correctly excluding other fields and system fields
+        Assert.AreEqual('', DataEditorBuffer."Text Value 4".Value(), '');
+        Assert.AreEqual('', DataEditorBuffer."Text Value 5".Value(), '');
+        Assert.AreEqual('', DataEditorBuffer."Text Value 6".Value(), '');
+        Assert.AreEqual('', DataEditorBuffer."Text Value 7".Value(), '');
+        Assert.AreEqual('', DataEditorBuffer."Text Value 8".Value(), '');
+        Assert.AreEqual('', DataEditorBuffer."Text Value 9".Value(), '');
+        Assert.AreEqual('', DataEditorBuffer."Text Value 10".Value(), '');
+
+        Assert.IsFalse(DataEditorBuffer."Text Value 4".Visible(), '');
+        Assert.IsFalse(DataEditorBuffer."Text Value 5".Visible(), '');
+        Assert.IsFalse(DataEditorBuffer."Text Value 6".Visible(), '');
+        Assert.IsFalse(DataEditorBuffer."Text Value 7".Visible(), '');
+        Assert.IsFalse(DataEditorBuffer."Text Value 8".Visible(), '');
+        Assert.IsFalse(DataEditorBuffer."Text Value 9".Visible(), '');
+        Assert.IsFalse(DataEditorBuffer."Text Value 10".Visible(), '');
+    end;
+
     [ModalPageHandler]
     procedure EditICDirectionType(var NameValueLookup: TestPage "Name/Value Lookup")
     begin
