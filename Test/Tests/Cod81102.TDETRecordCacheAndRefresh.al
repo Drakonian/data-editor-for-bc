@@ -9,6 +9,7 @@ codeunit 81102 "TDET Record Cache And Refresh"
         LibraryDataEditor: Codeunit "TDET Library - Data Editor";
         LibraryVariableStorage: Codeunit "Library - Variable Storage";
         Assert: Codeunit "Library Assert";
+        PageCaptionLbl: Label '%1 (%2)', Locked = true, Comment = '%1 = Table Caption, %2 = Table Number';
 
     [Test]
     [TransactionModel(TransactionModel::AutoRollback)]
@@ -42,7 +43,7 @@ codeunit 81102 "TDET Record Cache And Refresh"
         DataEditor.OK().Invoke();
         UnbindSubscription(DataEditorBufferTestMode);
 
-        Assert.AreEqual(StandardText.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, StandardText.TableCaption(), Database::"Standard Text"), DataEditorBuffer.Caption(), '');
 
         LibraryDataEditor.VerifyBufferFieldsWithSourceRecord(DataEditorBuffer, ListOfRecorIds, FieldNoFilter, false);
 
@@ -90,7 +91,7 @@ codeunit 81102 "TDET Record Cache And Refresh"
         BindSubscription(DataEditorBufferTestMode);
         DataEditor.OK().Invoke();
 
-        Assert.AreEqual(StandardText.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, StandardText.TableCaption(), Database::"Standard Text"), DataEditorBuffer.Caption(), '');
 
         LibraryDataEditor.VerifyBufferFieldsWithSourceRecord(DataEditorBuffer, ListOfRecorIds, FieldNoFilter, false);
 
@@ -158,7 +159,7 @@ codeunit 81102 "TDET Record Cache And Refresh"
         BindSubscription(DataEditorBufferTestMode);
         DataEditor.OK().Invoke();
 
-        Assert.AreEqual(StandardText.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, StandardText.TableCaption(), Database::"Standard Text"), DataEditorBuffer.Caption(), '');
 
         LibraryDataEditor.VerifyBufferFieldsWithSourceRecord(DataEditorBuffer, ListOfRecorIds, FieldNoFilter, false);
 
@@ -216,7 +217,7 @@ codeunit 81102 "TDET Record Cache And Refresh"
         BindSubscription(DataEditorBufferTestMode);
         DataEditor.OK().Invoke();
 
-        Assert.AreEqual(StandardText.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, StandardText.TableCaption(), Database::"Standard Text"), DataEditorBuffer.Caption(), '');
 
         LibraryDataEditor.VerifyBufferFieldsWithSourceRecord(DataEditorBuffer, ListOfRecorIds, FieldNoFilter, false);
 
