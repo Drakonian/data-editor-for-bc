@@ -11,6 +11,7 @@ codeunit 81101 "TDET Basic Operations"
         LibraryVariableStorage: Codeunit "Library - Variable Storage";
         Assert: Codeunit "Library Assert";
         CustomerNo1, CustomerNo2 : Code[20];
+        PageCaptionLbl: Label '%1 (%2)', Locked = true, Comment = '%1 = Table Caption, %2 = Table Number';
 
     [Test]
     [TransactionModel(TransactionModel::AutoRollback)]
@@ -37,7 +38,7 @@ codeunit 81101 "TDET Basic Operations"
         DataEditor.OK().Invoke();
         UnbindSubscription(DataEditorBufferTestMode);
 
-        Assert.AreEqual(CompanyInformation.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, CompanyInformation.TableCaption(), Database::"Company Information"), DataEditorBuffer.Caption(), '');
 
         LibraryDataEditor.VerifyBufferFieldsWithSourceRecord(DataEditorBuffer, ListOfRecorIds, FieldNoFilter, false);
     end;
@@ -74,7 +75,7 @@ codeunit 81101 "TDET Basic Operations"
         DataEditor.OK().Invoke();
         UnbindSubscription(DataEditorBufferTestMode);
 
-        Assert.AreEqual(Customer.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, Customer.TableCaption(), Database::Customer), DataEditorBuffer.Caption(), '');
 
         LibraryDataEditor.VerifyBufferFieldsWithSourceRecord(DataEditorBuffer, ListOfRecorIds, FieldNoFilter, false);
     end;
@@ -110,7 +111,7 @@ codeunit 81101 "TDET Basic Operations"
         DataEditor.OK().Invoke();
         UnbindSubscription(DataEditorBufferTestMode);
 
-        Assert.AreEqual(Customer.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, Customer.TableCaption(), Database::Customer), DataEditorBuffer.Caption(), '');
 
         LibraryDataEditor.VerifyBufferFieldsWithSourceRecord(DataEditorBuffer, ListOfRecorIds, FieldNoFilter, true);
     end;
@@ -152,7 +153,7 @@ codeunit 81101 "TDET Basic Operations"
         DataEditor.OK().Invoke();
         UnbindSubscription(DataEditorBufferTestMode);
 
-        Assert.AreEqual(Customer.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, Customer.TableCaption(), Database::Customer), DataEditorBuffer.Caption(), '');
 
         LibraryDataEditor.VerifyBufferFieldsWithSourceRecord(DataEditorBuffer, ListOfRecorIds, FieldNoFilter, true);
     end;
@@ -196,7 +197,7 @@ codeunit 81101 "TDET Basic Operations"
         DataEditor.OK().Invoke();
         UnbindSubscription(DataEditorBufferTestMode);
 
-        Assert.AreEqual(StandardText.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, StandardText.TableCaption(), Database::"Standard Text"), DataEditorBuffer.Caption(), '');
 
         LibraryDataEditor.VerifyBufferFieldsWithSourceRecord(DataEditorBuffer, ListOfRecorIds, FieldNoFilter, false);
 
@@ -235,7 +236,7 @@ codeunit 81101 "TDET Basic Operations"
         DataEditor.OK().Invoke();
         UnbindSubscription(DataEditorBufferTestMode);
 
-        Assert.AreEqual(SalesHeader.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, SalesHeader.TableCaption(), Database::"Sales Header"), DataEditorBuffer.Caption(), '');
 
         LibraryDataEditor.VerifyBufferFieldsWithSourceRecord(DataEditorBuffer, ListOfRecorIds, FieldNoFilter, false);
     end;
@@ -266,7 +267,7 @@ codeunit 81101 "TDET Basic Operations"
         DataEditor.OK().Invoke();
         UnbindSubscription(DataEditorBufferTestMode);
 
-        Assert.AreEqual(SalesHeader.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, SalesHeader.TableCaption(), Database::"Sales Header"), DataEditorBuffer.Caption(), '');
 
         DataEditorBuffer."Text Value 4".Drilldown();
 
@@ -300,7 +301,7 @@ codeunit 81101 "TDET Basic Operations"
 
         LibraryVariableStorage.Enqueue(SalesHeader.FieldCaption("IC Direction"));
 
-        Assert.AreEqual(SalesHeader.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, SalesHeader.TableCaption(), Database::"Sales Header"), DataEditorBuffer.Caption(), '');
         Assert.AreEqual(SalesHeader.FieldCaption("IC Direction"), DataEditorBuffer."Text Value 110".Caption(), '');
         Assert.AreEqual(Format(Enum::"IC Direction Type"::Outgoing), DataEditorBuffer."Text Value 110".Value(), '');
 
@@ -338,7 +339,7 @@ codeunit 81101 "TDET Basic Operations"
 
         LibraryVariableStorage.Enqueue(SalesHeader.FieldCaption("IC Direction"));
 
-        Assert.AreEqual(SalesHeader.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, SalesHeader.TableCaption(), Database::"Sales Header"), DataEditorBuffer.Caption(), '');
         Assert.AreEqual(SalesHeader.FieldCaption("Posting Description"), DataEditorBuffer."Text Value 23".Caption(), '');
         Assert.AreEqual(LibraryVariableStorage.DequeueText(), DataEditorBuffer."Text Value 23".Value(), '');
 
@@ -370,7 +371,7 @@ codeunit 81101 "TDET Basic Operations"
         DataEditor.OK().Invoke();
         UnbindSubscription(DataEditorBufferTestMode);
 
-        Assert.AreEqual(Customer.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, Customer.TableCaption(), Database::Customer), DataEditorBuffer.Caption(), '');
         Assert.AreEqual(Customer.FieldCaption("Phone No."), DataEditorBuffer."Text Value 10".Caption(), '');
 
         asserterror Customer.Validate("Phone No.", 'incorrect phone');
@@ -404,7 +405,7 @@ codeunit 81101 "TDET Basic Operations"
         DataEditor.OK().Invoke();
         UnbindSubscription(DataEditorBufferTestMode);
 
-        Assert.AreEqual(Customer.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, Customer.TableCaption(), Database::Customer), DataEditorBuffer.Caption(), '');
         Assert.AreEqual(Customer.FieldCaption("Phone No."), DataEditorBuffer."Text Value 10".Caption(), '');
 
         asserterror DataEditorBuffer."Text Value 10".SetValue('incorrect phone');
@@ -442,7 +443,7 @@ codeunit 81101 "TDET Basic Operations"
         DataEditor.OK().Invoke();
         UnbindSubscription(DataEditorBufferTestMode);
 
-        Assert.AreEqual(Customer.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, Customer.TableCaption(), Database::Customer), DataEditorBuffer.Caption(), '');
 
         LibraryDialogHandler.SetExpectedConfirm(DeleteAllLbl, true);
 
@@ -487,7 +488,7 @@ codeunit 81101 "TDET Basic Operations"
         DataEditor.OK().Invoke();
         UnbindSubscription(DataEditorBufferTestMode);
 
-        Assert.AreEqual(Customer.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, Customer.TableCaption(), Database::Customer), DataEditorBuffer.Caption(), '');
 
         LibraryDialogHandler.SetExpectedConfirm(DeleteAllLbl, true);
 
@@ -536,7 +537,7 @@ codeunit 81101 "TDET Basic Operations"
         DataEditor.OK().Invoke();
         UnbindSubscription(DataEditorBufferTestMode);
 
-        Assert.AreEqual(Customer.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, Customer.TableCaption(), Database::Customer), DataEditorBuffer.Caption(), '');
 
         LibraryDataEditor.VerifyBufferFieldsWithSourceRecord(DataEditorBuffer, ListOfRecorIds, FieldNoFilter, false);
     end;
@@ -568,7 +569,7 @@ codeunit 81101 "TDET Basic Operations"
         DataEditor.OK().Invoke();
         UnbindSubscription(DataEditorBufferTestMode);
 
-        Assert.AreEqual(Language.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, Language.TableCaption(), Database::Language), DataEditorBuffer.Caption(), '');
 
         LibraryDataEditor.VerifyBufferFieldsWithSourceRecord(DataEditorBuffer, ListOfRecorIds, FieldNoFilter, false);
 
@@ -623,7 +624,7 @@ codeunit 81101 "TDET Basic Operations"
         DataEditor.OK().Invoke();
         UnbindSubscription(DataEditorBufferTestMode);
 
-        Assert.AreEqual(Language.TableCaption(), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, Language.TableCaption(), Database::Language), DataEditorBuffer.Caption(), '');
 
         LibraryDataEditor.VerifyBufferFieldsWithSourceRecord(DataEditorBuffer, ListOfRecorIds, FieldNoFilter, false);
 

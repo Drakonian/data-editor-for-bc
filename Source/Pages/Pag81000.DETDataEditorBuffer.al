@@ -6832,9 +6832,10 @@ page 81000 "DET Data Editor Buffer"
         FieldID: Integer;
         FieldInfoDictionaty: Dictionary of [Integer, Text];
         StartBufferFieldNo: Integer;
+        PageCaptionLbl: Label '%1 (%2)', Comment = '%1 = Table Caption, %2 = Table Number', Locked = true;
     begin
         RecRef.Open(TableNo);
-        CurrPage.Caption(RecRef.Caption());
+        CurrPage.Caption(StrSubstNo(PageCaptionLbl, RecRef.Caption(), RecRef.Number));
         StartBufferFieldNo := Rec.FieldNo("Text Value 2");
         FieldRec.FilterGroup(10);
         FieldRec.SetFilter("No.", FieldFilter);
