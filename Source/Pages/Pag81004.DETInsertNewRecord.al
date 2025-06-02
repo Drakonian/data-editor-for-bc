@@ -283,91 +283,91 @@ page 81004 "DET Insert New Record"
         if not (CloseAction in [CloseAction::OK, CloseAction::LookupOK]) then
             exit;
 
-        if FieldVisible1 then begin
+        if FieldVisible1 and IsFieldInitialized[1] then begin
             FieldRefToInsert := GetFieldRefByCounter(1);
             FieldRefToInsert.Value(VariantValue1);
             if not WithoutValidation then
                 FieldRefToInsert.Validate();
         end;
-        if FieldVisible2 then begin
+        if FieldVisible2 and IsFieldInitialized[2] then begin
             FieldRefToInsert := GetFieldRefByCounter(2);
             FieldRefToInsert.Value(VariantValue2);
             if not WithoutValidation then
                 FieldRefToInsert.Validate();
         end;
-        if FieldVisible3 then begin
+        if FieldVisible3 and IsFieldInitialized[3] then begin
             FieldRefToInsert := GetFieldRefByCounter(3);
             FieldRefToInsert.Value(VariantValue3);
             if not WithoutValidation then
                 FieldRefToInsert.Validate();
         end;
-        if FieldVisible4 then begin
+        if FieldVisible4 and IsFieldInitialized[4] then begin
             FieldRefToInsert := GetFieldRefByCounter(4);
             FieldRefToInsert.Value(VariantValue4);
             if not WithoutValidation then
                 FieldRefToInsert.Validate();
         end;
-        if FieldVisible5 then begin
+        if FieldVisible5 and IsFieldInitialized[5] then begin
             FieldRefToInsert := GetFieldRefByCounter(5);
             FieldRefToInsert.Value(VariantValue5);
             if not WithoutValidation then
                 FieldRefToInsert.Validate();
         end;
-        if FieldVisible6 then begin
+        if FieldVisible6 and IsFieldInitialized[6] then begin
             FieldRefToInsert := GetFieldRefByCounter(6);
             FieldRefToInsert.Value(VariantValue6);
             if not WithoutValidation then
                 FieldRefToInsert.Validate();
         end;
-        if FieldVisible7 then begin
+        if FieldVisible7 and IsFieldInitialized[7] then begin
             FieldRefToInsert := GetFieldRefByCounter(7);
             FieldRefToInsert.Value(VariantValue7);
             if not WithoutValidation then
                 FieldRefToInsert.Validate();
         end;
-        if FieldVisible8 then begin
+        if FieldVisible8 and IsFieldInitialized[8] then begin
             FieldRefToInsert := GetFieldRefByCounter(8);
             FieldRefToInsert.Value(VariantValue8);
             if not WithoutValidation then
                 FieldRefToInsert.Validate();
         end;
-        if FieldVisible9 then begin
+        if FieldVisible9 and IsFieldInitialized[9] then begin
             FieldRefToInsert := GetFieldRefByCounter(9);
             FieldRefToInsert.Value(VariantValue9);
             if not WithoutValidation then
                 FieldRefToInsert.Validate();
         end;
-        if FieldVisible10 then begin
+        if FieldVisible10 and IsFieldInitialized[10] then begin
             FieldRefToInsert := GetFieldRefByCounter(10);
             FieldRefToInsert.Value(VariantValue10);
             if not WithoutValidation then
                 FieldRefToInsert.Validate();
         end;
-        if FieldVisible11 then begin
+        if FieldVisible11 and IsFieldInitialized[11] then begin
             FieldRefToInsert := GetFieldRefByCounter(11);
             FieldRefToInsert.Value(VariantValue11);
             if not WithoutValidation then
                 FieldRefToInsert.Validate();
         end;
-        if FieldVisible12 then begin
+        if FieldVisible12 and IsFieldInitialized[12] then begin
             FieldRefToInsert := GetFieldRefByCounter(12);
             FieldRefToInsert.Value(VariantValue12);
             if not WithoutValidation then
                 FieldRefToInsert.Validate();
         end;
-        if FieldVisible13 then begin
+        if FieldVisible13 and IsFieldInitialized[13] then begin
             FieldRefToInsert := GetFieldRefByCounter(13);
             FieldRefToInsert.Value(VariantValue13);
             if not WithoutValidation then
                 FieldRefToInsert.Validate();
         end;
-        if FieldVisible14 then begin
+        if FieldVisible14 and IsFieldInitialized[14] then begin
             FieldRefToInsert := GetFieldRefByCounter(14);
             FieldRefToInsert.Value(VariantValue14);
             if not WithoutValidation then
                 FieldRefToInsert.Validate();
         end;
-        if FieldVisible15 then begin
+        if FieldVisible15 and IsFieldInitialized[15] then begin
             FieldRefToInsert := GetFieldRefByCounter(15);
             FieldRefToInsert.Value(VariantValue15);
             if not WithoutValidation then
@@ -524,6 +524,8 @@ page 81004 "DET Insert New Record"
             EditValue.GetResult(ResultVariant);
         end;
 
+        IsFieldInitialized[FieldCounter] := true;
+
         case FieldCounter of
             1:
                 VariantValue1 := ResultVariant;
@@ -575,6 +577,8 @@ page 81004 "DET Insert New Record"
         FieldInfoDictionaty := GenFieldInfoDict.Get(FieldCounter);
         foreach OriginalFieldNo in FieldInfoDictionaty.Keys() do
             FieldRefVar := GlobalRecRef.Field(OriginalFieldNo);
+
+        IsFieldInitialized[FieldCounter] := true;
 
         case FieldCounter of
             1:
@@ -628,6 +632,7 @@ page 81004 "DET Insert New Record"
     var
         GlobalRecRef: RecordRef;
         FieldVisible1, FieldVisible2, FieldVisible3, FieldVisible4, FieldVisible5, FieldVisible6, FieldVisible7, FieldVisible8, FieldVisible9, FieldVisible10, FieldVisible11, FieldVisible12, FieldVisible13, FieldVisible14, FieldVisible15 : boolean;
+        IsFieldInitialized: array[15] of boolean;
         FieldCaption1, FieldCaption2, FieldCaption3, FieldCaption4, FieldCaption5, FieldCaption6, FieldCaption7, FieldCaption8, FieldCaption9, FieldCaption10, FieldCaption11, FieldCaption12, FieldCaption13, FieldCaption14, FieldCaption15 : text;
         GenFieldInfoDict: Dictionary of [Integer, Dictionary of [Integer, Text]];
         VariantValue1, VariantValue2, VariantValue3, VariantValue4, VariantValue5, VariantValue6, VariantValue7, VariantValue8, VariantValue9, VariantValue10, VariantValue11, VariantValue12, VariantValue13, VariantValue14, VariantValue15 : Variant;
