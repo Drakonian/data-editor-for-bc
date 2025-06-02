@@ -6767,7 +6767,7 @@ page 81000 "DET Data Editor Buffer"
         PageKey.GetRecord(KeyRec);
         RecRef.CurrentKeyIndex(KeyRec."No.");
         CustomTableView := RecRef.GetView();
-        RefreshData(); // hard reset to rebiled view...
+        RefreshData(); // hard reset to rebuild view...
     end;
 
     local procedure InsertNewRecord()
@@ -6776,6 +6776,9 @@ page 81000 "DET Data Editor Buffer"
         InsertNewRecordPage: Page "DET Insert New Record";
         NewRecordId: RecordId;
     begin
+        if RecRef.IsTemporary() then
+            Error(IsTempRecordErr);
+
         InsertNewRecordPage.SetInitData(RecRef.Number(), WithoutValidate);
         if not (InsertNewRecordPage.RunModal() in [Action::LookupOK, Action::OK]) then
             exit;
@@ -8002,6 +8005,7 @@ page 81000 "DET Data Editor Buffer"
         GenFieldInfoDict: Dictionary of [Integer, Dictionary of [Integer, Text]];
         CaptionDictionary: Dictionary of [Integer, Text];
         LoadFieldNoList: List of [Integer];
+        IsTempRecordErr: Label 'You cannot create records in the temporary table.';
         ProcessingLbl: Label 'Processing';
         RecordIsInsertedLbl: Label 'Record %1 is inserted.', Comment = '%1 = RecordId of new record.';
         DeleteAllLbl: Label 'Are sure you want to delete %1 entries?', Comment = '%1 = Count of entries.';

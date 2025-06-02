@@ -2458,6 +2458,11 @@
           <note from="Developer" annotates="general" priority="2">%1 = Count of entries.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - NamedType DeleteAllLbl</note>
         </trans-unit>
+        <trans-unit id="Page 1713748232 - NamedType 3844598882" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You cannot create records in the temporary table.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Data Editor Buffer - NamedType IsTempRecordErr</note>
+        </trans-unit>
         <trans-unit id="Page 1713748232 - NamedType 3603708091" size-unit="char" translate="yes" xml:space="preserve">
           <source>Processing</source>
           <note from="Developer" annotates="general" priority="2"></note>
