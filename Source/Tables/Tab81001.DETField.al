@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2021-2025 Volodymyr Dvernytskyi
+// SPDX-License-Identifier: MIT
+//
+// Original author — Volodymyr Dvernytskyi (Data Editor Tool)
 table 81001 "DET Field"
 {
     Caption = 'Field';

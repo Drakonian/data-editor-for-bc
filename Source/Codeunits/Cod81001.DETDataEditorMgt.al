@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2021-2025 Volodymyr Dvernytskyi
+// SPDX-License-Identifier: MIT
+//
+// Original author — Volodymyr Dvernytskyi (Data Editor Tool)
 codeunit 81001 "DET Data Editor Mgt."
 {
     Permissions = tabledata "Vendor Ledger Entry" = RMID, tabledata "FA Ledger Entry" = RMID, tabledata "Job Ledger Entry" = RMID, tabledata "Item Ledger Entry" = RMID,
