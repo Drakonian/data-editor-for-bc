@@ -11,25 +11,6 @@ page 81000 "DET Data Editor Buffer"
     UsageCategory = None;
     SourceTableTemporary = true;
     InsertAllowed = false;
-    Permissions = tabledata "Vendor Ledger Entry" = RMID, tabledata "FA Ledger Entry" = RMID, tabledata "Job Ledger Entry" = RMID, tabledata "Item Ledger Entry" = RMID,
-     tabledata "Res. Ledger Entry" = RMID, tabledata "Check Ledger Entry" = RMID, tabledata "Cust. Ledger Entry" = RMID, tabledata "Service Ledger Entry" = RMID,
-     tabledata "Capacity Ledger Entry" = RMID, tabledata "Employee Ledger Entry" = RMID, tabledata "Warranty Ledger Entry" = RMID, tabledata "Maintenance Ledger Entry" = RMID,
-     tabledata "Bank Account Ledger Entry" = RMID, tabledata "Ins. Coverage Ledger Entry" = RMID, tabledata "Payable Vendor Ledger Entry" = RMID, tabledata "Phys. Inventory Ledger Entry" = RMID,
-     tabledata "Payable Employee Ledger Entry" = RMID, tabledata "Detailed Employee Ledger Entry" = RMID, tabledata "Detailed Cust. Ledg. Entry" = RMID, tabledata "Detailed Vendor Ledg. Entry" = RMID,
-     tabledata "Sales Invoice Header" = RMID, tabledata "Sales Invoice Line" = RMID, tabledata "Sales Shipment Header" = RMID, tabledata "Sales Shipment Line" = RMID,
-     tabledata "Sales Cr.Memo Header" = RMID, tabledata "Sales Cr.Memo Line" = RMID, tabledata "Purch. Cr. Memo Hdr." = RMID, tabledata "Purch. Cr. Memo Line" = RMID,
-     tabledata "Purch. Inv. Header" = RMID, tabledata "Purch. Inv. Line" = RMID, tabledata "Purch. Rcpt. Header" = RMID, tabledata "Purch. Rcpt. Line" = RMID,
-     tabledata "Purchase Header Archive" = RMID, tabledata "Sales Line Archive" = RMID, tabledata "Sales Header Archive" = RMID, tabledata "Purchase Line Archive" = RMID,
-     tabledata "Sales Comment Line Archive" = RMID, tabledata "Purch. Comment Line Archive" = RMID, tabledata "Workflow Step Argument Archive" = RMID, tabledata "Workflow Record Change Archive" = RMID,
-     tabledata "Workflow Step Instance Archive" = RMID, tabledata "G/L Entry" = RMID, tabledata "Approval Entry" = RMID, tabledata "Warehouse Entry" = RMID,
-     tabledata "Value Entry" = RMID, tabledata "Item Register" = RMID, tabledata "G/L Register" = RIMD, tabledata "Vat Entry" = RMID, tabledata "Dimension Set Entry" = RIMD,
-     tabledata "Service Invoice Header" = RMID, TableData "Service Cr.Memo Header" = RMID, TableData "Issued Reminder Header" = RMID, TableData "Issued Fin. Charge Memo Header" = RMID,
-     tabledata "G/L Entry - VAT Entry Link" = RMID, tabledata "Item Application Entry" = RMID, tabledata "Item Application Entry History" = RMID,
-     tabledata "Return Shipment Header" = RMID, tabledata "Return Shipment Line" = RMID, tabledata "Return Receipt Header" = RMID, tabledata "Return Receipt Line" = RMID,
-     tabledata "Invt. Receipt Header" = RMID, tabledata "Invt. Receipt Line" = RMID, tabledata "Invt. Shipment Header" = RMID, tabledata "Invt. Shipment Line" = RMID,
-     tabledata "Pstd. Phys. Invt. Record Hdr" = RMID, tabledata "Pstd. Phys. Invt. Record Line" = RMID, tabledata "Pstd. Phys. Invt. Order Hdr" = RMID, tabledata "Pstd. Phys. Invt. Order Line" = RMID,
-     tabledata "Bank Account Statement Line" = RMID, tabledata "Change Log Entry" = RIMD, tabledata "Posted Approval Entry" = RIMD, tabledata "FA Register" = RIMD, tabledata "Post Value Entry to G/L" = RIMD,
-     tabledata "Job Register" = RMID;
 
     layout
     {
@@ -6648,10 +6629,7 @@ page 81000 "DET Data Editor Buffer"
         DataEditorMgt: Codeunit "DET Data Editor Mgt.";
         SelectFields: Page "DET Select Fields";
         RecRefDuplicate: RecordRef;
-        xRecRef: RecordRef;
         NewFieldRef: FieldRef;
-        FieldRefVar: FieldRef;
-        xFieldRefVar: FieldRef;
     begin
         if RecRef.Number() = 0 then
             exit;
@@ -6672,18 +6650,12 @@ page 81000 "DET Data Editor Buffer"
             exit;
         if Rec.FindSet() then
             repeat
-                RecRef.Get(Rec."Source Record ID");
-                xRecRef := RecRef.Duplicate();
-                FieldRefVar := RecRef.Field(TempDETField."Field Id");
-                xFieldRefVar := xRecRef.Field(TempDETField."Field Id");
-                if WithoutValidate then
-                    FieldRefVar.Value(NewFieldRef.Value())
-                else
-                    FieldRefVar.Validate(NewFieldRef.Value());
-                RecRef.Modify(not WithoutValidate);
-                if IsLogEnabled then
-                    DataEditorMgt.LogModify(RecRef.Number(), FieldRefVar.Number(), RecRef.RecordId(), xFieldRefVar,
-                        FieldRefVar, not WithoutValidate);
+                DataEditorMgt.UpdateFieldByRecordIdFromVariant(
+                    Rec."Source Record ID",
+                    TempDETField."Field Id",
+                    NewFieldRef.Value(),
+                    not WithoutValidate,
+                    IsLogEnabled);
             until Rec.Next() = 0;
         RefreshData();
     end;
@@ -6694,10 +6666,8 @@ page 81000 "DET Data Editor Buffer"
         DataEditorMgt: Codeunit "DET Data Editor Mgt.";
         SelectFields: Page "DET Select Fields";
         RecRefDuplicate: RecordRef;
-        xRecRef: RecordRef;
         CopyFromFieldRef: FieldRef;
         CopyToFieldRef: FieldRef;
-        xCopyToFieldRef: FieldRef;
         CopyToFieldNo, CopyFromFieldNo : Integer;
     begin
         if RecRef.Number() = 0 then
@@ -6738,21 +6708,12 @@ page 81000 "DET Data Editor Buffer"
 
         if Rec.FindSet() then
             repeat
-                RecRef.Get(Rec."Source Record ID");
-                xRecRef := RecRef.Duplicate();
-                CopyFromFieldRef := RecRef.Field(CopyFromFieldNo);
-                if CopyFromFieldRef.Class() = FieldClass::FlowField then
-                    CopyFromFieldRef.CalcField();
-                CopyToFieldRef := RecRef.Field(CopyToFieldNo);
-                xCopyToFieldRef := xRecRef.Field(CopyToFieldNo);
-                if WithoutValidate then
-                    CopyToFieldRef.Value(CopyFromFieldRef.Value())
-                else
-                    CopyToFieldRef.Validate(CopyFromFieldRef.Value());
-                RecRef.Modify(not WithoutValidate);
-                if IsLogEnabled then
-                    DataEditorMgt.LogModify(RecRef.Number(), CopyToFieldRef.Number(), RecRef.RecordId(), xCopyToFieldRef,
-                        CopyToFieldRef, not WithoutValidate);
+                DataEditorMgt.CopyFieldValueByRecordId(
+                    Rec."Source Record ID",
+                    CopyFromFieldNo,
+                    CopyToFieldNo,
+                    not WithoutValidate,
+                    IsLogEnabled);
             until Rec.Next() = 0;
         RefreshData();
     end;
@@ -6802,13 +6763,8 @@ page 81000 "DET Data Editor Buffer"
     local procedure DeleteSourceRecord(SourceRecordID: RecordId)
     var
         DataEditorMgt: Codeunit "DET Data Editor Mgt.";
-        SourceRecRef: RecordRef;
     begin
-        if SourceRecRef.Get(SourceRecordID) then
-            SourceRecRef.Delete(not WithoutValidate);
-
-        if IsLogEnabled then
-            DataEditorMgt.LogDelete(RecRef.Number(), SourceRecordID, not WithoutValidate);
+        DataEditorMgt.DeleteRecordByRecordId(SourceRecordID, not WithoutValidate, IsLogEnabled);
     end;
 
     procedure LoadRecords(TableNo: Integer; inCustomTableView: Text; inFieldFilter: Text; inWithoutValidate: Boolean; inExcludeFlowFields: Boolean; inReadInParallel: Boolean; inRunAfter: Boolean)
@@ -6918,7 +6874,7 @@ page 81000 "DET Data Editor Buffer"
             RecRef.SetView(CustomTableView);
 
         RecRef.ReadIsolation := RecRef.ReadIsolation::ReadCommitted;
-        TotalRecordCount := RecRef.Count();
+        TotalRecordCount := DataEditorMgt.GetRecordCount(RecRef.Number(), CustomTableView);
 
         if TotalRecordCount = 0 then
             exit;
@@ -7003,147 +6959,40 @@ page 81000 "DET Data Editor Buffer"
 
     local procedure RefreshData()
     var
-        ConfigProgressBar: Codeunit "Config. Progress Bar";
-        TempDataEditorBufferRecRef: RecordRef;
-        LocalRecRef: RecordRef;
-        SystemModifiedAtFieldRef: FieldRef;
-        LocalFieldRefVar: FieldRef;
-        TempDataEditorBufferFieldRefVar: FieldRef;
-        IsRecordCached: Boolean;
-        FieldNumber: Integer;
-        Counter: Integer;
-        LastEntryNo: Integer;
-        PrevView: Text;
+        DataEditorMgt: Codeunit "DET Data Editor Mgt.";
     begin
-        LocalRecRef.Open(RecRef.Number());
-        if CustomTableView <> '' then
-            LocalRecRef.SetView(CustomTableView);
-        LocalRecRef.ReadIsolation := RecRef.ReadIsolation::ReadCommitted;
-
-        TempDataEditorBufferRecRef.GetTable(Rec);
-        TempDataEditorBufferRecRef.FilterGroup(10);
-
-        SystemModifiedAtFieldRef := LocalRecRef.Field(LocalRecRef.SystemModifiedAtNo());
-        SystemModifiedAtFieldRef.SetFilter('>=%1', InitLoadDateTime);
-        if LocalRecRef.FindSet() then begin
-            PrevView := Rec.GetView();
-            Rec.Reset();
-            if Rec.FindLast() then
-                LastEntryNo := Rec."Entry No.";
-            if GuiAllowed() then
-                ConfigProgressBar.Init(LocalRecRef.Count(), 1, LocalRecRef.Caption());
-            repeat
-                Counter := 0;
-
-                TempDataEditorBufferFieldRefVar := TempDataEditorBufferRecRef.Field(Rec.FieldNo("Source Record ID"));
-                TempDataEditorBufferFieldRefVar.SetRange(LocalRecRef.RecordId());
-                IsRecordCached := TempDataEditorBufferRecRef.FindFirst();
-
-                if not IsRecordCached then begin
-                    LastEntryNo += 1;
-                    TempDataEditorBufferRecRef.Init();
-                    TempDataEditorBufferFieldRefVar := TempDataEditorBufferRecRef.FieldIndex(1);
-                    TempDataEditorBufferFieldRefVar.Value(LastEntryNo);
-                    TempDataEditorBufferFieldRefVar := TempDataEditorBufferRecRef.FieldIndex(2);
-                    TempDataEditorBufferFieldRefVar.Value(LocalRecRef.RecordId());
-                end;
-
-                foreach FieldNumber in LoadFieldNoList do begin
-                    Counter += 1;
-                    LocalFieldRefVar := LocalRecRef.Field(FieldNumber);
-
-                    //Performance bottleneck
-                    if LocalFieldRefVar.Class() = FieldClass::FlowField then
-                        LocalFieldRefVar.CalcField();
-
-                    TempDataEditorBufferFieldRefVar := TempDataEditorBufferRecRef.FieldIndex(Counter + 2);
-                    TempDataEditorBufferFieldRefVar.Value(LocalFieldRefVar.Value());
-                end;
-
-                if IsRecordCached then
-                    TempDataEditorBufferRecRef.Modify()
-                else
-                    TempDataEditorBufferRecRef.Insert();
-
-                if GuiAllowed() then
-                    ConfigProgressBar.UpdateCount(ProcessingLbl, 1);
-            until LocalRecRef.Next() = 0;
-            InitLoadDateTime := CurrentDateTime();
-
-            if GuiAllowed() then
-                ConfigProgressBar.Close();
-
-            Rec.SetView(PrevView);
-            if Rec.FindFirst() then;
-        end;
+        DataEditorMgt.RefreshBufferAfterInit(Rec, RecRef.Number(), CustomTableView, LoadFieldNoList, InitLoadDateTime);
     end;
 
     local procedure OnValidateField(FieldCounter: Integer; NewValue: Text[2048])
     var
         DataEditorMgt: Codeunit "DET Data Editor Mgt.";
-        xRecRef: RecordRef;
-        FieldRefVar: FieldRef;
-        xFieldRefVar: FieldRef;
         FieldInfo: Dictionary of [Integer, Text];
         OriginalFieldNo: Integer;
     begin
-        if not RecRef.Get(Rec."Source Record ID") then
-            exit;
-        xRecRef := RecRef.Duplicate();
         GenFieldInfoDict.Get(FieldCounter, FieldInfo);
-        foreach OriginalFieldNo in FieldInfo.Keys() do
-            FieldRefVar := RecRef.Field(OriginalFieldNo);
-        xFieldRefVar := xRecRef.Field(OriginalFieldNo);
-
-        if DataEditorMgt.IsFieldIsPartOfPK(RecRef, FieldRefVar) then begin
-            DataEditorMgt.RenamePKField(RecRef, FieldRefVar, Rec."Source Record ID", NewValue);
-            if IsLogEnabled then
-                DataEditorMgt.LogRename(RecRef.Number(), FieldRefVar.Number(), RecRef.RecordId(), xFieldRefVar, FieldRefVar, true);
-            exit;
-        end;
-        if WithoutValidate then
-            FieldRefVar.Value(DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue))
-        else
-            FieldRefVar.Validate(DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue));
-        RecRef.Modify(not WithoutValidate);
-
-        if IsLogEnabled then
-            DataEditorMgt.LogModify(RecRef.Number(), FieldRefVar.Number(), Rec."Source Record ID", xFieldRefVar, FieldRefVar, not WithoutValidate);
+        foreach OriginalFieldNo in FieldInfo.Keys() do;
+        DataEditorMgt.UpdateFieldByRecordIdFromText(
+            Rec."Source Record ID",
+            OriginalFieldNo,
+            NewValue,
+            not WithoutValidate,
+            IsLogEnabled);
     end;
 
     local procedure OnDrillDownField(FieldCounter: Integer; var NewValue: Text[2048])
     var
-        TempNameValueBuffer: Record "Name/Value Buffer" temporary;
         DataEditorMgt: Codeunit "DET Data Editor Mgt.";
-        xRecRef: RecordRef;
-        FieldRefVar: FieldRef;
-        xFieldRefVar: FieldRef;
         FieldInfo: Dictionary of [Integer, Text];
         OriginalFieldNo: Integer;
     begin
-        if not RecRef.Get(Rec."Source Record ID") then
-            exit;
-        xRecRef := RecRef.Duplicate();
         GenFieldInfoDict.Get(FieldCounter, FieldInfo);
         OriginalFieldNo := FieldInfo.Keys.Get(FieldInfo.Count());
-        FieldRefVar := RecRef.Field(OriginalFieldNo);
-        xFieldRefVar := xRecRef.Field(OriginalFieldNo);
-
-        if DataEditorMgt.IsSystemField(FieldRefVar) then
-            exit;
-
-        if not DataEditorMgt.GetNewColumnValue(RecRef, FieldRefVar, Rec."Source Record ID", TempNameValueBuffer, not WithoutValidate) then
-            exit;
-
-        RecRef.Modify(not WithoutValidate);
-
-        if FieldRefVar.Type() = FieldRefVar.Type::Option then
-            NewValue := TempNameValueBuffer.Value
-        else
-            NewValue := format(FieldRefVar.Value());
-
-        if IsLogEnabled then
-            DataEditorMgt.LogModify(RecRef.Number(), FieldRefVar.Number(), Rec."Source Record ID", xFieldRefVar, FieldRefVar, not WithoutValidate);
+        NewValue := DataEditorMgt.GetAndApplyNewFieldValueByRecordId(
+            Rec."Source Record ID",
+            OriginalFieldNo,
+            not WithoutValidate,
+            IsLogEnabled);
     end;
 
     local procedure InitVisibility()
