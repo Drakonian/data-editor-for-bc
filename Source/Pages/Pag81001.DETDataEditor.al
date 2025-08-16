@@ -220,7 +220,7 @@ page 81001 "DET Data Editor"
         RecRef.Open(SourceTableNo);
         if TableView <> '' then
             RecRef.SetView(TableView);
-        NumberOfRecords := RecRef.Count();
+        NumberOfRecords := DataOperations.Count(RecRef);
     end;
 
     local procedure SetCustomFilter()
@@ -363,6 +363,7 @@ page 81001 "DET Data Editor"
     end;
 
     var
+        DataOperations: Codeunit "DET Data Operations";
         WithoutValidation: Boolean;
         ExcludeFlowFields: Boolean;
         ReadInParallel: Boolean;

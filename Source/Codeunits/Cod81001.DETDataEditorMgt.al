@@ -37,7 +37,7 @@ codeunit 81001 "DET Data Editor Mgt."
         FieldNo: Integer;
         ResultVariant: Variant;
     begin
-        if not RecRef.Get(SourceRecordId) then
+        if not DataOperations.GetRecord(RecRef, SourceRecordId) then
             exit;
 
         if FieldRefVar.Class <> FieldClass::Normal then
@@ -75,23 +75,23 @@ codeunit 81001 "DET Data Editor Mgt."
             RenamePKField(RecRef, FieldRefVar, SourceRecordId, ResultVariant);
             if FieldRefVar.Type() = FieldRefVar.Type::Option then begin
                 if WithValidate then
-                    FieldRefVar.Validate(TempNameValueBuffer.Name)
+                    DataOperations.ValidateFieldRefValue(FieldRefVar, TempNameValueBuffer.Name)
                 else
-                    FieldRefVar.Value(TempNameValueBuffer.Name);
+                    DataOperations.SetFieldRefValue(FieldRefVar, TempNameValueBuffer.Name);
             end else
                 if WithValidate then
-                    FieldRefVar.Validate(ResultVariant)
+                    DataOperations.ValidateFieldRefValue(FieldRefVar, ResultVariant)
                 else
-                    FieldRefVar.Value(ResultVariant);
+                    DataOperations.SetFieldRefValue(FieldRefVar, ResultVariant);
             if DataEditorSetup.Get() then
                 if DataEditorSetup."Enable Data Editor Log" then
                     LogRename(RecRef.Number(), FieldRefVar.Number(), RecRef.RecordId(), xFieldRefVar, FieldRefVar, true);
             exit(true);
         end;
         if WithValidate then
-            FieldRefVar.Validate(ResultVariant)
+            DataOperations.ValidateFieldRefValue(FieldRefVar, ResultVariant)
         else
-            FieldRefVar.Value(ResultVariant);
+            DataOperations.SetFieldRefValue(FieldRefVar, ResultVariant);
         exit(true);
     end;
 
@@ -133,198 +133,14 @@ codeunit 81001 "DET Data Editor Mgt."
         ListOfFieldNo := PKFieldNoValueDict.Keys();
         foreach FieldNo in ListOfFieldNo do begin
             FieldRefVar := xRecRef.Field(FieldNo);
-            FieldRefVar.Value(TextValueAsVariant(FieldRefVar.Type, PKFieldNoValueDict.Get(FieldNo)));
+            DataOperations.SetFieldRefValue(FieldRefVar, TextValueAsVariant(FieldRefVar.Type, PKFieldNoValueDict.Get(FieldNo)));
         end;
-        IsFound := xRecRef.Find();
+        IsFound := DataOperations.FindRecord(xRecRef);
     end;
 
     procedure RenamePKField(var inRecRef: RecordRef; var FieldRefVar: FieldRef; var SourceRecordId: RecordId; NewValueAsVariant: Variant)
-    var
-        SingleInstanceStorage: Codeunit "DET Single Instance Storage";
-        RecordRefTemp: RecordRef;
-        xRecRef: RecordRef;
-        FieldRefVar2: FieldRef;
-        xFieldRefVar: FieldRef;
-        KeyRefVar: KeyRef;
-        KeyCount: Integer;
-        DictOfFieldKeyType: Dictionary of [Integer, Text];
-        KeyValueIndexRelDict: Dictionary of [Integer, Text[2048]];
     begin
-        KeyRefVar := inRecRef.KeyIndex(1);
-        xRecRef := inRecRef.Duplicate();
-        xFieldRefVar := xRecRef.Field(FieldRefVar.Number());
-        for KeyCount := 1 to KeyRefVar.FieldCount() do begin
-            FieldRefVar2 := KeyRefVar.FieldIndex(KeyCount);
-            if FieldRefVar2.Number() <> FieldRefVar.Number() then
-                if FieldRefVar2.Type() = FieldRefVar2.Type::Option then
-                    KeyValueIndexRelDict.Add(KeyCount, Format(FieldRefVar2.OptionCaption().Split(',').IndexOf(FieldRefVar2.Value()) - 1))
-                else
-                    KeyValueIndexRelDict.Add(KeyCount, Format(FieldRefVar2.Value()))
-            else
-                KeyValueIndexRelDict.Add(KeyCount, Format(NewValueAsVariant));
-            DictOfFieldKeyType.Add(KeyCount, Format(FieldRefVar2.Type));
-        end;
-
-        if BindSubscription(SingleInstanceStorage) then;
-
-        RecordRefTemp := inRecRef.Duplicate();
-        RecordRefTemp.Field(FieldRefVar.Number()).Value(TextValueAsVariant(FieldRefVar.Type(), Format(NewValueAsVariant)));
-
-        case KeyValueIndexRelDict.Count() of
-            1:
-                inRecRef.Rename(RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value());
-            2:
-                inRecRef.Rename(RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value());
-            3:
-                inRecRef.Rename(RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value()
-                    );
-            4:
-                inRecRef.Rename(RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value()
-                    );
-            5:
-                inRecRef.Rename(RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(5)).Value()
-                    );
-            6:
-                inRecRef.Rename(RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(5)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(6)).Value()
-                    );
-            7:
-                inRecRef.Rename(RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(5)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(6)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(7)).Value()
-                    );
-            8:
-                inRecRef.Rename(RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(5)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(6)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(7)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(8)).Value()
-                    );
-            9:
-                inRecRef.Rename(RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(5)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(6)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(7)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(8)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(9)).Value()
-                    );
-            10:
-                inRecRef.Rename(RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(5)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(6)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(7)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(8)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(9)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(10)).Value()
-                    );
-            11:
-                inRecRef.Rename(RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(5)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(6)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(7)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(8)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(9)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(10)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(11)).Value()
-                    );
-            12:
-                inRecRef.Rename(RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(5)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(6)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(7)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(8)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(9)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(10)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(11)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(12)).Value()
-                    );
-            13:
-                inRecRef.Rename(RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(5)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(6)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(7)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(8)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(9)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(10)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(11)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(12)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(13)).Value()
-                    );
-            14:
-                inRecRef.Rename(RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(5)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(6)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(7)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(8)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(9)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(10)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(11)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(12)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(13)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(14)).Value()
-                    );
-            15:
-                inRecRef.Rename(RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(1)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(2)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(3)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(4)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(5)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(6)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(7)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(8)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(9)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(10)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(11)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(12)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(13)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(14)).Value(),
-                    RecordRefTemp.FieldIndex(KeyValueIndexRelDict.Keys.Get(15)).Value()
-                    );
-            else
-                Error(RenamePKNotSuppErr);
-        end;
-
-        if UnbindSubscription(SingleInstanceStorage) then;
-        SourceRecordId := inRecRef.RecordId();
+        DataOperations.RenamePKField(inRecRef, FieldRefVar, SourceRecordId, NewValueAsVariant);
     end;
 
     procedure ImportTable(WithValidation: Boolean)
@@ -585,9 +401,9 @@ codeunit 81001 "DET Data Editor Mgt."
             xFieldRef := xRecRef.Field(FieldRef.Number());
 
         if WithValidation then
-            FieldRef.Validate(TextValueAsVariant(FieldRef.Type, ValueAsTxt))
+            DataOperations.ValidateFieldRefValue(FieldRef, TextValueAsVariant(FieldRef.Type, ValueAsTxt))
         else
-            FieldRef.Value(TextValueAsVariant(FieldRef.Type, ValueAsTxt));
+            DataOperations.SetFieldRefValue(FieldRef, TextValueAsVariant(FieldRef.Type, ValueAsTxt));
 
         if not IsLogEnabled then
             exit;
@@ -601,7 +417,7 @@ codeunit 81001 "DET Data Editor Mgt."
         case ImportOnFind of
             ImportOnFind::Error:
                 begin
-                    RecRef.Insert(WithValidation);
+                    DataOperations.InsertRecord(RecRef, WithValidation);
                     if IsLogEnabled then
                         LogInsert(RecRef.Number(), RecRef.RecordId(), WithValidation);
                     Inserted += 1;
@@ -610,17 +426,17 @@ codeunit 81001 "DET Data Editor Mgt."
                 if IsRecordExist then
                     Skipped += 1
                 else begin
-                    RecRef.Insert(WithValidation);
+                    DataOperations.InsertRecord(RecRef, WithValidation);
                     if IsLogEnabled then
                         LogInsert(RecRef.Number(), RecRef.RecordId(), WithValidation);
                     Inserted += 1;
                 end;
             ImportOnFind::Modify:
                 if IsRecordExist then begin
-                    RecRef.Modify(WithValidation);
+                    DataOperations.ModifyRecord(RecRef, WithValidation);
                     Modified += 1
                 end else begin
-                    RecRef.Insert(WithValidation);
+                    DataOperations.InsertRecord(RecRef, WithValidation);
                     if IsLogEnabled then
                         LogInsert(RecRef.Number(), RecRef.RecordId(), WithValidation);
                     Inserted += 1;
@@ -638,7 +454,7 @@ codeunit 81001 "DET Data Editor Mgt."
             FieldRefVar := RecRef.FieldIndex(i);
             if not ToChangeFieldNoList.Contains(FieldRefVar.Number()) then begin
                 xFieldRefVar := xRecRef.Field(FieldRefVar.Number());
-                FieldRefVar.Value(xFieldRefVar.Value());
+                DataOperations.SetFieldRefToFieldRef(xFieldRefVar, FieldRefVar);
             end;
         end;
     end;
@@ -683,7 +499,7 @@ codeunit 81001 "DET Data Editor Mgt."
             CreateExcelHeader(RecRef, TempExcelBuffer, FieldIdsToExport, ExportBLOB, ExportMedia);
 
             repeat
-                RecRef.Get(DataEditorBuffer."Source Record ID");
+                DataOperations.GetRecord(RecRef, DataEditorBuffer."Source Record ID");
                 CreateExcelRow(RecRef, TempExcelBuffer, FieldIdsToExport, ExportBLOB, ExportMedia);
             until DataEditorBuffer.Next() = 0;
         end;
@@ -802,7 +618,7 @@ codeunit 81001 "DET Data Editor Mgt."
             RecRef.Open(DataEditorBuffer."Source Record ID".TableNo());
             RecRef.ReadIsolation := RecRef.ReadIsolation::ReadCommitted;
             repeat
-                RecRef.Get(DataEditorBuffer."Source Record ID");
+                DataOperations.GetRecord(RecRef, DataEditorBuffer."Source Record ID");
                 JArray.Add(CreateJSONObjectFromRecord(RecRef, FieldIdsToExport, ExportBLOB, ExportMedia));
             until DataEditorBuffer.Next() = 0;
         end;
@@ -899,10 +715,10 @@ codeunit 81001 "DET Data Editor Mgt."
     begin
         if HasValues then begin
             if (OldValue.Class() = FieldClass::FlowField) or (OldValue.Type() = FieldType::Blob) then
-                OldValue.CalcField();
+                DataOperations.CalcFieldRef(OldValue);
 
             if (NewValue.Class() = FieldClass::FlowField) or (NewValue.Type() = FieldType::Blob) then
-                NewValue.CalcField();
+                DataOperations.CalcFieldRef(NewValue);
         end;
 
         if not NumberSequence.Exists(LogNumberSequenceLbl) then
@@ -1202,7 +1018,7 @@ codeunit 81001 "DET Data Editor Mgt."
     end;
 
     var
-        RenamePKNotSuppErr: Label 'Changing the primary key for >15 values is not supported.';
+        DataOperations: Codeunit "DET Data Operations";
         ImportFinishedLbl: Label 'Import is finished.';
         InsertedLbl: Label 'Inserted: %1', Comment = '%1 = Inserted record count';
         ModifiedLbl: Label 'Modified: %1', Comment = '%1 = Modified record count';

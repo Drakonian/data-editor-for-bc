@@ -289,95 +289,95 @@ page 81004 "DET Insert New Record"
 
         if FieldVisible1 and IsFieldInitialized[1] then begin
             FieldRefToInsert := GetFieldRefByCounter(1);
-            FieldRefToInsert.Value(VariantValue1);
+            DataOperations.SetFieldRefValue(FieldRefToInsert, VariantValue1);
             if not WithoutValidation then
-                FieldRefToInsert.Validate();
+                DataOperations.ValidateFieldRefValue(FieldRefToInsert);
         end;
         if FieldVisible2 and IsFieldInitialized[2] then begin
             FieldRefToInsert := GetFieldRefByCounter(2);
-            FieldRefToInsert.Value(VariantValue2);
+            DataOperations.SetFieldRefValue(FieldRefToInsert, VariantValue2);
             if not WithoutValidation then
-                FieldRefToInsert.Validate();
+                DataOperations.ValidateFieldRefValue(FieldRefToInsert);
         end;
         if FieldVisible3 and IsFieldInitialized[3] then begin
             FieldRefToInsert := GetFieldRefByCounter(3);
-            FieldRefToInsert.Value(VariantValue3);
+            DataOperations.SetFieldRefValue(FieldRefToInsert, VariantValue3);
             if not WithoutValidation then
-                FieldRefToInsert.Validate();
+                DataOperations.ValidateFieldRefValue(FieldRefToInsert);
         end;
         if FieldVisible4 and IsFieldInitialized[4] then begin
             FieldRefToInsert := GetFieldRefByCounter(4);
-            FieldRefToInsert.Value(VariantValue4);
+            DataOperations.SetFieldRefValue(FieldRefToInsert, VariantValue4);
             if not WithoutValidation then
-                FieldRefToInsert.Validate();
+                DataOperations.ValidateFieldRefValue(FieldRefToInsert);
         end;
         if FieldVisible5 and IsFieldInitialized[5] then begin
             FieldRefToInsert := GetFieldRefByCounter(5);
-            FieldRefToInsert.Value(VariantValue5);
+            DataOperations.SetFieldRefValue(FieldRefToInsert, VariantValue5);
             if not WithoutValidation then
-                FieldRefToInsert.Validate();
+                DataOperations.ValidateFieldRefValue(FieldRefToInsert);
         end;
         if FieldVisible6 and IsFieldInitialized[6] then begin
             FieldRefToInsert := GetFieldRefByCounter(6);
-            FieldRefToInsert.Value(VariantValue6);
+            DataOperations.SetFieldRefValue(FieldRefToInsert, VariantValue6);
             if not WithoutValidation then
-                FieldRefToInsert.Validate();
+                DataOperations.ValidateFieldRefValue(FieldRefToInsert);
         end;
         if FieldVisible7 and IsFieldInitialized[7] then begin
             FieldRefToInsert := GetFieldRefByCounter(7);
-            FieldRefToInsert.Value(VariantValue7);
+            DataOperations.SetFieldRefValue(FieldRefToInsert, VariantValue7);
             if not WithoutValidation then
-                FieldRefToInsert.Validate();
+                DataOperations.ValidateFieldRefValue(FieldRefToInsert);
         end;
         if FieldVisible8 and IsFieldInitialized[8] then begin
             FieldRefToInsert := GetFieldRefByCounter(8);
-            FieldRefToInsert.Value(VariantValue8);
+            DataOperations.SetFieldRefValue(FieldRefToInsert, VariantValue8);
             if not WithoutValidation then
-                FieldRefToInsert.Validate();
+                DataOperations.ValidateFieldRefValue(FieldRefToInsert);
         end;
         if FieldVisible9 and IsFieldInitialized[9] then begin
             FieldRefToInsert := GetFieldRefByCounter(9);
-            FieldRefToInsert.Value(VariantValue9);
+            DataOperations.SetFieldRefValue(FieldRefToInsert, VariantValue9);
             if not WithoutValidation then
-                FieldRefToInsert.Validate();
+                DataOperations.ValidateFieldRefValue(FieldRefToInsert);
         end;
         if FieldVisible10 and IsFieldInitialized[10] then begin
             FieldRefToInsert := GetFieldRefByCounter(10);
-            FieldRefToInsert.Value(VariantValue10);
+            DataOperations.SetFieldRefValue(FieldRefToInsert, VariantValue10);
             if not WithoutValidation then
-                FieldRefToInsert.Validate();
+                DataOperations.ValidateFieldRefValue(FieldRefToInsert);
         end;
         if FieldVisible11 and IsFieldInitialized[11] then begin
             FieldRefToInsert := GetFieldRefByCounter(11);
-            FieldRefToInsert.Value(VariantValue11);
+            DataOperations.SetFieldRefValue(FieldRefToInsert, VariantValue11);
             if not WithoutValidation then
-                FieldRefToInsert.Validate();
+                DataOperations.ValidateFieldRefValue(FieldRefToInsert);
         end;
         if FieldVisible12 and IsFieldInitialized[12] then begin
             FieldRefToInsert := GetFieldRefByCounter(12);
-            FieldRefToInsert.Value(VariantValue12);
+            DataOperations.SetFieldRefValue(FieldRefToInsert, VariantValue12);
             if not WithoutValidation then
-                FieldRefToInsert.Validate();
+                DataOperations.ValidateFieldRefValue(FieldRefToInsert);
         end;
         if FieldVisible13 and IsFieldInitialized[13] then begin
             FieldRefToInsert := GetFieldRefByCounter(13);
-            FieldRefToInsert.Value(VariantValue13);
+            DataOperations.SetFieldRefValue(FieldRefToInsert, VariantValue13);
             if not WithoutValidation then
-                FieldRefToInsert.Validate();
+                DataOperations.ValidateFieldRefValue(FieldRefToInsert);
         end;
         if FieldVisible14 and IsFieldInitialized[14] then begin
             FieldRefToInsert := GetFieldRefByCounter(14);
-            FieldRefToInsert.Value(VariantValue14);
+            DataOperations.SetFieldRefValue(FieldRefToInsert, VariantValue14);
             if not WithoutValidation then
-                FieldRefToInsert.Validate();
+                DataOperations.ValidateFieldRefValue(FieldRefToInsert);
         end;
         if FieldVisible15 and IsFieldInitialized[15] then begin
             FieldRefToInsert := GetFieldRefByCounter(15);
-            FieldRefToInsert.Value(VariantValue15);
+            DataOperations.SetFieldRefValue(FieldRefToInsert, VariantValue15);
             if not WithoutValidation then
-                FieldRefToInsert.Validate();
+                DataOperations.ValidateFieldRefValue(FieldRefToInsert);
         end;
-        GlobalRecRef.Insert(not WithoutValidation);
+        DataOperations.InsertRecord(GlobalRecRef, not WithoutValidation);
     end;
 
     procedure SetInitData(TableNo: Integer; inWithoutValidation: Boolean)
@@ -634,6 +634,7 @@ page 81004 "DET Insert New Record"
     end;
 
     var
+        DataOperations: Codeunit "DET Data Operations";
         GlobalRecRef: RecordRef;
         FieldVisible1, FieldVisible2, FieldVisible3, FieldVisible4, FieldVisible5, FieldVisible6, FieldVisible7, FieldVisible8, FieldVisible9, FieldVisible10, FieldVisible11, FieldVisible12, FieldVisible13, FieldVisible14, FieldVisible15 : boolean;
         IsFieldInitialized: array[15] of boolean;

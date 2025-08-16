@@ -6918,7 +6918,7 @@ page 81000 "DET Data Editor Buffer"
             RecRef.SetView(CustomTableView);
 
         RecRef.ReadIsolation := RecRef.ReadIsolation::ReadCommitted;
-        TotalRecordCount := RecRef.Count();
+        TotalRecordCount := DataOperations.Count(RecRef);
 
         if TotalRecordCount = 0 then
             exit;
@@ -7025,19 +7025,19 @@ page 81000 "DET Data Editor Buffer"
 
         SystemModifiedAtFieldRef := LocalRecRef.Field(LocalRecRef.SystemModifiedAtNo());
         SystemModifiedAtFieldRef.SetFilter('>=%1', InitLoadDateTime);
-        if LocalRecRef.FindSet() then begin
+        if DataOperations.FindSetRecord(LocalRecRef) then begin
             PrevView := Rec.GetView();
             Rec.Reset();
             if Rec.FindLast() then
                 LastEntryNo := Rec."Entry No.";
             if GuiAllowed() then
-                ConfigProgressBar.Init(LocalRecRef.Count(), 1, LocalRecRef.Caption());
+                ConfigProgressBar.Init(DataOperations.Count(LocalRecRef), 1, LocalRecRef.Caption());
             repeat
                 Counter := 0;
 
                 TempDataEditorBufferFieldRefVar := TempDataEditorBufferRecRef.Field(Rec.FieldNo("Source Record ID"));
                 TempDataEditorBufferFieldRefVar.SetRange(LocalRecRef.RecordId());
-                IsRecordCached := TempDataEditorBufferRecRef.FindFirst();
+                IsRecordCached := DataOperations.FindFirstRecord(TempDataEditorBufferRecRef);
 
                 if not IsRecordCached then begin
                     LastEntryNo += 1;
@@ -7054,20 +7054,20 @@ page 81000 "DET Data Editor Buffer"
 
                     //Performance bottleneck
                     if LocalFieldRefVar.Class() = FieldClass::FlowField then
-                        LocalFieldRefVar.CalcField();
+                        DataOperations.CalcFieldRef(LocalFieldRefVar);
 
                     TempDataEditorBufferFieldRefVar := TempDataEditorBufferRecRef.FieldIndex(Counter + 2);
                     TempDataEditorBufferFieldRefVar.Value(LocalFieldRefVar.Value());
                 end;
 
                 if IsRecordCached then
-                    TempDataEditorBufferRecRef.Modify()
+                    DataOperations.ModifyRecord(TempDataEditorBufferRecRef, false)
                 else
-                    TempDataEditorBufferRecRef.Insert();
+                    DataOperations.InsertRecord(TempDataEditorBufferRecRef, false);
 
                 if GuiAllowed() then
                     ConfigProgressBar.UpdateCount(ProcessingLbl, 1);
-            until LocalRecRef.Next() = 0;
+            until DataOperations.NextRecord(LocalRecRef) = 0;
             InitLoadDateTime := CurrentDateTime();
 
             if GuiAllowed() then
@@ -7087,7 +7087,7 @@ page 81000 "DET Data Editor Buffer"
         FieldInfo: Dictionary of [Integer, Text];
         OriginalFieldNo: Integer;
     begin
-        if not RecRef.Get(Rec."Source Record ID") then
+        if not DataOperations.GetRecord(RecRef, Rec."Source Record ID") then
             exit;
         xRecRef := RecRef.Duplicate();
         GenFieldInfoDict.Get(FieldCounter, FieldInfo);
@@ -7102,10 +7102,10 @@ page 81000 "DET Data Editor Buffer"
             exit;
         end;
         if WithoutValidate then
-            FieldRefVar.Value(DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue))
+            DataOperations.SetFieldRefValue(FieldRefVar, DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue))
         else
-            FieldRefVar.Validate(DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue));
-        RecRef.Modify(not WithoutValidate);
+            DataOperations.ValidateFieldRefValue(FieldRefVar, DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue));
+        DataOperations.ModifyRecord(RecRef, not WithoutValidate);
 
         if IsLogEnabled then
             DataEditorMgt.LogModify(RecRef.Number(), FieldRefVar.Number(), Rec."Source Record ID", xFieldRefVar, FieldRefVar, not WithoutValidate);
@@ -7121,7 +7121,7 @@ page 81000 "DET Data Editor Buffer"
         FieldInfo: Dictionary of [Integer, Text];
         OriginalFieldNo: Integer;
     begin
-        if not RecRef.Get(Rec."Source Record ID") then
+        if not DataOperations.GetRecord(RecRef, Rec."Source Record ID") then
             exit;
         xRecRef := RecRef.Duplicate();
         GenFieldInfoDict.Get(FieldCounter, FieldInfo);
@@ -7135,7 +7135,7 @@ page 81000 "DET Data Editor Buffer"
         if not DataEditorMgt.GetNewColumnValue(RecRef, FieldRefVar, Rec."Source Record ID", TempNameValueBuffer, not WithoutValidate) then
             exit;
 
-        RecRef.Modify(not WithoutValidate);
+        DataOperations.ModifyRecord(RecRef, not WithoutValidate);
 
         if FieldRefVar.Type() = FieldRefVar.Type::Option then
             NewValue := TempNameValueBuffer.Value
@@ -7996,6 +7996,7 @@ page 81000 "DET Data Editor Buffer"
     end;
 
     var
+        DataOperations: Codeunit "DET Data Operations";
         RecRef: RecordRef;
         WithoutValidate: Boolean;
         ExcludeFlowFields: Boolean;

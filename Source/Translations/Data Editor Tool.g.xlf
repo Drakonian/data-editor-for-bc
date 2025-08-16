@@ -2268,11 +2268,6 @@
           <note from="Developer" annotates="general" priority="2">%1 = Modified record count</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit DET Data Editor Mgt. - NamedType ModifiedLbl</note>
         </trans-unit>
-        <trans-unit id="Codeunit 11151320 - NamedType 3577291695" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Changing the primary key for &gt;15 values is not supported.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit DET Data Editor Mgt. - NamedType RenamePKNotSuppErr</note>
-        </trans-unit>
         <trans-unit id="Codeunit 11151320 - NamedType 3306272166" size-unit="char" translate="yes" xml:space="preserve">
           <source>Skipped: %1</source>
           <note from="Developer" annotates="general" priority="2">%1 = Skipped record count</note>
@@ -2282,6 +2277,11 @@
           <source>This table is protected from editing.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit DET Data Editor Mgt. - NamedType TableNotEditableErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2796293837 - NamedType 3577291695" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Changing the primary key for &gt;15 values is not supported.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit DET Data Operations - NamedType RenamePKNotSuppErr</note>
         </trans-unit>
         <trans-unit id="Codeunit 2797395997 - NamedType 955664947" size-unit="char" translate="yes" xml:space="preserve">
           <source>Processing %1 records out of %2</source>

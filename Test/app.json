@@ -42,6 +42,12 @@
       "name": "Library Variable Storage"
     },
     {
+      "id": "40860557-a18d-42ad-aecb-22b7dd80dc80",
+      "publisher": "Microsoft",
+      "version": "25.0.0.0",
+      "name": "Permissions Mock"
+    },
+    {
       "id": "e28d62da-ceb0-46e7-9e06-774bc46f4bac",
       "publisher": "Volodymyr Dvernytskyi",
       "version": "4.0.0.0",
