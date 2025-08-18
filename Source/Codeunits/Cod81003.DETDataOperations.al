@@ -4,25 +4,25 @@
 // Original author — Volodymyr Dvernytskyi (Data Editor Tool)
 codeunit 81003 "DET Data Operations"
 {
-    Permissions = tabledata "Vendor Ledger Entry" = RIMD, tabledata "FA Ledger Entry" = RIMD, tabledata "Job Ledger Entry" = RIMD, tabledata "Item Ledger Entry" = RIMD,
-     tabledata "Res. Ledger Entry" = RIMD, tabledata "Check Ledger Entry" = RIMD, tabledata "Cust. Ledger Entry" = RIMD, tabledata "Service Ledger Entry" = RIMD,
-     tabledata "Capacity Ledger Entry" = RIMD, tabledata "Employee Ledger Entry" = RIMD, tabledata "Warranty Ledger Entry" = RIMD, tabledata "Maintenance Ledger Entry" = RIMD,
-     tabledata "Bank Account Ledger Entry" = RIMD, tabledata "Ins. Coverage Ledger Entry" = RIMD, tabledata "Payable Vendor Ledger Entry" = RIMD, tabledata "Phys. Inventory Ledger Entry" = RIMD,
-     tabledata "Payable Employee Ledger Entry" = RIMD, tabledata "Detailed Employee Ledger Entry" = RIMD, tabledata "Detailed Cust. Ledg. Entry" = RIMD, tabledata "Detailed Vendor Ledg. Entry" = RIMD,
-     tabledata "Sales Invoice Header" = RIMD, tabledata "Sales Invoice Line" = RIMD, tabledata "Sales Shipment Header" = RIMD, tabledata "Sales Shipment Line" = RIMD,
-     tabledata "Sales Cr.Memo Header" = RIMD, tabledata "Sales Cr.Memo Line" = RIMD, tabledata "Purch. Cr. Memo Hdr." = RIMD, tabledata "Purch. Cr. Memo Line" = RIMD,
-     tabledata "Purch. Inv. Header" = RIMD, tabledata "Purch. Inv. Line" = RIMD, tabledata "Purch. Rcpt. Header" = RIMD, tabledata "Purch. Rcpt. Line" = RIMD,
-     tabledata "Purchase Header Archive" = RIMD, tabledata "Sales Line Archive" = RIMD, tabledata "Sales Header Archive" = RIMD, tabledata "Purchase Line Archive" = RIMD,
-     tabledata "Sales Comment Line Archive" = RIMD, tabledata "Purch. Comment Line Archive" = RIMD, tabledata "Workflow Step Argument Archive" = RIMD, tabledata "Workflow Record Change Archive" = RIMD,
-     tabledata "Workflow Step Instance Archive" = RIMD, tabledata "G/L Entry" = RIMD, tabledata "Approval Entry" = RIMD, tabledata "Warehouse Entry" = RIMD,
-     tabledata "Value Entry" = RIMD, tabledata "Item Register" = RIMD, tabledata "G/L Register" = RIMD, tabledata "Vat Entry" = RIMD, tabledata "Dimension Set Entry" = RIMD,
-     tabledata "Service Invoice Header" = RIMD, tabledata "Service Cr.Memo Header" = RIMD, TableData "Issued Reminder Header" = RIMD, TableData "Issued Fin. Charge Memo Header" = RIMD,
-     tabledata "G/L Entry - VAT Entry Link" = RIMD, tabledata "Item Application Entry" = RIMD, tabledata "Item Application Entry History" = RIMD,
-     tabledata "Return Shipment Header" = RIMD, tabledata "Return Shipment Line" = RIMD, tabledata "Return Receipt Header" = RIMD, tabledata "Return Receipt Line" = RIMD,
-     tabledata "Invt. Receipt Header" = RIMD, tabledata "Invt. Receipt Line" = RIMD, tabledata "Invt. Shipment Header" = RIMD, tabledata "Invt. Shipment Line" = RIMD,
-     tabledata "Pstd. Phys. Invt. Record Hdr" = RIMD, tabledata "Pstd. Phys. Invt. Record Line" = RIMD, tabledata "Pstd. Phys. Invt. Order Hdr" = RIMD, tabledata "Pstd. Phys. Invt. Order Line" = RIMD,
-     tabledata "Bank Account Statement Line" = RIMD, tabledata "Change Log Entry" = RIMD, tabledata "Posted Approval Entry" = RIMD, tabledata "FA Register" = RIMD, tabledata "Post Value Entry to G/L" = RIMD,
-     tabledata "Job Register" = RIMD;
+    Permissions = tabledata "Vendor Ledger Entry" = rimd, tabledata "FA Ledger Entry" = rimd, tabledata "Job Ledger Entry" = rimd, tabledata "Item Ledger Entry" = rimd,
+     tabledata "Res. Ledger Entry" = rimd, tabledata "Check Ledger Entry" = rimd, tabledata "Cust. Ledger Entry" = rimd, tabledata "Service Ledger Entry" = rimd,
+     tabledata "Capacity Ledger Entry" = rimd, tabledata "Employee Ledger Entry" = rimd, tabledata "Warranty Ledger Entry" = rimd, tabledata "Maintenance Ledger Entry" = rimd,
+     tabledata "Bank Account Ledger Entry" = rimd, tabledata "Ins. Coverage Ledger Entry" = rimd, tabledata "Payable Vendor Ledger Entry" = rimd, tabledata "Phys. Inventory Ledger Entry" = rimd,
+     tabledata "Payable Employee Ledger Entry" = rimd, tabledata "Detailed Employee Ledger Entry" = rimd, tabledata "Detailed Cust. Ledg. Entry" = rimd, tabledata "Detailed Vendor Ledg. Entry" = rimd,
+     tabledata "Sales Invoice Header" = rimd, tabledata "Sales Invoice Line" = rimd, tabledata "Sales Shipment Header" = rimd, tabledata "Sales Shipment Line" = rimd,
+     tabledata "Sales Cr.Memo Header" = rimd, tabledata "Sales Cr.Memo Line" = rimd, tabledata "Purch. Cr. Memo Hdr." = rimd, tabledata "Purch. Cr. Memo Line" = rimd,
+     tabledata "Purch. Inv. Header" = rimd, tabledata "Purch. Inv. Line" = rimd, tabledata "Purch. Rcpt. Header" = rimd, tabledata "Purch. Rcpt. Line" = rimd,
+     tabledata "Purchase Header Archive" = rimd, tabledata "Sales Line Archive" = rimd, tabledata "Sales Header Archive" = rimd, tabledata "Purchase Line Archive" = rimd,
+     tabledata "Sales Comment Line Archive" = rimd, tabledata "Purch. Comment Line Archive" = rimd, tabledata "Workflow Step Argument Archive" = rimd, tabledata "Workflow Record Change Archive" = rimd,
+     tabledata "Workflow Step Instance Archive" = rimd, tabledata "G/L Entry" = rimd, tabledata "Approval Entry" = rimd, tabledata "Warehouse Entry" = rimd,
+     tabledata "Value Entry" = rimd, tabledata "Item Register" = rimd, tabledata "G/L Register" = rimd, tabledata "Vat Entry" = rimd, tabledata "Dimension Set Entry" = rimd,
+     tabledata "Service Invoice Header" = rimd, tabledata "Service Cr.Memo Header" = rimd, TableData "Issued Reminder Header" = rimd, TableData "Issued Fin. Charge Memo Header" = rimd,
+     tabledata "G/L Entry - VAT Entry Link" = rimd, tabledata "Item Application Entry" = rimd, tabledata "Item Application Entry History" = rimd,
+     tabledata "Return Shipment Header" = rimd, tabledata "Return Shipment Line" = rimd, tabledata "Return Receipt Header" = rimd, tabledata "Return Receipt Line" = rimd,
+     tabledata "Invt. Receipt Header" = rimd, tabledata "Invt. Receipt Line" = rimd, tabledata "Invt. Shipment Header" = rimd, tabledata "Invt. Shipment Line" = rimd,
+     tabledata "Pstd. Phys. Invt. Record Hdr" = rimd, tabledata "Pstd. Phys. Invt. Record Line" = rimd, tabledata "Pstd. Phys. Invt. Order Hdr" = rimd, tabledata "Pstd. Phys. Invt. Order Line" = rimd,
+     tabledata "Bank Account Statement Line" = rimd, tabledata "Change Log Entry" = rimd, tabledata "Posted Approval Entry" = rimd, tabledata "FA Register" = rimd, tabledata "Post Value Entry to G/L" = rimd,
+     tabledata "Job Register" = rimd;
 
     var
         RenamePKNotSuppErr: Label 'Changing the primary key for >15 values is not supported.';

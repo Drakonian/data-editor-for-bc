@@ -33,5 +33,7 @@ permissionset 81000 "DET Data Editor Tool"
         tabledata "DET Binary Data Buffer" = RIMD,
         table "DET Binary Data Buffer" = X,
         page "DET Data Editor Log" = X,
-        page "DET Import/Export Dialog" = X;
+        page "DET Import/Export Dialog" = X,
+        codeunit "DET Data Operations" = X,
+        codeunit "DET Read Data Batch" = X;
 }

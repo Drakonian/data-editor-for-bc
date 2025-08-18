@@ -9,23 +9,27 @@ codeunit 81104 "TDET Data Editor Permissions"
         LibraryVariableStorage: Codeunit "Library - Variable Storage";
         LibraryRandom: Codeunit "Library - Random";
         LibrarySales: Codeunit "Library - Sales";
-        DataEditorPermissionSetIdTxt: Label 'DET DATA EDITOR TOOL', Locked = true;
+        LibraryPurchase: Codeunit "Library - Purchase";
+        LibraryUtility: Codeunit "Library - Utility";
+        NewCustomerNo, OldCustomerNo : Code[20];
+        NewVendorNo, OldVendorNo : Code[20];
+        DataEditorPermissionSetIdLbl: Label 'DET DATA EDITOR TOOL', Locked = true;
         PageCaptionLbl: Label '%1 (%2)', Locked = true, Comment = '%1 = Table Caption, %2 = Table Number';
 
     [Test]
-    procedure EditSalesInvoiceHeader()
+    [TransactionModel(TransactionModel::AutoRollback)]
+    procedure DirectEditSalesInvoiceHeader()
     var
         SalesInvoiceHeader: Record "Sales Invoice Header";
-        SalesHeader: Record "Sales Header";
         DataEditorBufferTestMode: Codeunit "TDET DE Buffer Test Mode";
         DataEditor: TestPage "DET Data Editor";
         DataEditorBuffer: TestPage "DET Data Editor Buffer";
     begin
         Init();
 
-        LibrarySales.CreateSalesInvoice(SalesHeader);
+        SetUpperPermissions();
 
-        SalesInvoiceHeader.Get(LibrarySales.PostSalesDocument(SalesHeader, true, true));
+        MockSalesInvoiceHeader(SalesInvoiceHeader);
 
         SetLowerPermissions();
 
@@ -52,10 +56,9 @@ codeunit 81104 "TDET Data Editor Permissions"
     end;
 
     [Test]
-    procedure EditCustLedgerEntry()
+    [TransactionModel(TransactionModel::AutoRollback)]
+    procedure DirectEditCustLedgerEntry()
     var
-        SalesInvoiceHeader: Record "Sales Invoice Header";
-        SalesHeader: Record "Sales Header";
         CustLedgerEntry: Record "Cust. Ledger Entry";
         DataEditorBufferTestMode: Codeunit "TDET DE Buffer Test Mode";
         DataEditor: TestPage "DET Data Editor";
@@ -63,14 +66,11 @@ codeunit 81104 "TDET Data Editor Permissions"
     begin
         Init();
 
-        LibrarySales.CreateSalesInvoice(SalesHeader);
+        SetUpperPermissions();
 
-        SalesInvoiceHeader.Get(LibrarySales.PostSalesDocument(SalesHeader, true, true));
-
-        CustLedgerEntry.SetRange("Document Type", CustLedgerEntry."Document Type"::Invoice);
-        CustLedgerEntry.SetRange("Posting Date", SalesInvoiceHeader."Posting Date");
-        CustLedgerEntry.SetRange("Document No.", SalesInvoiceHeader."No.");
-        CustLedgerEntry.FindFirst();
+        LibrarySales.MockCustLedgerEntryWithAmount(CustLedgerEntry, LibrarySales.CreateCustomerNo());
+        CustLedgerEntry.Description := LibraryRandom.RandText(MaxStrLen(CustLedgerEntry.Description)).Substring(1, MaxStrLen(CustLedgerEntry.Description));
+        CustLedgerEntry.Modify();
 
         SetLowerPermissions();
 
@@ -82,8 +82,8 @@ codeunit 81104 "TDET Data Editor Permissions"
         DataEditor.OK().Invoke();
         UnbindSubscription(DataEditorBufferTestMode);
 
-        DataEditorBuffer.Filter.SetFilter("Text Value 6", SalesInvoiceHeader."No.");
-        DataEditorBuffer.First();
+        DataEditorBuffer.Filter.SetFilter("Text Value 2", Format(CustLedgerEntry."Entry No."));
+        Assert.IsTrue(DataEditorBuffer.First(), '');
 
         LibraryVariableStorage.Enqueue(CustLedgerEntry.Description);
 
@@ -96,6 +96,169 @@ codeunit 81104 "TDET Data Editor Permissions"
         Assert.AreEqual('new value', DataEditorBuffer."Text Value 7".Value(), '');
     end;
 
+    [Test]
+    [TransactionModel(TransactionModel::AutoRollback)]
+    [HandlerFunctions('EditSellToCustomerNo,SelectNewCustomerLookup')]
+    procedure EditTableRelationCustLedgerEntry()
+    var
+        CustLedgerEntry: Record "Cust. Ledger Entry";
+        DataEditorBufferTestMode: Codeunit "TDET DE Buffer Test Mode";
+        DataEditor: TestPage "DET Data Editor";
+        DataEditorBuffer: TestPage "DET Data Editor Buffer";
+    begin
+        Init();
+
+        SetUpperPermissions();
+
+        LibrarySales.MockCustLedgerEntryWithAmount(CustLedgerEntry, LibrarySales.CreateCustomerNo());
+        CustLedgerEntry.Description := LibraryRandom.RandText(MaxStrLen(CustLedgerEntry.Description)).Substring(1, MaxStrLen(CustLedgerEntry.Description));
+        CustLedgerEntry.Modify();
+
+        OldCustomerNo := CustLedgerEntry."Customer No.";
+        NewCustomerNo := LibrarySales.CreateCustomerNo();
+
+        SetLowerPermissions();
+
+        DataEditorBuffer.Trap();
+
+        DataEditor.OpenEdit();
+        DataEditor.SourceTableNoField.SetValue(Database::"Cust. Ledger Entry");
+        BindSubscription(DataEditorBufferTestMode);
+        DataEditor.OK().Invoke();
+        UnbindSubscription(DataEditorBufferTestMode);
+
+        DataEditorBuffer.Filter.SetFilter("Text Value 2", Format(CustLedgerEntry."Entry No."));
+        Assert.IsTrue(DataEditorBuffer.First(), '');
+
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, CustLedgerEntry.TableCaption(), Database::"Cust. Ledger Entry"), DataEditorBuffer.Caption(), '');
+
+        DataEditorBuffer."Text Value 3".Drilldown();
+
+        Assert.AreEqual(NewCustomerNo, DataEditorBuffer."Text Value 3".Value(), '');
+    end;
+
+    [Test]
+    [TransactionModel(TransactionModel::AutoRollback)]
+    [HandlerFunctions('EditBuyFromVendorNo,SelectNewVendorLookup')]
+    procedure EditTableRelationVendorLedgerEntry()
+    var
+        VendorLedgerEntry: Record "Vendor Ledger Entry";
+        DataEditorBufferTestMode: Codeunit "TDET DE Buffer Test Mode";
+        DataEditor: TestPage "DET Data Editor";
+        DataEditorBuffer: TestPage "DET Data Editor Buffer";
+    begin
+        Init();
+
+        SetUpperPermissions();
+
+        MockVendorLedgerEntryWithAmount(VendorLedgerEntry, LibraryPurchase.CreateVendorNo());
+        VendorLedgerEntry.Description := LibraryRandom.RandText(MaxStrLen(VendorLedgerEntry.Description)).Substring(1, MaxStrLen(VendorLedgerEntry.Description));
+        VendorLedgerEntry.Modify();
+
+        OldVendorNo := VendorLedgerEntry."Vendor No.";
+        NewVendorNo := LibraryPurchase.CreateVendorNo();
+
+        SetLowerPermissions();
+
+        DataEditorBuffer.Trap();
+
+        DataEditor.OpenEdit();
+        DataEditor.SourceTableNoField.SetValue(Database::"Vendor Ledger Entry");
+        BindSubscription(DataEditorBufferTestMode);
+        DataEditor.OK().Invoke();
+        UnbindSubscription(DataEditorBufferTestMode);
+
+        DataEditorBuffer.Filter.SetFilter("Text Value 2", Format(VendorLedgerEntry."Entry No."));
+        Assert.IsTrue(DataEditorBuffer.First(), '');
+
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, VendorLedgerEntry.TableCaption(), Database::"Vendor Ledger Entry"), DataEditorBuffer.Caption(), '');
+
+        DataEditorBuffer."Text Value 3".Drilldown();
+
+        Assert.AreEqual(NewVendorNo, DataEditorBuffer."Text Value 3".Value(), '');
+    end;
+
+    [Test]
+    [HandlerFunctions('SelectEnum')]
+    [TransactionModel(TransactionModel::AutoRollback)]
+    procedure EditEnumCustLedgerEntry()
+    var
+        CustLedgerEntry: Record "Cust. Ledger Entry";
+        DataEditorBufferTestMode: Codeunit "TDET DE Buffer Test Mode";
+        DataEditor: TestPage "DET Data Editor";
+        DataEditorBuffer: TestPage "DET Data Editor Buffer";
+    begin
+        Init();
+
+        SetUpperPermissions();
+
+        LibrarySales.MockCustLedgerEntryWithAmount(CustLedgerEntry, LibrarySales.CreateCustomerNo());
+        CustLedgerEntry.Description := LibraryRandom.RandText(MaxStrLen(CustLedgerEntry.Description)).Substring(1, MaxStrLen(CustLedgerEntry.Description));
+        CustLedgerEntry.Modify();
+
+        SetLowerPermissions();
+
+        DataEditorBuffer.Trap();
+
+        DataEditor.OpenEdit();
+        DataEditor.SourceTableNoField.SetValue(Database::"Cust. Ledger Entry");
+        BindSubscription(DataEditorBufferTestMode);
+        DataEditor.OK().Invoke();
+        UnbindSubscription(DataEditorBufferTestMode);
+
+        LibraryVariableStorage.Enqueue(CustLedgerEntry.FieldCaption("Document Type"));
+
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, CustLedgerEntry.TableCaption(), Database::"Cust. Ledger Entry"), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(CustLedgerEntry.FieldCaption("Document Type"), DataEditorBuffer."Text Value 5".Caption(), '');
+        Assert.AreEqual(Format(Enum::"Gen. Journal Document Type"::Invoice), DataEditorBuffer."Text Value 5".Value(), '');
+
+        LibraryVariableStorage.Enqueue(Enum::"Gen. Journal Document Type"::"Credit Memo".AsInteger() + 1);
+
+        DataEditorBuffer."Text Value 5".Drilldown();
+
+        Assert.AreEqual(Format(Enum::"Gen. Journal Document Type"::"Credit Memo"), DataEditorBuffer."Text Value 5".Value(), '');
+    end;
+
+    [ModalPageHandler]
+    procedure EditSellToCustomerNo(var EditValue: TestPage "DET Edit Value")
+    begin
+        Assert.AreEqual(OldCustomerNo, EditValue.CodeValue.Value(), '');
+        EditValue.CodeValue.Lookup();
+        Assert.AreEqual(NewCustomerNo, EditValue.CodeValue.Value(), '');
+        EditValue.OK().Invoke();
+    end;
+
+    [ModalPageHandler]
+    procedure SelectNewCustomerLookup(var CustomerLookup: TestPage "Customer Lookup")
+    begin
+        CustomerLookup.GoToKey(NewCustomerNo);
+        CustomerLookup.OK().Invoke();
+    end;
+
+    [ModalPageHandler]
+    procedure EditBuyFromVendorNo(var EditValue: TestPage "DET Edit Value")
+    begin
+        Assert.AreEqual(OldVendorNo, EditValue.CodeValue.Value(), '');
+        EditValue.CodeValue.Lookup();
+        Assert.AreEqual(NewVendorNo, EditValue.CodeValue.Value(), '');
+        EditValue.OK().Invoke();
+    end;
+
+    [ModalPageHandler]
+    procedure SelectNewVendorLookup(var VendorLookup: TestPage "Vendor Lookup")
+    begin
+        VendorLookup.GoToKey(NewVendorNo);
+        VendorLookup.OK().Invoke();
+    end;
+
+    [ModalPageHandler]
+    procedure SelectEnum(var NameValueLookup: TestPage "Name/Value Lookup")
+    begin
+        Assert.AreEqual(LibraryVariableStorage.DequeueText(), NameValueLookup.Caption(), '');
+        NameValueLookup.GoToKey(LibraryVariableStorage.DequeueInteger());
+        NameValueLookup.OK().Invoke();
+    end;
+
     local procedure Init()
     begin
         LibraryRandom.Init();
@@ -105,8 +268,76 @@ codeunit 81104 "TDET Data Editor Permissions"
     begin
         LibraryLowerPermissions.SetLocal();
         LibraryLowerPermissions.AddO365Basic();
-        LibraryLowerPermissions.AddeRead();
-        LibraryLowerPermissions.AddPermissionSet(DataEditorPermissionSetIdTxt);
+        LibraryLowerPermissions.AddBanking();
+        LibraryLowerPermissions.AddPermissionSet(DataEditorPermissionSetIdLbl);
+    end;
+
+    local procedure SetUpperPermissions()
+    begin
+        LibraryLowerPermissions.SetOutsideO365Scope();
+        LibraryLowerPermissions.AddPermissionSet(DataEditorPermissionSetIdLbl);
+    end;
+
+    local procedure MockSalesInvoiceHeader(var SalesInvoiceHeader: Record "Sales Invoice Header")
+    begin
+        SalesInvoiceHeader.Init();
+        SalesInvoiceHeader."No." := LibraryRandom.RandText(MaxStrLen(SalesInvoiceHeader."No.")).Substring(1, MaxStrLen(SalesInvoiceHeader."No."));
+        SalesInvoiceHeader."Posting Description" := LibraryRandom.RandText(MaxStrLen(SalesInvoiceHeader."Posting Description")).Substring(1, MaxStrLen(SalesInvoiceHeader."Posting Description"));
+        SalesInvoiceHeader."Sell-to Customer No." := LibrarySales.CreateCustomerNo();
+        SalesInvoiceHeader.Insert();
+    end;
+
+    procedure MockVendorLedgerEntryWithAmount(var VendorLedgerEntry: Record "Vendor Ledger Entry"; VendorNo: Code[20])
+    begin
+        MockVendLedgerEntry(VendorLedgerEntry, VendorNo);
+        MockDetailedVendLedgEntry(VendorLedgerEntry);
+    end;
+
+    procedure MockDetailedVendLedgerEntryWithAmount(var DetailedVendorLedgerEntry: Record "Detailed Vendor Ledg. Entry"; VendorLedgerEntry: Record "Vendor Ledger Entry")
+    begin
+        DetailedVendorLedgerEntry.Init();
+        DetailedVendorLedgerEntry."Entry No." := LibraryUtility.GetNewRecNo(DetailedVendorLedgerEntry, DetailedVendorLedgerEntry.FieldNo("Entry No."));
+        DetailedVendorLedgerEntry."Vendor Ledger Entry No." := VendorLedgerEntry."Entry No.";
+        DetailedVendorLedgerEntry."Vendor No." := VendorLedgerEntry."Vendor No.";
+        DetailedVendorLedgerEntry."Posting Date" := WorkDate();
+        DetailedVendorLedgerEntry."Entry Type" := DetailedVendorLedgerEntry."Entry Type"::"Initial Entry";
+        DetailedVendorLedgerEntry."Document Type" := DetailedVendorLedgerEntry."Document Type"::Invoice;
+        DetailedVendorLedgerEntry.Amount := LibraryRandom.RandDec(100, 2);
+        DetailedVendorLedgerEntry."Amount (LCY)" := DetailedVendorLedgerEntry.Amount;
+        DetailedVendorLedgerEntry.Insert();
+    end;
+
+    procedure MockDetailedVendLedgEntry(VendorLedgerEntry: Record "Vendor Ledger Entry")
+    var
+        DetailedVendLedgEntry: Record "Detailed Vendor Ledg. Entry";
+    begin
+        MockDetailedVendLedgerEntryWithAmount(DetailedVendLedgEntry, VendorLedgerEntry);
+        MockApplnDetailedVendLedgerEntry(DetailedVendLedgEntry, true, WorkDate());
+        MockApplnDetailedVendLedgerEntry(DetailedVendLedgEntry, false, WorkDate());
+    end;
+
+    procedure MockApplnDetailedVendLedgerEntry(DetailedVendLedgEntry: Record "Detailed Vendor Ledg. Entry"; UnappliedEntry: Boolean; PostingDate: Date)
+    var
+        ApplnDetailedVendLedgEntry: Record "Detailed Vendor Ledg. Entry";
+    begin
+        ApplnDetailedVendLedgEntry.Init();
+        ApplnDetailedVendLedgEntry.Copy(DetailedVendLedgEntry);
+        ApplnDetailedVendLedgEntry."Entry No." := LibraryUtility.GetNewRecNo(DetailedVendLedgEntry, DetailedVendLedgEntry.FieldNo("Entry No."));
+        ApplnDetailedVendLedgEntry."Entry Type" := ApplnDetailedVendLedgEntry."Entry Type"::Application;
+        ApplnDetailedVendLedgEntry."Posting Date" := PostingDate;
+        ApplnDetailedVendLedgEntry.Amount := -ApplnDetailedVendLedgEntry.Amount;
+        ApplnDetailedVendLedgEntry."Amount (LCY)" := ApplnDetailedVendLedgEntry.Amount;
+        ApplnDetailedVendLedgEntry.Unapplied := UnappliedEntry;
+        ApplnDetailedVendLedgEntry.Insert();
+    end;
+
+    procedure MockVendLedgerEntry(var VendorLedgerEntry: Record "Vendor Ledger Entry"; VendorNo: Code[20])
+    begin
+        VendorLedgerEntry.Init();
+        VendorLedgerEntry."Entry No." := LibraryUtility.GetNewRecNo(VendorLedgerEntry, VendorLedgerEntry.FieldNo("Entry No."));
+        VendorLedgerEntry."Vendor No." := VendorNo;
+        VendorLedgerEntry."Posting Date" := WorkDate();
+        VendorLedgerEntry.Insert();
     end;
 }
 

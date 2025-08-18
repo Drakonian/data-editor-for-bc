@@ -51,7 +51,7 @@ codeunit 81002 "DET Read Data Batch"
         RecRef.ReadIsolation := RecRef.ReadIsolation::ReadCommitted;
         InitLoadFields(RecRef);
 
-        TempDataEditorBufferRecRef.GetTable(Rec);
+        DataOperations.GetTable(TempDataEditorBufferRecRef, Rec);
 
         TotalCount := EndIndex - StartIndex + 1;
 
