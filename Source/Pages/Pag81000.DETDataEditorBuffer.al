@@ -11,38 +11,23 @@ page 81000 "DET Data Editor Buffer"
     UsageCategory = None;
     SourceTableTemporary = true;
     InsertAllowed = false;
-    Permissions = tabledata "Vendor Ledger Entry" = RMID, tabledata "FA Ledger Entry" = RMID, tabledata "Job Ledger Entry" = RMID, tabledata "Item Ledger Entry" = RMID,
-     tabledata "Res. Ledger Entry" = RMID, tabledata "Check Ledger Entry" = RMID, tabledata "Cust. Ledger Entry" = RMID, tabledata "Service Ledger Entry" = RMID,
-     tabledata "Capacity Ledger Entry" = RMID, tabledata "Employee Ledger Entry" = RMID, tabledata "Warranty Ledger Entry" = RMID, tabledata "Maintenance Ledger Entry" = RMID,
-     tabledata "Bank Account Ledger Entry" = RMID, tabledata "Ins. Coverage Ledger Entry" = RMID, tabledata "Payable Vendor Ledger Entry" = RMID, tabledata "Phys. Inventory Ledger Entry" = RMID,
-     tabledata "Payable Employee Ledger Entry" = RMID, tabledata "Detailed Employee Ledger Entry" = RMID, tabledata "Detailed Cust. Ledg. Entry" = RMID, tabledata "Detailed Vendor Ledg. Entry" = RMID,
-     tabledata "Sales Invoice Header" = RMID, tabledata "Sales Invoice Line" = RMID, tabledata "Sales Shipment Header" = RMID, tabledata "Sales Shipment Line" = RMID,
-     tabledata "Sales Cr.Memo Header" = RMID, tabledata "Sales Cr.Memo Line" = RMID, tabledata "Purch. Cr. Memo Hdr." = RMID, tabledata "Purch. Cr. Memo Line" = RMID,
-     tabledata "Purch. Inv. Header" = RMID, tabledata "Purch. Inv. Line" = RMID, tabledata "Purch. Rcpt. Header" = RMID, tabledata "Purch. Rcpt. Line" = RMID,
-     tabledata "Purchase Header Archive" = RMID, tabledata "Sales Line Archive" = RMID, tabledata "Sales Header Archive" = RMID, tabledata "Purchase Line Archive" = RMID,
-     tabledata "Sales Comment Line Archive" = RMID, tabledata "Purch. Comment Line Archive" = RMID, tabledata "Workflow Step Argument Archive" = RMID, tabledata "Workflow Record Change Archive" = RMID,
-     tabledata "Workflow Step Instance Archive" = RMID, tabledata "G/L Entry" = RMID, tabledata "Approval Entry" = RMID, tabledata "Warehouse Entry" = RMID,
-     tabledata "Value Entry" = RMID, tabledata "Item Register" = RMID, tabledata "G/L Register" = RIMD, tabledata "Vat Entry" = RMID, tabledata "Dimension Set Entry" = RIMD,
-     tabledata "Service Invoice Header" = RMID, TableData "Service Cr.Memo Header" = RMID, TableData "Issued Reminder Header" = RMID, TableData "Issued Fin. Charge Memo Header" = RMID,
-     tabledata "G/L Entry - VAT Entry Link" = RMID, tabledata "Item Application Entry" = RMID, tabledata "Item Application Entry History" = RMID,
-     tabledata "Return Shipment Header" = RMID, tabledata "Return Shipment Line" = RMID, tabledata "Return Receipt Header" = RMID, tabledata "Return Receipt Line" = RMID,
-     tabledata "Invt. Receipt Header" = RMID, tabledata "Invt. Receipt Line" = RMID, tabledata "Invt. Shipment Header" = RMID, tabledata "Invt. Shipment Line" = RMID,
-     tabledata "Pstd. Phys. Invt. Record Hdr" = RMID, tabledata "Pstd. Phys. Invt. Record Line" = RMID, tabledata "Pstd. Phys. Invt. Order Hdr" = RMID, tabledata "Pstd. Phys. Invt. Order Line" = RMID,
-     tabledata "Bank Account Statement Line" = RMID, tabledata "Change Log Entry" = RIMD, tabledata "Posted Approval Entry" = RIMD, tabledata "FA Register" = RIMD, tabledata "Post Value Entry to G/L" = RIMD,
-     tabledata "Job Register" = RMID;
 
-    layout
+    var
+        DETDataOperations: Codeunit "DET Data Operations";
+
+        layout
     {
         area(content)
         {
             repeater(General)
             {
 
-                field("Entry No."; Rec."Entry No.")
+                field("Entry No.";
+        Rec."Entry No.")
                 {
                     ToolTip = 'Specifies the value of the Entry No. field';
                     ApplicationArea = All;
-                    Editable = false;
+        Editable = false;
                     Visible = false;
                 }
                 field("Text Value 2"; Rec."Text Value 2")
@@ -6495,7 +6480,7 @@ page 81000 "DET Data Editor Buffer"
                     if Rec.FindSet() then
                         repeat
                             DeleteSourceRecord(Rec."Source Record ID");
-                            Rec.Delete();
+                            DETDataOperations.Delete(RecRef, true);
                         until Rec.Next() = 0;
                 end;
             }
@@ -6647,11 +6632,11 @@ page 81000 "DET Data Editor Buffer"
         TempNameValueBuffer: Record "Name/Value Buffer" temporary;
         DataEditorMgt: Codeunit "DET Data Editor Mgt.";
         SelectFields: Page "DET Select Fields";
-        RecRefDuplicate: RecordRef;
-        xRecRef: RecordRef;
-        NewFieldRef: FieldRef;
-        FieldRefVar: FieldRef;
-        xFieldRefVar: FieldRef;
+                          RecRefDuplicate: RecordRef;
+                          xRecRef: RecordRef;
+                          NewFieldRef: FieldRef;
+                          FieldRefVar: FieldRef;
+                          xFieldRefVar: FieldRef;
     begin
         if RecRef.Number() = 0 then
             exit;
@@ -6680,7 +6665,7 @@ page 81000 "DET Data Editor Buffer"
                     FieldRefVar.Value(NewFieldRef.Value())
                 else
                     FieldRefVar.Validate(NewFieldRef.Value());
-                RecRef.Modify(not WithoutValidate);
+                DETDataOperations.Modify(RecRef, not WithoutValidate);
                 if IsLogEnabled then
                     DataEditorMgt.LogModify(RecRef.Number(), FieldRefVar.Number(), RecRef.RecordId(), xFieldRefVar,
                         FieldRefVar, not WithoutValidate);
@@ -6693,12 +6678,12 @@ page 81000 "DET Data Editor Buffer"
         TempDETField: Record "DET Field" temporary;
         DataEditorMgt: Codeunit "DET Data Editor Mgt.";
         SelectFields: Page "DET Select Fields";
-        RecRefDuplicate: RecordRef;
-        xRecRef: RecordRef;
-        CopyFromFieldRef: FieldRef;
-        CopyToFieldRef: FieldRef;
-        xCopyToFieldRef: FieldRef;
-        CopyToFieldNo, CopyFromFieldNo : Integer;
+                          RecRefDuplicate: RecordRef;
+                          xRecRef: RecordRef;
+                          CopyFromFieldRef: FieldRef;
+                          CopyToFieldRef: FieldRef;
+                          xCopyToFieldRef: FieldRef;
+                          CopyToFieldNo, CopyFromFieldNo : Integer;
     begin
         if RecRef.Number() = 0 then
             exit;
@@ -6749,7 +6734,7 @@ page 81000 "DET Data Editor Buffer"
                     CopyToFieldRef.Value(CopyFromFieldRef.Value())
                 else
                     CopyToFieldRef.Validate(CopyFromFieldRef.Value());
-                RecRef.Modify(not WithoutValidate);
+                DETDataOperations.Modify(RecRef, not WithoutValidate);
                 if IsLogEnabled then
                     DataEditorMgt.LogModify(RecRef.Number(), CopyToFieldRef.Number(), RecRef.RecordId(), xCopyToFieldRef,
                         CopyToFieldRef, not WithoutValidate);
@@ -6778,7 +6763,7 @@ page 81000 "DET Data Editor Buffer"
     var
         DataEditorMgt: Codeunit "DET Data Editor Mgt.";
         InsertNewRecordPage: Page "DET Insert New Record";
-        NewRecordId: RecordId;
+                                 NewRecordId: RecordId;
     begin
         if RecRef.IsTemporary() then
             Error(IsTempRecordErr);
@@ -6805,7 +6790,7 @@ page 81000 "DET Data Editor Buffer"
         SourceRecRef: RecordRef;
     begin
         if SourceRecRef.Get(SourceRecordID) then
-            SourceRecRef.Delete(not WithoutValidate);
+            DETDataOperations.Delete(SourceRecRef, not WithoutValidate);
 
         if IsLogEnabled then
             DataEditorMgt.LogDelete(RecRef.Number(), SourceRecordID, not WithoutValidate);
@@ -7061,9 +7046,9 @@ page 81000 "DET Data Editor Buffer"
                 end;
 
                 if IsRecordCached then
-                    TempDataEditorBufferRecRef.Modify()
+                    DETDataOperations.Modify(TempDataEditorBufferRecRef, not WithoutValidate)
                 else
-                    TempDataEditorBufferRecRef.Insert();
+                    DETDataOperations.Insert(TempDataEditorBufferRecRef, not WithoutValidate);
 
                 if GuiAllowed() then
                     ConfigProgressBar.UpdateCount(ProcessingLbl, 1);
@@ -7105,7 +7090,7 @@ page 81000 "DET Data Editor Buffer"
             FieldRefVar.Value(DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue))
         else
             FieldRefVar.Validate(DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue));
-        RecRef.Modify(not WithoutValidate);
+        DETDataOperations.Modify(RecRef, not WithoutValidate);
 
         if IsLogEnabled then
             DataEditorMgt.LogModify(RecRef.Number(), FieldRefVar.Number(), Rec."Source Record ID", xFieldRefVar, FieldRefVar, not WithoutValidate);
@@ -7135,7 +7120,7 @@ page 81000 "DET Data Editor Buffer"
         if not DataEditorMgt.GetNewColumnValue(RecRef, FieldRefVar, Rec."Source Record ID", TempNameValueBuffer, not WithoutValidate) then
             exit;
 
-        RecRef.Modify(not WithoutValidate);
+        DETDataOperations.Modify(RecRef, not WithoutValidate);
 
         if FieldRefVar.Type() = FieldRefVar.Type::Option then
             NewValue := TempNameValueBuffer.Value
@@ -7145,7 +7130,6 @@ page 81000 "DET Data Editor Buffer"
         if IsLogEnabled then
             DataEditorMgt.LogModify(RecRef.Number(), FieldRefVar.Number(), Rec."Source Record ID", xFieldRefVar, FieldRefVar, not WithoutValidate);
     end;
-
     local procedure InitVisibility()
     begin
         FieldVisible1 := GenFieldInfoDict.ContainsKey(1);
@@ -7549,7 +7533,6 @@ page 81000 "DET Data Editor Buffer"
         FieldVisible399 := GenFieldInfoDict.ContainsKey(399);
         FieldVisible400 := GenFieldInfoDict.ContainsKey(400);
     end;
-
     local procedure InitEditable()
     begin
         FieldEditable1 := GetEditable(1);
