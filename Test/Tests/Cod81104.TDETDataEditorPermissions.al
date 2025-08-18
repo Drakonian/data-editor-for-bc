@@ -7,6 +7,7 @@ codeunit 81104 "TDET Data Editor Permissions"
         Assert: Codeunit "Library Assert";
         LibraryLowerPermissions: Codeunit "Library - Lower Permissions";
         LibraryVariableStorage: Codeunit "Library - Variable Storage";
+        LibraryDialogHandler: Codeunit "Library - Dialog Handler";
         LibraryRandom: Codeunit "Library - Random";
         LibrarySales: Codeunit "Library - Sales";
         LibraryPurchase: Codeunit "Library - Purchase";
@@ -14,6 +15,10 @@ codeunit 81104 "TDET Data Editor Permissions"
         NewCustomerNo, OldCustomerNo : Code[20];
         NewVendorNo, OldVendorNo : Code[20];
         DataEditorPermissionSetIdLbl: Label 'DET DATA EDITOR TOOL', Locked = true;
+        DeleteAllLbl: Label 'Are sure you want to delete %1 entries?', Comment = '%1 = Count of entries.';
+        RecordIsInsertedMsg: Label 'Record %1 is inserted.', Comment = '%1 = Record Id';
+        CustLedgerEntryPKLbl: Label 'Cust. Ledger Entry: %1', Comment = '%1 = Entry No.';
+        VendorLedgerEntryPKLbl: Label 'Vendor Ledger Entry: %1', Comment = '%1 = Entry No.';
         PageCaptionLbl: Label '%1 (%2)', Locked = true, Comment = '%1 = Table Caption, %2 = Table Number';
 
     [Test]
@@ -194,6 +199,7 @@ codeunit 81104 "TDET Data Editor Permissions"
 
         LibrarySales.MockCustLedgerEntryWithAmount(CustLedgerEntry, LibrarySales.CreateCustomerNo());
         CustLedgerEntry.Description := LibraryRandom.RandText(MaxStrLen(CustLedgerEntry.Description)).Substring(1, MaxStrLen(CustLedgerEntry.Description));
+        CustLedgerEntry."Document Type" := CustLedgerEntry."Document Type"::Invoice;
         CustLedgerEntry.Modify();
 
         SetLowerPermissions();
@@ -206,6 +212,9 @@ codeunit 81104 "TDET Data Editor Permissions"
         DataEditor.OK().Invoke();
         UnbindSubscription(DataEditorBufferTestMode);
 
+        DataEditorBuffer.Filter.SetFilter("Text Value 2", Format(CustLedgerEntry."Entry No."));
+        Assert.IsTrue(DataEditorBuffer.First(), '');
+
         LibraryVariableStorage.Enqueue(CustLedgerEntry.FieldCaption("Document Type"));
 
         Assert.AreEqual(StrSubstNo(PageCaptionLbl, CustLedgerEntry.TableCaption(), Database::"Cust. Ledger Entry"), DataEditorBuffer.Caption(), '');
@@ -217,6 +226,150 @@ codeunit 81104 "TDET Data Editor Permissions"
         DataEditorBuffer."Text Value 5".Drilldown();
 
         Assert.AreEqual(Format(Enum::"Gen. Journal Document Type"::"Credit Memo"), DataEditorBuffer."Text Value 5".Value(), '');
+    end;
+
+    [Test]
+    [HandlerFunctions('SelectEnum')]
+    [TransactionModel(TransactionModel::AutoRollback)]
+    procedure EditEnumVendorLedgerEntry()
+    var
+        VendorLedgerEntry: Record "Vendor Ledger Entry";
+        DataEditorBufferTestMode: Codeunit "TDET DE Buffer Test Mode";
+        DataEditor: TestPage "DET Data Editor";
+        DataEditorBuffer: TestPage "DET Data Editor Buffer";
+    begin
+        Init();
+
+        SetUpperPermissions();
+
+        MockVendorLedgerEntryWithAmount(VendorLedgerEntry, LibraryPurchase.CreateVendorNo());
+        VendorLedgerEntry.Description := LibraryRandom.RandText(MaxStrLen(VendorLedgerEntry.Description)).Substring(1, MaxStrLen(VendorLedgerEntry.Description));
+        VendorLedgerEntry."Document Type" := VendorLedgerEntry."Document Type"::Invoice;
+        VendorLedgerEntry.Modify();
+
+        OldVendorNo := VendorLedgerEntry."Vendor No.";
+        NewVendorNo := LibraryPurchase.CreateVendorNo();
+
+        SetLowerPermissions();
+
+        DataEditorBuffer.Trap();
+
+        DataEditor.OpenEdit();
+        DataEditor.SourceTableNoField.SetValue(Database::"Vendor Ledger Entry");
+        BindSubscription(DataEditorBufferTestMode);
+        DataEditor.OK().Invoke();
+        UnbindSubscription(DataEditorBufferTestMode);
+
+        DataEditorBuffer.Filter.SetFilter("Text Value 2", Format(VendorLedgerEntry."Entry No."));
+        Assert.IsTrue(DataEditorBuffer.First(), '');
+
+        LibraryVariableStorage.Enqueue(VendorLedgerEntry.FieldCaption("Document Type"));
+
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, VendorLedgerEntry.TableCaption(), Database::"Vendor Ledger Entry"), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(VendorLedgerEntry.FieldCaption("Document Type"), DataEditorBuffer."Text Value 5".Caption(), '');
+        Assert.AreEqual(Format(Enum::"Gen. Journal Document Type"::Invoice), DataEditorBuffer."Text Value 5".Value(), '');
+
+        LibraryVariableStorage.Enqueue(Enum::"Gen. Journal Document Type"::"Credit Memo".AsInteger() + 1);
+
+        DataEditorBuffer."Text Value 5".Drilldown();
+
+        Assert.AreEqual(Format(Enum::"Gen. Journal Document Type"::"Credit Memo"), DataEditorBuffer."Text Value 5".Value(), '');
+    end;
+
+    [Test]
+    [HandlerFunctions('GenericMessageHandler,InsertNewRecordHandler,GenericConfirmationHandler')]
+    [TransactionModel(TransactionModel::AutoRollback)]
+    procedure InsertAndDeleteCustLedgerEntry()
+    var
+        CustLedgerEntry: Record "Cust. Ledger Entry";
+        DataEditorBufferTestMode: Codeunit "TDET DE Buffer Test Mode";
+        DataEditor: TestPage "DET Data Editor";
+        DataEditorBuffer: TestPage "DET Data Editor Buffer";
+        LastEntryNo: Integer;
+    begin
+        Init();
+
+        SetUpperPermissions();
+
+        if CustLedgerEntry.FindLast() then
+            LastEntryNo := CustLedgerEntry."Entry No.";
+
+        SetLowerPermissions();
+
+        DataEditorBuffer.Trap();
+
+        DataEditor.OpenEdit();
+        DataEditor.SourceTableNoField.SetValue(Database::"Cust. Ledger Entry");
+        DataEditor.WithoutValidationField.SetValue(false);
+        BindSubscription(DataEditorBufferTestMode);
+        DataEditor.OK().Invoke();
+        UnbindSubscription(DataEditorBufferTestMode);
+
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, CustLedgerEntry.TableCaption(), Database::"Cust. Ledger Entry"), DataEditorBuffer.Caption(), '');
+
+        LibraryVariableStorage.Enqueue(Format(LastEntryNo + 1));
+        LibraryDialogHandler.SetExpectedMessage(StrSubstNo(RecordIsInsertedMsg, StrSubstNo(CustLedgerEntryPKLbl, LastEntryNo + 1)));
+
+        DataEditorBuffer.InsertNew_promoted.Invoke();
+
+        Assert.IsTrue(CustLedgerEntry.Get(LastEntryNo + 1), '');
+
+        DataEditorBuffer.Filter.SetFilter("Text Value 2", Format(LastEntryNo + 1));
+        Assert.IsTrue(DataEditorBuffer.First(), '');
+
+        LibraryDialogHandler.SetExpectedConfirm(DeleteAllLbl, true);
+
+        DataEditorBuffer."DET Delete All_Promoted".Invoke();
+
+        Assert.IsFalse(CustLedgerEntry.Get(LastEntryNo + 1), '');
+    end;
+
+    [Test]
+    [HandlerFunctions('GenericMessageHandler,InsertNewRecordHandler,GenericConfirmationHandler')]
+    [TransactionModel(TransactionModel::AutoRollback)]
+    procedure InsertAndDeleteVendorLedgerEntry()
+    var
+        VendorLedgerEntry: Record "Vendor Ledger Entry";
+        DataEditorBufferTestMode: Codeunit "TDET DE Buffer Test Mode";
+        DataEditor: TestPage "DET Data Editor";
+        DataEditorBuffer: TestPage "DET Data Editor Buffer";
+        LastEntryNo: Integer;
+    begin
+        Init();
+
+        SetUpperPermissions();
+
+        if VendorLedgerEntry.FindLast() then
+            LastEntryNo := VendorLedgerEntry."Entry No.";
+
+        SetLowerPermissions();
+
+        DataEditorBuffer.Trap();
+
+        DataEditor.OpenEdit();
+        DataEditor.SourceTableNoField.SetValue(Database::"Vendor Ledger Entry");
+        DataEditor.WithoutValidationField.SetValue(false);
+        BindSubscription(DataEditorBufferTestMode);
+        DataEditor.OK().Invoke();
+        UnbindSubscription(DataEditorBufferTestMode);
+
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, VendorLedgerEntry.TableCaption(), Database::"Vendor Ledger Entry"), DataEditorBuffer.Caption(), '');
+
+        LibraryVariableStorage.Enqueue(Format(LastEntryNo + 1));
+        LibraryDialogHandler.SetExpectedMessage(StrSubstNo(RecordIsInsertedMsg, StrSubstNo(VendorLedgerEntryPKLbl, LastEntryNo + 1)));
+
+        DataEditorBuffer.InsertNew_promoted.Invoke();
+
+        Assert.IsTrue(VendorLedgerEntry.Get(LastEntryNo + 1), '');
+
+        DataEditorBuffer.Filter.SetFilter("Text Value 2", Format(LastEntryNo + 1));
+        Assert.IsTrue(DataEditorBuffer.First(), '');
+
+        LibraryDialogHandler.SetExpectedConfirm(DeleteAllLbl, true);
+
+        DataEditorBuffer."DET Delete All_Promoted".Invoke();
+
+        Assert.IsFalse(VendorLedgerEntry.Get(LastEntryNo + 1), '');
     end;
 
     [ModalPageHandler]
@@ -259,9 +412,31 @@ codeunit 81104 "TDET Data Editor Permissions"
         NameValueLookup.OK().Invoke();
     end;
 
+    [MessageHandler]
+    procedure GenericMessageHandler(Message: Text)
+    begin
+        LibraryDialogHandler.HandleMessage(Message);
+    end;
+
+    [ModalPageHandler]
+    procedure InsertNewRecordHandler(var InsertNewRecord: TestPage "DET Insert New Record")
+    begin
+        InsertNewRecord."Text Value 2".SetValue(LibraryVariableStorage.DequeueText());
+        InsertNewRecord.OK().Invoke();
+    end;
+
+    [ConfirmHandler]
+    procedure GenericConfirmationHandler(Question: Text[1024]; var Reply: Boolean)
+    begin
+        LibraryDialogHandler.HandleConfirm(Question, Reply);
+    end;
+
+
     local procedure Init()
     begin
         LibraryRandom.Init();
+        LibraryVariableStorage.Clear();
+        LibraryDialogHandler.ClearVariableStorage();
     end;
 
     local procedure SetLowerPermissions()
@@ -340,5 +515,3 @@ codeunit 81104 "TDET Data Editor Permissions"
         VendorLedgerEntry.Insert();
     end;
 }
-
-

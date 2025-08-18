@@ -33,6 +33,26 @@
           <note from="Developer" annotates="general" priority="2">%1 = FieldValue, %2 = CurrentValue, %3 = FieldIndex, %4 = RecordId</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET Data Editor Buffer Helper - Method AssertBufferFieldValue - NamedType WrongValueErr</note>
         </trans-unit>
+        <trans-unit id="Codeunit 2654364668 - NamedType 3488266395" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cust. Ledger Entry: %1</source>
+          <note from="Developer" annotates="general" priority="2">%1 = Entry No.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET Data Editor Permissions - NamedType CustLedgerEntryPKLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2654364668 - NamedType 3207865190" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Are sure you want to delete %1 entries?</source>
+          <note from="Developer" annotates="general" priority="2">%1 = Count of entries.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET Data Editor Permissions - NamedType DeleteAllLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2654364668 - NamedType 526728092" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Record %1 is inserted.</source>
+          <note from="Developer" annotates="general" priority="2">%1 = Record Id</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET Data Editor Permissions - NamedType RecordIsInsertedMsg</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2654364668 - NamedType 1156647512" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Vendor Ledger Entry: %1</source>
+          <note from="Developer" annotates="general" priority="2">%1 = Entry No.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET Data Editor Permissions - NamedType VendorLedgerEntryPKLbl</note>
+        </trans-unit>
         <trans-unit id="Codeunit 1731800726 - NamedType 3844598882" size-unit="char" translate="yes" xml:space="preserve">
           <source>You cannot create records in the temporary table.</source>
           <note from="Developer" annotates="general" priority="2"></note>
