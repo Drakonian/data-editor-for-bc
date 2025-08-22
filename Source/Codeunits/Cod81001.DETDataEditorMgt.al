@@ -4,30 +4,13 @@
 // Original author — Volodymyr Dvernytskyi (Data Editor Tool)
 codeunit 81001 "DET Data Editor Mgt."
 {
-    Permissions = tabledata "Vendor Ledger Entry" = RMID, tabledata "FA Ledger Entry" = RMID, tabledata "Job Ledger Entry" = RMID, tabledata "Item Ledger Entry" = RMID,
-     tabledata "Res. Ledger Entry" = RMID, tabledata "Check Ledger Entry" = RMID, tabledata "Cust. Ledger Entry" = RMID, tabledata "Service Ledger Entry" = RMID,
-     tabledata "Capacity Ledger Entry" = RMID, tabledata "Employee Ledger Entry" = RMID, tabledata "Warranty Ledger Entry" = RMID, tabledata "Maintenance Ledger Entry" = RMID,
-     tabledata "Bank Account Ledger Entry" = RMID, tabledata "Ins. Coverage Ledger Entry" = RMID, tabledata "Payable Vendor Ledger Entry" = RMID, tabledata "Phys. Inventory Ledger Entry" = RMID,
-     tabledata "Payable Employee Ledger Entry" = RMID, tabledata "Detailed Employee Ledger Entry" = RMID, tabledata "Detailed Cust. Ledg. Entry" = RMID, tabledata "Detailed Vendor Ledg. Entry" = RMID,
-     tabledata "Sales Invoice Header" = RMID, tabledata "Sales Invoice Line" = RMID, tabledata "Sales Shipment Header" = RMID, tabledata "Sales Shipment Line" = RMID,
-     tabledata "Sales Cr.Memo Header" = RMID, tabledata "Sales Cr.Memo Line" = RMID, tabledata "Purch. Cr. Memo Hdr." = RMID, tabledata "Purch. Cr. Memo Line" = RMID,
-     tabledata "Purch. Inv. Header" = RMID, tabledata "Purch. Inv. Line" = RMID, tabledata "Purch. Rcpt. Header" = RMID, tabledata "Purch. Rcpt. Line" = RMID,
-     tabledata "Purchase Header Archive" = RMID, tabledata "Sales Line Archive" = RMID, tabledata "Sales Header Archive" = RMID, tabledata "Purchase Line Archive" = RMID,
-     tabledata "Sales Comment Line Archive" = RMID, tabledata "Purch. Comment Line Archive" = RMID, tabledata "Workflow Step Argument Archive" = RMID, tabledata "Workflow Record Change Archive" = RMID,
-     tabledata "Workflow Step Instance Archive" = RMID, tabledata "G/L Entry" = RMID, tabledata "Approval Entry" = RMID, tabledata "Warehouse Entry" = RMID,
-     tabledata "Value Entry" = RMID, tabledata "Item Register" = RMID, tabledata "G/L Register" = RIMD, tabledata "Vat Entry" = RMID, tabledata "Dimension Set Entry" = RIMD,
-     tabledata "Service Invoice Header" = RMID, TableData "Service Cr.Memo Header" = RMID, TableData "Issued Reminder Header" = RMID, TableData "Issued Fin. Charge Memo Header" = RMID,
-     tabledata "G/L Entry - VAT Entry Link" = RMID, tabledata "Item Application Entry" = RMID, tabledata "Item Application Entry History" = RMID,
-     tabledata "Return Shipment Header" = RMID, tabledata "Return Shipment Line" = RMID, tabledata "Return Receipt Header" = RMID, tabledata "Return Receipt Line" = RMID,
-     tabledata "Invt. Receipt Header" = RMID, tabledata "Invt. Receipt Line" = RMID, tabledata "Invt. Shipment Header" = RMID, tabledata "Invt. Shipment Line" = RMID,
-     tabledata "Pstd. Phys. Invt. Record Hdr" = RMID, tabledata "Pstd. Phys. Invt. Record Line" = RMID, tabledata "Pstd. Phys. Invt. Order Hdr" = RMID, tabledata "Pstd. Phys. Invt. Order Line" = RMID,
-     tabledata "Bank Account Statement Line" = RMID, tabledata "Change Log Entry" = RIMD, tabledata "Posted Approval Entry" = RIMD, tabledata "FA Register" = RIMD, tabledata "Post Value Entry to G/L" = RIMD,
-     tabledata "Job Register" = RMID;
+    // Inherits permissions from DET Permissions Provider for all CRUD operations
 
     procedure GetNewColumnValue(var RecRef: RecordRef; var FieldRefVar: FieldRef; var SourceRecordId: RecordId; var TempNameValueBuffer: Record "Name/Value Buffer" temporary; WithValidate: Boolean): Boolean
     var
         FieldRec: Record Field;
         DataEditorSetup: Record "DET Data Editor Setup";
+        PermissionsProvider: Codeunit "DET Permissions Provider";
         EditValue: page "DET Edit Value";
         NameValueLookup: Page "Name/Value Lookup";
         xRecRef: RecordRef;
@@ -37,7 +20,7 @@ codeunit 81001 "DET Data Editor Mgt."
         FieldNo: Integer;
         ResultVariant: Variant;
     begin
-        if not RecRef.Get(SourceRecordId) then
+        if not PermissionsProvider.SafeGet(RecRef, SourceRecordId) then
             exit;
 
         if FieldRefVar.Class <> FieldClass::Normal then
@@ -75,23 +58,23 @@ codeunit 81001 "DET Data Editor Mgt."
             RenamePKField(RecRef, FieldRefVar, SourceRecordId, ResultVariant);
             if FieldRefVar.Type() = FieldRefVar.Type::Option then begin
                 if WithValidate then
-                    FieldRefVar.Validate(TempNameValueBuffer.Name)
+                    PermissionsProvider.ExecuteFieldValidation(FieldRefVar, TempNameValueBuffer.Name)
                 else
-                    FieldRefVar.Value(TempNameValueBuffer.Name);
+                    PermissionsProvider.ExecuteFieldAssignment(FieldRefVar, TempNameValueBuffer.Name);
             end else
                 if WithValidate then
-                    FieldRefVar.Validate(ResultVariant)
+                    PermissionsProvider.ExecuteFieldValidation(FieldRefVar, ResultVariant)
                 else
-                    FieldRefVar.Value(ResultVariant);
+                    PermissionsProvider.ExecuteFieldAssignment(FieldRefVar, ResultVariant);
             if DataEditorSetup.Get() then
                 if DataEditorSetup."Enable Data Editor Log" then
                     LogRename(RecRef.Number(), FieldRefVar.Number(), RecRef.RecordId(), xFieldRefVar, FieldRefVar, true);
             exit(true);
         end;
         if WithValidate then
-            FieldRefVar.Validate(ResultVariant)
+            PermissionsProvider.ExecuteFieldValidation(FieldRefVar, ResultVariant)
         else
-            FieldRefVar.Value(ResultVariant);
+            PermissionsProvider.ExecuteFieldAssignment(FieldRefVar, ResultVariant);
         exit(true);
     end;
 
@@ -126,6 +109,7 @@ codeunit 81001 "DET Data Editor Mgt."
 
     local procedure FindxRecRef(var xRecRef: RecordRef; PKFieldNoValueDict: Dictionary of [Integer, Text]) IsFound: Boolean
     var
+        PermissionsProvider: Codeunit "DET Permissions Provider";
         FieldRefVar: FieldRef;
         ListOfFieldNo: List of [Integer];
         FieldNo: Integer;
@@ -133,9 +117,9 @@ codeunit 81001 "DET Data Editor Mgt."
         ListOfFieldNo := PKFieldNoValueDict.Keys();
         foreach FieldNo in ListOfFieldNo do begin
             FieldRefVar := xRecRef.Field(FieldNo);
-            FieldRefVar.Value(TextValueAsVariant(FieldRefVar.Type, PKFieldNoValueDict.Get(FieldNo)));
+            PermissionsProvider.ExecuteFieldAssignment(FieldRefVar, TextValueAsVariant(FieldRefVar.Type, PKFieldNoValueDict.Get(FieldNo)));
         end;
-        IsFound := xRecRef.Find();
+        IsFound := PermissionsProvider.ExecuteRecordOperation(xRecRef, Enum::"DET Record Operation"::Find, false);
     end;
 
     procedure RenamePKField(var inRecRef: RecordRef; var FieldRefVar: FieldRef; var SourceRecordId: RecordId; NewValueAsVariant: Variant)
@@ -576,6 +560,7 @@ codeunit 81001 "DET Data Editor Mgt."
 
     local procedure UpdateRecord(ValueAsTxt: Text; var RecRef: RecordRef; var xRecRef: RecordRef; var FieldRef: FieldRef; ImportOnFind: Enum "DET Import On Find"; IsRecordExist: Boolean; WithValidation: Boolean; IsLogEnabled: Boolean)
     var
+        PermissionsProvider: Codeunit "DET Permissions Provider";
         xFieldRef: FieldRef;
     begin
         if IsRecordExist and (ImportOnFind = ImportOnFind::Skip) then
@@ -585,9 +570,9 @@ codeunit 81001 "DET Data Editor Mgt."
             xFieldRef := xRecRef.Field(FieldRef.Number());
 
         if WithValidation then
-            FieldRef.Validate(TextValueAsVariant(FieldRef.Type, ValueAsTxt))
+            PermissionsProvider.ExecuteFieldValidation(FieldRef, TextValueAsVariant(FieldRef.Type, ValueAsTxt))
         else
-            FieldRef.Value(TextValueAsVariant(FieldRef.Type, ValueAsTxt));
+            PermissionsProvider.ExecuteFieldAssignment(FieldRef, TextValueAsVariant(FieldRef.Type, ValueAsTxt));
 
         if not IsLogEnabled then
             exit;
@@ -597,11 +582,13 @@ codeunit 81001 "DET Data Editor Mgt."
     end;
 
     local procedure SaveRecord(var RecRef: RecordRef; ImportOnFind: Enum "DET Import On Find"; WithValidation: Boolean; IsRecordExist: Boolean; var Inserted: Integer; var Skipped: Integer; var Modified: Integer; IsLogEnabled: Boolean)
+    var
+        PermissionsProvider: Codeunit "DET Permissions Provider";
     begin
         case ImportOnFind of
             ImportOnFind::Error:
                 begin
-                    RecRef.Insert(WithValidation);
+                    PermissionsProvider.ExecuteRecordOperation(RecRef, Enum::"DET Record Operation"::Insert, WithValidation);
                     if IsLogEnabled then
                         LogInsert(RecRef.Number(), RecRef.RecordId(), WithValidation);
                     Inserted += 1;
@@ -610,17 +597,17 @@ codeunit 81001 "DET Data Editor Mgt."
                 if IsRecordExist then
                     Skipped += 1
                 else begin
-                    RecRef.Insert(WithValidation);
+                    PermissionsProvider.ExecuteRecordOperation(RecRef, Enum::"DET Record Operation"::Insert, WithValidation);
                     if IsLogEnabled then
                         LogInsert(RecRef.Number(), RecRef.RecordId(), WithValidation);
                     Inserted += 1;
                 end;
             ImportOnFind::Modify:
                 if IsRecordExist then begin
-                    RecRef.Modify(WithValidation);
+                    PermissionsProvider.ExecuteRecordOperation(RecRef, Enum::"DET Record Operation"::Modify, WithValidation);
                     Modified += 1
                 end else begin
-                    RecRef.Insert(WithValidation);
+                    PermissionsProvider.ExecuteRecordOperation(RecRef, Enum::"DET Record Operation"::Insert, WithValidation);
                     if IsLogEnabled then
                         LogInsert(RecRef.Number(), RecRef.RecordId(), WithValidation);
                     Inserted += 1;
@@ -630,6 +617,7 @@ codeunit 81001 "DET Data Editor Mgt."
 
     local procedure InitUnchangedFields(var RecRef: RecordRef; xRecRef: RecordRef; ToChangeFieldNoList: List of [Integer])
     var
+        PermissionsProvider: Codeunit "DET Permissions Provider";
         FieldRefVar: FieldRef;
         xFieldRefVar: FieldRef;
         i: Integer;
@@ -638,7 +626,7 @@ codeunit 81001 "DET Data Editor Mgt."
             FieldRefVar := RecRef.FieldIndex(i);
             if not ToChangeFieldNoList.Contains(FieldRefVar.Number()) then begin
                 xFieldRefVar := xRecRef.Field(FieldRefVar.Number());
-                FieldRefVar.Value(xFieldRefVar.Value());
+                PermissionsProvider.ExecuteFieldAssignment(FieldRefVar, xFieldRefVar.Value());
             end;
         end;
     end;
@@ -741,6 +729,7 @@ codeunit 81001 "DET Data Editor Mgt."
         TempBinaryDataBuffer: Record "DET Binary Data Buffer" temporary;
         TempBlob: Codeunit "Temp Blob";
         Base64Convert: Codeunit "Base64 Convert";
+        PermissionsProvider: Codeunit "DET Permissions Provider";
         FieldRefVar: FieldRef;
         TxtBuilder: TextBuilder;
         DataAsInStream: InStream;
@@ -775,7 +764,7 @@ codeunit 81001 "DET Data Editor Mgt."
                             end;
                         FieldRefVar.Type::Blob:
                             if ExportBLOB then begin
-                                FieldRefVar.CalcField();
+                                PermissionsProvider.ExecuteCalcField(FieldRefVar);
                                 TempBlob.FromFieldRef(FieldRefVar);
                                 TempExcelBuffer.AddColumn('', false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                                 TempExcelBuffer."Cell Value as Blob".CreateOutStream(DataAsOutStream);
@@ -825,6 +814,7 @@ codeunit 81001 "DET Data Editor Mgt."
         TempBinaryDataBuffer: Record "DET Binary Data Buffer" temporary;
         TempBlob: Codeunit "Temp Blob";
         Base64Convert: Codeunit "Base64 Convert";
+        PermissionsProvider: Codeunit "DET Permissions Provider";
         FieldRefVar: FieldRef;
         BooleanValue: Boolean;
         i: Integer;
@@ -850,7 +840,7 @@ codeunit 81001 "DET Data Editor Mgt."
                                     end;
                                 FieldRefVar.Type::Blob:
                                     if ExportBLOB then begin
-                                        FieldRefVar.CalcField();
+                                        PermissionsProvider.ExecuteCalcField(FieldRefVar);
                                         TempBlob.FromFieldRef(FieldRefVar);
                                         JObject.Add(Format(FieldRefVar.Number()), Base64Convert.ToBase64(TempBlob.CreateInStream()));
                                     end;
@@ -896,13 +886,14 @@ codeunit 81001 "DET Data Editor Mgt."
                                   HasValues: Boolean)
     var
         DataEditorLog: Record "DET Data Editor Log";
+        PermissionsProvider: Codeunit "DET Permissions Provider";
     begin
         if HasValues then begin
             if (OldValue.Class() = FieldClass::FlowField) or (OldValue.Type() = FieldType::Blob) then
-                OldValue.CalcField();
+                PermissionsProvider.ExecuteCalcField(OldValue);
 
             if (NewValue.Class() = FieldClass::FlowField) or (NewValue.Type() = FieldType::Blob) then
-                NewValue.CalcField();
+                PermissionsProvider.ExecuteCalcField(NewValue);
         end;
 
         if not NumberSequence.Exists(LogNumberSequenceLbl) then
