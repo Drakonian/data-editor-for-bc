@@ -11,6 +11,7 @@ codeunit 81002 "DET Read Data Batch"
         TempBlob: Codeunit "Temp Blob";
         DataEditorMgt: Codeunit "DET Data Editor Mgt.";
         ConfigProgressBar: Codeunit "Config. Progress Bar";
+        DataOperations: Codeunit "DET Data Operations";
         RecRef: RecordRef;
         TempDataEditorBufferRecRef: RecordRef;
         FieldRefVar: FieldRef;
@@ -50,7 +51,7 @@ codeunit 81002 "DET Read Data Batch"
         RecRef.ReadIsolation := RecRef.ReadIsolation::ReadCommitted;
         InitLoadFields(RecRef);
 
-        TempDataEditorBufferRecRef.GetTable(Rec);
+        DataOperations.GetTable(TempDataEditorBufferRecRef, Rec);
 
         TotalCount := EndIndex - StartIndex + 1;
 
@@ -58,17 +59,17 @@ codeunit 81002 "DET Read Data Batch"
             ConfigProgressBar.Init(TotalCount, 1, RecRef.Caption());
 
         if StartIndex = 1 then
-            RecRef.FindSet()
+            DataOperations.FindSetRecord(RecRef)
         else
-            RecRef.Next(StartIndex);
+            DataOperations.NextRecord(RecRef, StartIndex);
 
         repeat
             Counter := 0;
             TempDataEditorBufferRecRef.Init();
             FieldRefVar2 := TempDataEditorBufferRecRef.FieldIndex(1);
-            FieldRefVar2.Value(StartIndex);
+            DataOperations.SetFieldRefValue(FieldRefVar2, StartIndex);
             FieldRefVar2 := TempDataEditorBufferRecRef.FieldIndex(2);
-            FieldRefVar2.Value(RecRef.RecordId());
+            DataOperations.SetFieldRefValue(FieldRefVar2, RecRef.RecordId());
 
             foreach FieldNumber in LoadFieldNoList do begin
                 Counter += 1;
@@ -76,18 +77,18 @@ codeunit 81002 "DET Read Data Batch"
 
                 //Performance bottleneck
                 if FieldRefVar.Class() = FieldClass::FlowField then
-                    FieldRefVar.CalcField();
+                    DataOperations.CalcFieldRef(FieldRefVar);
 
                 FieldRefVar2 := TempDataEditorBufferRecRef.FieldIndex(Counter + 2);
-                FieldRefVar2.Value(FieldRefVar.Value());
+                DataOperations.SetFieldRefToFieldRef(FieldRefVar, FieldRefVar2);
             end;
 
-            TempDataEditorBufferRecRef.Insert();
+            DataOperations.InsertRecord(TempDataEditorBufferRecRef, false);
             StartIndex += 1;
 
             if GuiAllowed() then
                 ConfigProgressBar.UpdateCount(StrSubstNo(ProgressStatusTxt, StartIndex, TotalCount), StartIndex - 1);
-        until (RecRef.Next() = 0) or (StartIndex > EndIndex);
+        until (DataOperations.NextRecord(RecRef) = 0) or (StartIndex > EndIndex);
 
         if GuiAllowed() then
             ConfigProgressBar.Close();

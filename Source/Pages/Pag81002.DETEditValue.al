@@ -148,7 +148,7 @@ page 81002 "DET Edit Value"
         VariantRecord := RecRef;
         if not (Page.RunModal(0, VariantRecord) in [Action::LookupOK, Action::OK]) then
             exit;
-        RecRef.GetTable(VariantRecord);
+        DataOperations.GetTable(RecRef, VariantRecord);
         if FieldInfo.RelationFieldNo = 0 then begin
             SourceFieldInfo.SetRange(TableNo, FieldInfo.RelationTableNo);
             SourceFieldInfo.SetRange(IsPartOfPrimaryKey, true);
@@ -159,7 +159,7 @@ page 81002 "DET Edit Value"
 
         FieldRefVar := RecRef.Field(RelationFieldId);
         if FieldRefVar.Class() = FieldClass::FlowField then
-            FieldRefVar.CalcField();
+            DataOperations.CalcFieldRef(FieldRefVar);
         NewValue := Format(FieldRefVar.Value);
     end;
 
@@ -252,6 +252,7 @@ page 81002 "DET Edit Value"
 
     var
         FieldInfo: Record Field;
+        DataOperations: Codeunit "DET Data Operations";
         DateFormulaValue: DateFormula;
         BooleanValue: Boolean;
         CodeValue: code[2048];

@@ -185,7 +185,7 @@ page 81007 "DET Find and Replace"
                 end;
         end;
 
-        if RecRef.FindSet() then
+        if DataOperations.FindSetRecord(RecRef) then
             repeat
                 Clear(ReplacedCounter);
                 foreach FieldNo in FoundFieldList do begin
@@ -218,9 +218,9 @@ page 81007 "DET Find and Replace"
                                 ReplaceNoCase(FieldValueAsTxt, FindWhat, ReplaceWith);
 
                             if GlobalWithoutValidate then
-                                FieldRefToModify.Value(FieldValueAsTxt)
+                                DataOperations.SetFieldRefValue(FieldRefToModify, FieldValueAsTxt)
                             else
-                                FieldRefToModify.Validate(FieldValueAsTxt);
+                                DataOperations.ValidateFieldRefValue(FieldRefToModify, FieldValueAsTxt);
 
                             Rec."Field Value" := CopyStr(FieldValueAsTxt, 1, MaxStrLen(Rec."Field Value"));
                             ReplacedCounter += 1;
@@ -233,9 +233,9 @@ page 81007 "DET Find and Replace"
                     FieldRefVar.SetRange();
                 end;
                 if ReplacedCounter <> 0 then
-                    RecRef.Modify(not GlobalWithoutValidate);
+                    DataOperations.ModifyRecord(RecRef, not GlobalWithoutValidate);
                 ReplacedTotal += ReplacedCounter;
-            until RecRef.Next() = 0;
+            until DataOperations.NextRecord(RecRef) = 0;
 
         ResultNotification.Id := GlobalGuid;
         if Replace then
@@ -291,7 +291,7 @@ page 81007 "DET Find and Replace"
         FieldRefVar: FieldRef;
         xFieldRefVar: FieldRef;
     begin
-        if not RecRef.Get(Rec."Record Id") then
+        if not DataOperations.GetRecord(RecRef, Rec."Record Id") then
             exit;
         xRecRef := RecRef.Duplicate();
         FieldRefVar := RecRef.Field(FieldNo);
@@ -299,14 +299,14 @@ page 81007 "DET Find and Replace"
 
         if not IsDrillDown then begin
             if GlobalWithoutValidate then
-                FieldRefVar.Value(NewValue)
+                DataOperations.SetFieldRefValue(FieldRefVar, NewValue)
             else
-                FieldRefVar.Validate(NewValue);
+                DataOperations.ValidateFieldRefValue(FieldRefVar, NewValue);
         end else
             if not DataEditorMgt.GetNewColumnValue(RecRef, FieldRefVar, Rec."Record Id", TempNameValueBuffer, not GlobalWithoutValidate) then
                 exit;
 
-        RecRef.Modify(not GlobalWithoutValidate);
+        DataOperations.ModifyRecord(RecRef, not GlobalWithoutValidate);
 
         if FieldRefVar.Type() = FieldRefVar.Type::Option then
             NewValue := TempNameValueBuffer.Value
@@ -331,6 +331,7 @@ page 81007 "DET Find and Replace"
     end;
 
     var
+        DataOperations: Codeunit "DET Data Operations";
         FieldsFoundLbl: Label '%1 field(s) %2.', Comment = '%1 = Number of entries, %2 Found or Found & Replaced';
         FindWhat: Text;
         ReplaceWith: Text;
