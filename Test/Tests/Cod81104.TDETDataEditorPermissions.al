@@ -518,7 +518,7 @@ codeunit 81104 "TDET Data Editor Permissions"
     local procedure SetMinimumPermissions()
     begin
         LibraryLowerPermissions.SetLocal();
-        LibraryLowerPermissions.AddeRead();
+        LibraryLowerPermissions.AddO365Basic();
         LibraryLowerPermissions.AddPermissionSet(DataEditorPermissionSetIdLbl);
     end;
 
