@@ -23,6 +23,82 @@ codeunit 81104 "TDET Data Editor Permissions"
 
     [Test]
     [TransactionModel(TransactionModel::AutoRollback)]
+    procedure DirectEditSalesInvoiceHeaderMinimumPermissions()
+    var
+        SalesInvoiceHeader: Record "Sales Invoice Header";
+        DataEditorBufferTestMode: Codeunit "TDET DE Buffer Test Mode";
+        DataEditor: TestPage "DET Data Editor";
+        DataEditorBuffer: TestPage "DET Data Editor Buffer";
+    begin
+        Init();
+
+        SetUpperPermissions();
+
+        MockSalesInvoiceHeader(SalesInvoiceHeader);
+
+        SetMinimumPermissions();
+
+        DataEditorBuffer.Trap();
+
+        DataEditor.OpenEdit();
+        DataEditor.SourceTableNoField.SetValue(Database::"Sales Invoice Header");
+        BindSubscription(DataEditorBufferTestMode);
+        DataEditor.OK().Invoke();
+        UnbindSubscription(DataEditorBufferTestMode);
+
+        DataEditorBuffer.Filter.SetFilter("Text Value 2", SalesInvoiceHeader."No.");
+        DataEditorBuffer.First();
+
+        LibraryVariableStorage.Enqueue(SalesInvoiceHeader."Posting Description");
+
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, SalesInvoiceHeader.TableCaption(), Database::"Sales invoice Header"), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(SalesInvoiceHeader.FieldCaption("Posting Description"), DataEditorBuffer."Text Value 22".Caption(), '');
+        Assert.AreEqual(LibraryVariableStorage.DequeueText(), DataEditorBuffer."Text Value 22".Value(), '');
+
+        DataEditorBuffer."Text Value 22".SetValue('new value');
+    end;
+
+    [Test]
+    [TransactionModel(TransactionModel::AutoRollback)]
+    procedure DirectEditCustLedgerEntryMinimumPermissions()
+    var
+        CustLedgerEntry: Record "Cust. Ledger Entry";
+        DataEditorBufferTestMode: Codeunit "TDET DE Buffer Test Mode";
+        DataEditor: TestPage "DET Data Editor";
+        DataEditorBuffer: TestPage "DET Data Editor Buffer";
+    begin
+        Init();
+
+        SetUpperPermissions();
+
+        LibrarySales.MockCustLedgerEntryWithAmount(CustLedgerEntry, LibrarySales.CreateCustomerNo());
+        CustLedgerEntry.Description := LibraryRandom.RandText(MaxStrLen(CustLedgerEntry.Description)).Substring(1, MaxStrLen(CustLedgerEntry.Description));
+        CustLedgerEntry.Modify();
+
+        SetMinimumPermissions();
+
+        DataEditorBuffer.Trap();
+
+        DataEditor.OpenEdit();
+        DataEditor.SourceTableNoField.SetValue(Database::"Cust. Ledger Entry");
+        BindSubscription(DataEditorBufferTestMode);
+        DataEditor.OK().Invoke();
+        UnbindSubscription(DataEditorBufferTestMode);
+
+        DataEditorBuffer.Filter.SetFilter("Text Value 2", Format(CustLedgerEntry."Entry No."));
+        Assert.IsTrue(DataEditorBuffer.First(), '');
+
+        LibraryVariableStorage.Enqueue(CustLedgerEntry.Description);
+
+        Assert.AreEqual(StrSubstNo(PageCaptionLbl, CustLedgerEntry.TableCaption(), Database::"Cust. Ledger Entry"), DataEditorBuffer.Caption(), '');
+        Assert.AreEqual(CustLedgerEntry.FieldCaption(Description), DataEditorBuffer."Text Value 7".Caption(), '');
+        Assert.AreEqual(LibraryVariableStorage.DequeueText(), DataEditorBuffer."Text Value 7".Value(), '');
+
+        asserterror DataEditorBuffer."Text Value 7".SetValue('new value');
+    end;
+
+    [Test]
+    [TransactionModel(TransactionModel::AutoRollback)]
     procedure DirectEditSalesInvoiceHeader()
     var
         SalesInvoiceHeader: Record "Sales Invoice Header";
@@ -437,6 +513,13 @@ codeunit 81104 "TDET Data Editor Permissions"
         LibraryRandom.Init();
         LibraryVariableStorage.Clear();
         LibraryDialogHandler.ClearVariableStorage();
+    end;
+
+    local procedure SetMinimumPermissions()
+    begin
+        LibraryLowerPermissions.SetLocal();
+        LibraryLowerPermissions.AddeRead();
+        LibraryLowerPermissions.AddPermissionSet(DataEditorPermissionSetIdLbl);
     end;
 
     local procedure SetLowerPermissions()
