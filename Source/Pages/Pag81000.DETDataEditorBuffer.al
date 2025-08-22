@@ -11,25 +11,7 @@ page 81000 "DET Data Editor Buffer"
     UsageCategory = None;
     SourceTableTemporary = true;
     InsertAllowed = false;
-    Permissions = tabledata "Vendor Ledger Entry" = RMID, tabledata "FA Ledger Entry" = RMID, tabledata "Job Ledger Entry" = RMID, tabledata "Item Ledger Entry" = RMID,
-     tabledata "Res. Ledger Entry" = RMID, tabledata "Check Ledger Entry" = RMID, tabledata "Cust. Ledger Entry" = RMID, tabledata "Service Ledger Entry" = RMID,
-     tabledata "Capacity Ledger Entry" = RMID, tabledata "Employee Ledger Entry" = RMID, tabledata "Warranty Ledger Entry" = RMID, tabledata "Maintenance Ledger Entry" = RMID,
-     tabledata "Bank Account Ledger Entry" = RMID, tabledata "Ins. Coverage Ledger Entry" = RMID, tabledata "Payable Vendor Ledger Entry" = RMID, tabledata "Phys. Inventory Ledger Entry" = RMID,
-     tabledata "Payable Employee Ledger Entry" = RMID, tabledata "Detailed Employee Ledger Entry" = RMID, tabledata "Detailed Cust. Ledg. Entry" = RMID, tabledata "Detailed Vendor Ledg. Entry" = RMID,
-     tabledata "Sales Invoice Header" = RMID, tabledata "Sales Invoice Line" = RMID, tabledata "Sales Shipment Header" = RMID, tabledata "Sales Shipment Line" = RMID,
-     tabledata "Sales Cr.Memo Header" = RMID, tabledata "Sales Cr.Memo Line" = RMID, tabledata "Purch. Cr. Memo Hdr." = RMID, tabledata "Purch. Cr. Memo Line" = RMID,
-     tabledata "Purch. Inv. Header" = RMID, tabledata "Purch. Inv. Line" = RMID, tabledata "Purch. Rcpt. Header" = RMID, tabledata "Purch. Rcpt. Line" = RMID,
-     tabledata "Purchase Header Archive" = RMID, tabledata "Sales Line Archive" = RMID, tabledata "Sales Header Archive" = RMID, tabledata "Purchase Line Archive" = RMID,
-     tabledata "Sales Comment Line Archive" = RMID, tabledata "Purch. Comment Line Archive" = RMID, tabledata "Workflow Step Argument Archive" = RMID, tabledata "Workflow Record Change Archive" = RMID,
-     tabledata "Workflow Step Instance Archive" = RMID, tabledata "G/L Entry" = RMID, tabledata "Approval Entry" = RMID, tabledata "Warehouse Entry" = RMID,
-     tabledata "Value Entry" = RMID, tabledata "Item Register" = RMID, tabledata "G/L Register" = RIMD, tabledata "Vat Entry" = RMID, tabledata "Dimension Set Entry" = RIMD,
-     tabledata "Service Invoice Header" = RMID, TableData "Service Cr.Memo Header" = RMID, TableData "Issued Reminder Header" = RMID, TableData "Issued Fin. Charge Memo Header" = RMID,
-     tabledata "G/L Entry - VAT Entry Link" = RMID, tabledata "Item Application Entry" = RMID, tabledata "Item Application Entry History" = RMID,
-     tabledata "Return Shipment Header" = RMID, tabledata "Return Shipment Line" = RMID, tabledata "Return Receipt Header" = RMID, tabledata "Return Receipt Line" = RMID,
-     tabledata "Invt. Receipt Header" = RMID, tabledata "Invt. Receipt Line" = RMID, tabledata "Invt. Shipment Header" = RMID, tabledata "Invt. Shipment Line" = RMID,
-     tabledata "Pstd. Phys. Invt. Record Hdr" = RMID, tabledata "Pstd. Phys. Invt. Record Line" = RMID, tabledata "Pstd. Phys. Invt. Order Hdr" = RMID, tabledata "Pstd. Phys. Invt. Order Line" = RMID,
-     tabledata "Bank Account Statement Line" = RMID, tabledata "Change Log Entry" = RIMD, tabledata "Posted Approval Entry" = RIMD, tabledata "FA Register" = RIMD, tabledata "Post Value Entry to G/L" = RIMD,
-     tabledata "Job Register" = RMID;
+
 
     layout
     {
@@ -6664,7 +6646,7 @@ page 81000 "DET Data Editor Buffer"
         if SelectFields.RunModal() <> Action::LookupOK then
             exit;
         SelectFields.GetRecord(TempDETField);
-        RecRefDuplicate := RecRef.Duplicate();
+        PermissionsProxy.DuplicateRecRef(RecRef, RecRefDuplicate);
         NewFieldRef := RecRefDuplicate.Field(TempDETField."Field Id");
         if not DataEditorMgt.GetNewColumnValue(RecRef, NewFieldRef, Rec."Source Record ID", TempNameValueBuffer, not WithoutValidate) then
             exit;
@@ -6672,15 +6654,15 @@ page 81000 "DET Data Editor Buffer"
             exit;
         if Rec.FindSet() then
             repeat
-                RecRef.Get(Rec."Source Record ID");
-                xRecRef := RecRef.Duplicate();
+                PermissionsProxy.GetRecord(RecRef, Rec."Source Record ID");
+                PermissionsProxy.DuplicateRecRef(RecRef, xRecRef);
                 FieldRefVar := RecRef.Field(TempDETField."Field Id");
                 xFieldRefVar := xRecRef.Field(TempDETField."Field Id");
                 if WithoutValidate then
                     FieldRefVar.Value(NewFieldRef.Value())
                 else
                     FieldRefVar.Validate(NewFieldRef.Value());
-                RecRef.Modify(not WithoutValidate);
+                PermissionsProxy.ModifyRecord(RecRef, not WithoutValidate);
                 if IsLogEnabled then
                     DataEditorMgt.LogModify(RecRef.Number(), FieldRefVar.Number(), RecRef.RecordId(), xFieldRefVar,
                         FieldRefVar, not WithoutValidate);
@@ -6712,7 +6694,7 @@ page 81000 "DET Data Editor Buffer"
         if SelectFields.RunModal() <> Action::LookupOK then
             exit;
         SelectFields.GetRecord(TempDETField);
-        RecRefDuplicate := RecRef.Duplicate();
+        PermissionsProxy.DuplicateRecRef(RecRef, RecRefDuplicate);
         CopyFromFieldRef := RecRefDuplicate.Field(TempDETField."Field Id");
 
         Clear(TempDETField);
@@ -6727,7 +6709,7 @@ page 81000 "DET Data Editor Buffer"
         if SelectFields.RunModal() <> Action::LookupOK then
             exit;
         SelectFields.GetRecord(TempDETField);
-        RecRefDuplicate := RecRef.Duplicate();
+        PermissionsProxy.DuplicateRecRef(RecRef, RecRefDuplicate);
         CopyToFieldRef := RecRefDuplicate.Field(TempDETField."Field Id");
 
         if not Confirm(ColumnCopyToConfirmLbl, false, CopyFromFieldRef.Caption(), CopyToFieldRef.Caption(), Rec.Count(), RecRef.Name()) then
@@ -6738,8 +6720,8 @@ page 81000 "DET Data Editor Buffer"
 
         if Rec.FindSet() then
             repeat
-                RecRef.Get(Rec."Source Record ID");
-                xRecRef := RecRef.Duplicate();
+                PermissionsProxy.GetRecord(RecRef, Rec."Source Record ID");
+                PermissionsProxy.DuplicateRecRef(RecRef, xRecRef);
                 CopyFromFieldRef := RecRef.Field(CopyFromFieldNo);
                 if CopyFromFieldRef.Class() = FieldClass::FlowField then
                     CopyFromFieldRef.CalcField();
@@ -6749,7 +6731,7 @@ page 81000 "DET Data Editor Buffer"
                     CopyToFieldRef.Value(CopyFromFieldRef.Value())
                 else
                     CopyToFieldRef.Validate(CopyFromFieldRef.Value());
-                RecRef.Modify(not WithoutValidate);
+                PermissionsProxy.ModifyRecord(RecRef, not WithoutValidate);
                 if IsLogEnabled then
                     DataEditorMgt.LogModify(RecRef.Number(), CopyToFieldRef.Number(), RecRef.RecordId(), xCopyToFieldRef,
                         CopyToFieldRef, not WithoutValidate);
@@ -6802,10 +6784,11 @@ page 81000 "DET Data Editor Buffer"
     local procedure DeleteSourceRecord(SourceRecordID: RecordId)
     var
         DataEditorMgt: Codeunit "DET Data Editor Mgt.";
+        PermissionsProxy: Codeunit "DET Permissions Proxy";
         SourceRecRef: RecordRef;
     begin
-        if SourceRecRef.Get(SourceRecordID) then
-            SourceRecRef.Delete(not WithoutValidate);
+        if PermissionsProxy.GetRecord(SourceRecRef, SourceRecordID) then
+            PermissionsProxy.DeleteRecord(SourceRecRef, not WithoutValidate);
 
         if IsLogEnabled then
             DataEditorMgt.LogDelete(RecRef.Number(), SourceRecordID, not WithoutValidate);
@@ -6833,6 +6816,7 @@ page 81000 "DET Data Editor Buffer"
     local procedure OpenRecord(TableNo: Integer)
     var
         FieldRec: Record Field;
+        PermissionsProxy: Codeunit "DET Permissions Proxy";
         FieldRefVar: FieldRef;
         SkipField: Boolean;
         Counter: Integer;
@@ -6841,7 +6825,7 @@ page 81000 "DET Data Editor Buffer"
         StartBufferFieldNo: Integer;
         PageCaptionLbl: Label '%1 (%2)', Comment = '%1 = Table Caption, %2 = Table Number', Locked = true;
     begin
-        RecRef.Open(TableNo);
+        PermissionsProxy.OpenTable(RecRef, TableNo);
         CurrPage.Caption(StrSubstNo(PageCaptionLbl, RecRef.Caption(), RecRef.Number));
         StartBufferFieldNo := Rec.FieldNo("Text Value 2");
         FieldRec.FilterGroup(10);
@@ -7004,6 +6988,7 @@ page 81000 "DET Data Editor Buffer"
     local procedure RefreshData()
     var
         ConfigProgressBar: Codeunit "Config. Progress Bar";
+        PermissionsProxy: Codeunit "DET Permissions Proxy";
         TempDataEditorBufferRecRef: RecordRef;
         LocalRecRef: RecordRef;
         SystemModifiedAtFieldRef: FieldRef;
@@ -7015,17 +7000,16 @@ page 81000 "DET Data Editor Buffer"
         LastEntryNo: Integer;
         PrevView: Text;
     begin
-        LocalRecRef.Open(RecRef.Number());
+        PermissionsProxy.OpenTableWithIsolation(LocalRecRef, RecRef.Number(), RecRef.ReadIsolation::ReadCommitted);
         if CustomTableView <> '' then
-            LocalRecRef.SetView(CustomTableView);
-        LocalRecRef.ReadIsolation := RecRef.ReadIsolation::ReadCommitted;
+            PermissionsProxy.SetView(LocalRecRef, CustomTableView);
 
         TempDataEditorBufferRecRef.GetTable(Rec);
         TempDataEditorBufferRecRef.FilterGroup(10);
 
         SystemModifiedAtFieldRef := LocalRecRef.Field(LocalRecRef.SystemModifiedAtNo());
         SystemModifiedAtFieldRef.SetFilter('>=%1', InitLoadDateTime);
-        if LocalRecRef.FindSet() then begin
+        if PermissionsProxy.FindSet(LocalRecRef) then begin
             PrevView := Rec.GetView();
             Rec.Reset();
             if Rec.FindLast() then
@@ -7061,13 +7045,13 @@ page 81000 "DET Data Editor Buffer"
                 end;
 
                 if IsRecordCached then
-                    TempDataEditorBufferRecRef.Modify()
+                    PermissionsProxy.ModifyRecord(TempDataEditorBufferRecRef, false)
                 else
-                    TempDataEditorBufferRecRef.Insert();
+                    PermissionsProxy.InsertRecord(TempDataEditorBufferRecRef, false);
 
                 if GuiAllowed() then
                     ConfigProgressBar.UpdateCount(ProcessingLbl, 1);
-            until LocalRecRef.Next() = 0;
+            until PermissionsProxy.NextRecordSingle(LocalRecRef) = 0;
             InitLoadDateTime := CurrentDateTime();
 
             if GuiAllowed() then
@@ -7081,15 +7065,16 @@ page 81000 "DET Data Editor Buffer"
     local procedure OnValidateField(FieldCounter: Integer; NewValue: Text[2048])
     var
         DataEditorMgt: Codeunit "DET Data Editor Mgt.";
+        PermissionsProxy: Codeunit "DET Permissions Proxy";
         xRecRef: RecordRef;
         FieldRefVar: FieldRef;
         xFieldRefVar: FieldRef;
         FieldInfo: Dictionary of [Integer, Text];
         OriginalFieldNo: Integer;
     begin
-        if not RecRef.Get(Rec."Source Record ID") then
+        if not PermissionsProxy.GetRecord(RecRef, Rec."Source Record ID") then
             exit;
-        xRecRef := RecRef.Duplicate();
+        PermissionsProxy.DuplicateRecRef(RecRef, xRecRef);
         GenFieldInfoDict.Get(FieldCounter, FieldInfo);
         foreach OriginalFieldNo in FieldInfo.Keys() do
             FieldRefVar := RecRef.Field(OriginalFieldNo);
@@ -7105,7 +7090,7 @@ page 81000 "DET Data Editor Buffer"
             FieldRefVar.Value(DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue))
         else
             FieldRefVar.Validate(DataEditorMgt.TextValueAsVariant(FieldRefVar.Type(), NewValue));
-        RecRef.Modify(not WithoutValidate);
+        PermissionsProxy.ModifyRecord(RecRef, not WithoutValidate);
 
         if IsLogEnabled then
             DataEditorMgt.LogModify(RecRef.Number(), FieldRefVar.Number(), Rec."Source Record ID", xFieldRefVar, FieldRefVar, not WithoutValidate);
@@ -7115,15 +7100,16 @@ page 81000 "DET Data Editor Buffer"
     var
         TempNameValueBuffer: Record "Name/Value Buffer" temporary;
         DataEditorMgt: Codeunit "DET Data Editor Mgt.";
+        PermissionsProxy: Codeunit "DET Permissions Proxy";
         xRecRef: RecordRef;
         FieldRefVar: FieldRef;
         xFieldRefVar: FieldRef;
         FieldInfo: Dictionary of [Integer, Text];
         OriginalFieldNo: Integer;
     begin
-        if not RecRef.Get(Rec."Source Record ID") then
+        if not PermissionsProxy.GetRecord(RecRef, Rec."Source Record ID") then
             exit;
-        xRecRef := RecRef.Duplicate();
+        PermissionsProxy.DuplicateRecRef(RecRef, xRecRef);
         GenFieldInfoDict.Get(FieldCounter, FieldInfo);
         OriginalFieldNo := FieldInfo.Keys.Get(FieldInfo.Count());
         FieldRefVar := RecRef.Field(OriginalFieldNo);
@@ -7135,7 +7121,7 @@ page 81000 "DET Data Editor Buffer"
         if not DataEditorMgt.GetNewColumnValue(RecRef, FieldRefVar, Rec."Source Record ID", TempNameValueBuffer, not WithoutValidate) then
             exit;
 
-        RecRef.Modify(not WithoutValidate);
+        PermissionsProxy.ModifyRecord(RecRef, not WithoutValidate);
 
         if FieldRefVar.Type() = FieldRefVar.Type::Option then
             NewValue := TempNameValueBuffer.Value
