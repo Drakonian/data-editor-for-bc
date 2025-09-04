@@ -3,65 +3,65 @@
   <file datatype="xml" source-language="en-US" target-language="en-US" original="Data Editor Tool - Tests">
     <body>
       <group id="body">
-        <trans-unit id="Codeunit 672003831 - Method 2091360679 - NamedType 3207865190" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Codeunit 2327436880 - Method 2091360679 - NamedType 3207865190" size-unit="char" translate="yes" xml:space="preserve">
           <source>Are sure you want to delete %1 entries?</source>
           <note from="Developer" annotates="general" priority="2">%1 = Count of entries.</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET Basic Operations - Method DeleteAllRecordsWithoutValiation - NamedType DeleteAllLbl</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit VDVT Basic Operations - Method DeleteAllRecordsWithoutValiation - NamedType DeleteAllLbl</note>
         </trans-unit>
-        <trans-unit id="Codeunit 672003831 - Method 566919557 - NamedType 3207865190" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Codeunit 2327436880 - Method 566919557 - NamedType 3207865190" size-unit="char" translate="yes" xml:space="preserve">
           <source>Are sure you want to delete %1 entries?</source>
           <note from="Developer" annotates="general" priority="2">%1 = Count of entries.</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET Basic Operations - Method DeleteAllRecordsWithValiation - NamedType DeleteAllLbl</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit VDVT Basic Operations - Method DeleteAllRecordsWithValiation - NamedType DeleteAllLbl</note>
         </trans-unit>
-        <trans-unit id="Codeunit 672003831 - Method 914551780 - NamedType 49602008" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Codeunit 2327436880 - Method 914551780 - NamedType 49602008" size-unit="char" translate="yes" xml:space="preserve">
           <source>%1 must not contain letters</source>
           <note from="Developer" annotates="general" priority="2">%1 FieldCaption</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET Basic Operations - Method DirectEditWithValidation - NamedType PhoneNoCannotContainLettersErr</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit VDVT Basic Operations - Method DirectEditWithValidation - NamedType PhoneNoCannotContainLettersErr</note>
         </trans-unit>
-        <trans-unit id="Codeunit 672003831 - Method 17573270 - NamedType 2551427998" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Codeunit 2327436880 - Method 17573270 - NamedType 2551427998" size-unit="char" translate="yes" xml:space="preserve">
           <source>Do you want to change %1?</source>
           <note from="Developer" annotates="general" priority="2">%1 = a Field Caption like Currency Code</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET Basic Operations - Method SelectNewCustomerLookup - NamedType ConfirmChangeQst</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit VDVT Basic Operations - Method SelectNewCustomerLookup - NamedType ConfirmChangeQst</note>
         </trans-unit>
-        <trans-unit id="Codeunit 672003831 - Method 17573270 - NamedType 4127743745" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Codeunit 2327436880 - Method 17573270 - NamedType 4127743745" size-unit="char" translate="yes" xml:space="preserve">
           <source>If you change %1, the existing sales lines will be deleted and new sales lines based on the new information on the header will be created.\\Do you want to continue?</source>
           <note from="Developer" annotates="general" priority="2">%1: FieldCaption</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET Basic Operations - Method SelectNewCustomerLookup - NamedType RecreateSalesLinesMsg</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit VDVT Basic Operations - Method SelectNewCustomerLookup - NamedType RecreateSalesLinesMsg</note>
         </trans-unit>
-        <trans-unit id="Codeunit 4217209666 - Method 3874196933 - NamedType 3353806735" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Codeunit 2295572721 - Method 3874196933 - NamedType 3353806735" size-unit="char" translate="yes" xml:space="preserve">
           <source>Expected Value is %1, Current Value is %2. FieldIndex is %3. Record Id is %4.</source>
           <note from="Developer" annotates="general" priority="2">%1 = FieldValue, %2 = CurrentValue, %3 = FieldIndex, %4 = RecordId</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET Data Editor Buffer Helper - Method AssertBufferFieldValue - NamedType WrongValueErr</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit VDVT Data Editor Buffer Helper - Method AssertBufferFieldValue - NamedType WrongValueErr</note>
         </trans-unit>
-        <trans-unit id="Codeunit 2654364668 - NamedType 3488266395" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Codeunit 3304978843 - NamedType 3488266395" size-unit="char" translate="yes" xml:space="preserve">
           <source>Cust. Ledger Entry: %1</source>
           <note from="Developer" annotates="general" priority="2">%1 = Entry No.</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET Data Editor Permissions - NamedType CustLedgerEntryPKLbl</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit VDVT Data Editor Permissions - NamedType CustLedgerEntryPKLbl</note>
         </trans-unit>
-        <trans-unit id="Codeunit 2654364668 - NamedType 3207865190" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Codeunit 3304978843 - NamedType 3207865190" size-unit="char" translate="yes" xml:space="preserve">
           <source>Are sure you want to delete %1 entries?</source>
           <note from="Developer" annotates="general" priority="2">%1 = Count of entries.</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET Data Editor Permissions - NamedType DeleteAllLbl</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit VDVT Data Editor Permissions - NamedType DeleteAllLbl</note>
         </trans-unit>
-        <trans-unit id="Codeunit 2654364668 - NamedType 526728092" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Codeunit 3304978843 - NamedType 526728092" size-unit="char" translate="yes" xml:space="preserve">
           <source>Record %1 is inserted.</source>
           <note from="Developer" annotates="general" priority="2">%1 = Record Id</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET Data Editor Permissions - NamedType RecordIsInsertedMsg</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit VDVT Data Editor Permissions - NamedType RecordIsInsertedMsg</note>
         </trans-unit>
-        <trans-unit id="Codeunit 2654364668 - NamedType 1156647512" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Codeunit 3304978843 - NamedType 1156647512" size-unit="char" translate="yes" xml:space="preserve">
           <source>Vendor Ledger Entry: %1</source>
           <note from="Developer" annotates="general" priority="2">%1 = Entry No.</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET Data Editor Permissions - NamedType VendorLedgerEntryPKLbl</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit VDVT Data Editor Permissions - NamedType VendorLedgerEntryPKLbl</note>
         </trans-unit>
-        <trans-unit id="Codeunit 1731800726 - NamedType 3844598882" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Codeunit 907826362 - NamedType 3844598882" size-unit="char" translate="yes" xml:space="preserve">
           <source>You cannot create records in the temporary table.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET TDE Insert New Record - NamedType IsTempRecordErr</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit VDVT Insert New Record - NamedType IsTempRecordErr</note>
         </trans-unit>
-        <trans-unit id="Codeunit 1731800726 - NamedType 526728092" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Codeunit 907826362 - NamedType 526728092" size-unit="char" translate="yes" xml:space="preserve">
           <source>Record %1 is inserted.</source>
           <note from="Developer" annotates="general" priority="2">%1 = Record Id</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET TDE Insert New Record - NamedType RecordIsInsertedMsg</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit VDVT Insert New Record - NamedType RecordIsInsertedMsg</note>
         </trans-unit>
       </group>
     </body>

@@ -2,7 +2,7 @@
     {
         "bug":  "Need to set isolation disabled test runner. Currently not supported by CICD.",
         "codeunitId":  81101,
-        "codeunitName":  "TDET Basic Operations",
+        "codeunitName":  "VDVT Basic Operations",
         "method":  "LoadTableInParallel"
     }
 ]

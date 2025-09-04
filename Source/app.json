@@ -1,7 +1,7 @@
 {
-  "id": "e28d62da-ceb0-46e7-9e06-774bc46f4bac",
+  "id": "d295108a-0d45-4896-ba40-434eeed8cff2",
   "name": "Data Editor Tool",
-  "publisher": "Volodymyr Dvernytskyi",
+  "publisher": "Volodver LLC",
   "version": "4.1.0.0",
   "brief": "https://vld-bc.com/",
   "description": "https://vld-bc.com/",
@@ -16,8 +16,8 @@
   "application": "26.0.0.0",
   "idRanges": [
     {
-      "from": 81000,
-      "to": 81100
+      "from": 72995575,
+      "to": 72996574
     }
   ],
   "contextSensitiveHelpUrl": "https://vld-bc.com/",

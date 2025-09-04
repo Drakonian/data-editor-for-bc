@@ -1,7 +1,7 @@
 {
-  "id": "54854e1c-17cb-41e5-b89d-a937d576345d",
+  "id": "07695fef-2383-4589-9826-715905398934",
   "name": "Data Editor Tool - Tests",
-  "publisher": "Volodymyr Dvernytskyi",
+  "publisher": "Volodver LLC",
   "version": "1.0.0.0",
   "brief": "https://vld-bc.com/",
   "description": "https://vld-bc.com/",
@@ -48,8 +48,8 @@
       "name": "Permissions Mock"
     },
     {
-      "id": "e28d62da-ceb0-46e7-9e06-774bc46f4bac",
-      "publisher": "Volodymyr Dvernytskyi",
+      "id": "d295108a-0d45-4896-ba40-434eeed8cff2",
+      "publisher": "Volodver LLC",
       "version": "4.0.0.0",
       "name": "Data Editor Tool"
     }
@@ -59,8 +59,8 @@
   "application": "26.0.0.0",
   "idRanges": [
     {
-      "from": 81101,
-      "to": 81200
+      "from": 72996800,
+      "to": 72996820
     }
   ],
   "contextSensitiveHelpUrl": "https://vld-bc.com/",
