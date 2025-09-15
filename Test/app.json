@@ -3,12 +3,12 @@
   "name": "Data Editor Tool - Tests",
   "publisher": "Volodver LLC",
   "version": "1.0.0.0",
-  "brief": "https://vld-bc.com/",
-  "description": "https://vld-bc.com/",
-  "privacyStatement": "https://vld-bc.com/",
-  "EULA": "https://vld-bc.com/",
-  "help": "https://vld-bc.com/",
-  "url": "https://vld-bc.com/",
+  "brief": "https://volodver.com/",
+  "description": "https://volodver.com/",
+  "privacyStatement": "https://volodver.com/privacy-policy/",
+  "EULA": "https://volodver.com/license-terms/",
+  "help": "https://volodver.com/contacts/",
+  "url": "https://volodver.com/apps/table-data-editor/",
   "logo": "./logo.png",
   "dependencies": [
     {
@@ -63,7 +63,7 @@
       "to": 72996820
     }
   ],
-  "contextSensitiveHelpUrl": "https://vld-bc.com/",
+  "contextSensitiveHelpUrl": "https://volodver.com/faq/",
   "runtime": "15.0",
   "features": ["TranslationFile"],
   "resourceExposurePolicy":

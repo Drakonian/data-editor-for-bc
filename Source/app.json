@@ -3,12 +3,12 @@
   "name": "Data Editor Tool",
   "publisher": "Volodver LLC",
   "version": "4.1.0.0",
-  "brief": "https://vld-bc.com/",
-  "description": "https://vld-bc.com/",
-  "privacyStatement": "https://vld-bc.com/",
-  "EULA": "https://vld-bc.com/",
-  "help": "https://vld-bc.com/",
-  "url": "https://vld-bc.com/",
+  "brief": "Easy data editing and management. It lets users view, edit, import, export, and manipulate records with filters, sorting, bulk updates, and support for table relations and primary key changes.",
+  "description": "Data Editor Tool is a free, open-source tool for Microsoft Dynamics 365 Business Central that simplifies table data management. It allows users to easily view, edit, import, export, and manipulate table records with an intuitive interface. Designed for flexibility and efficiency, it supports filtering, sorting, bulk updates, and advanced features like renaming primary keys and handling table relations. The extension is developed by Volodymyr Dvernytskyi and available under the MIT license.",
+  "privacyStatement": "https://volodver.com/privacy-policy/",
+  "EULA": "https://volodver.com/license-terms/",
+  "help": "https://volodver.com/contacts/",
+  "url": "https://volodver.com/apps/table-data-editor/",
   "logo": "./logo.png",
   "dependencies": [],
   "screenshots": [],
@@ -20,7 +20,7 @@
       "to": 72995610
     }
   ],
-  "contextSensitiveHelpUrl": "https://vld-bc.com/",
+  "contextSensitiveHelpUrl": "https://volodver.com/faq",
   "runtime": "15.0",
   "features": ["TranslationFile"],
   "resourceExposurePolicy":
