@@ -3,6 +3,8 @@ Table Data Editor is an open-source application for Business Central. This appli
 
 https://vld-bc.com/table-data-editor-general
 
+[Data Editor Tool on AppSource](https://appsource.microsoft.com/en-us/product/dynamics-365-business-central/PUBID.volodver%7CAID.data-editor-tool%7CPAPPID.d295108a-0d45-4896-ba40-434eeed8cff2?tab=Overview)
+
 
 ![Data Editor](https://static.tildacdn.com/tild3565-3631-4636-b463-303765396635/OpenTable.gif)
 
