@@ -10,6 +10,24 @@ https://vld-bc.com/table-data-editor-general
 
 ---
 
+Are you a Business Central administrator or consultant facing complex data corrections? Do you need direct table access for testing scenarios and data migration? Are standard tools limiting your ability to efficiently manage and troubleshoot data issues?
+
+As a Business Central administrator or consultant, you face unique challenges that standard tools can't address. Data migrations stall when validation rules block legitimate imports. Testing requires specific scenarios that are tedious to create manually. Production issues demand immediate fixes that would normally require custom development. Cleanup operations across multiple tables become multi-day projects. When troubleshooting, you lack the visibility and control needed for efficient resolution. These limitations delay project timelines and increase implementation costs.
+
+Data Editor Tool provides administrators and consultants with unrestricted access to Business Central tables, enabling professional data management across all critical scenarios. Execute complex data migrations with validation bypass. Set up test scenarios in minutes. Perform surgical data fixes with full audit trails. Clean up legacy data efficiently. Gain complete visibility into table relationships for troubleshooting. This MIT-licensed tool delivers direct database access with enterprise-grade logging for compliance and change tracking.
+
+Key scenarios
+- Data Migration - Import/export with Excel and JSON, bypass validation rules, handle BLOB/Media fields
+- Testing & Development - Rapidly create test scenarios, manipulate any table, clone data sets
+- Data Cleanup - Bulk updates, find & replace across tables, delete obsolete records
+- Production Fixes - Direct editing capabilities, primary key renaming, immediate corrections
+- Data Analysis - Complete table visibility, advanced filtering, relationship exploration
+- Compliance & Audit - Comprehensive logging of all changes, user tracking, timestamp records
+- Performance Tools - Parallel processing, FlowField control, optimized for large datasets
+- Bulk Operations - Update columns, copy data between fields, modify filtered record sets
+
+---
+
 # Tips
 - Type **Data Editor** in the Business Central search to get started.
 - For the extension to work properly you must make sure that your BC user is using the **DET Data Editor Tool** or **SUPER** permission set.
