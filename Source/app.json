@@ -2,7 +2,7 @@
   "id": "d295108a-0d45-4896-ba40-434eeed8cff2",
   "name": "Data Editor Tool",
   "publisher": "Volodver LLC",
-  "version": "4.1.0.0",
+  "version": "4.1.0.1",
   "brief": "Easy data editing and management. It lets users view, edit, import, export, and manipulate records with filters, sorting, bulk updates, and support for table relations and primary key changes.",
   "description": "Data Editor Tool is a free, open-source tool for Microsoft Dynamics 365 Business Central that simplifies table data management. It allows users to easily view, edit, import, export, and manipulate table records with an intuitive interface. Designed for flexibility and efficiency, it supports filtering, sorting, bulk updates, and advanced features like renaming primary keys and handling table relations. The extension is developed by Volodymyr Dvernytskyi and available under the MIT license.",
   "privacyStatement": "https://volodver.com/privacy-policy/",
