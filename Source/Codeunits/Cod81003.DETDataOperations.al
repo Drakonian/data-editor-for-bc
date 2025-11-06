@@ -22,7 +22,7 @@ codeunit 81003 "DET Data Operations"
      tabledata "Invt. Receipt Header" = rimd, tabledata "Invt. Receipt Line" = rimd, tabledata "Invt. Shipment Header" = rimd, tabledata "Invt. Shipment Line" = rimd,
      tabledata "Pstd. Phys. Invt. Record Hdr" = rimd, tabledata "Pstd. Phys. Invt. Record Line" = rimd, tabledata "Pstd. Phys. Invt. Order Hdr" = rimd, tabledata "Pstd. Phys. Invt. Order Line" = rimd,
      tabledata "Bank Account Statement Line" = rimd, tabledata "Change Log Entry" = rimd, tabledata "Posted Approval Entry" = rimd, tabledata "FA Register" = rimd, tabledata "Post Value Entry to G/L" = rimd,
-     tabledata "Job Register" = rimd;
+     tabledata "Job Register" = rimd, tabledata "Cancelled Document" = rimd;
 
     var
         RenamePKNotSuppErr: Label 'Changing the primary key for >15 values is not supported.';
