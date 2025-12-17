@@ -1,0 +1,55 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "BC25 DEV",
+            "type": "al",
+            "request": "launch",
+            "environmentType": "OnPrem",
+            "server": "https://bcdev.originalstyle.com",
+            "serverInstance": "bc25",
+            "port" : 7049,                    
+            "authentication": "Windows",
+            //"startupObjectId": 22,
+            "breakOnError": "All",
+            "breakOnRecordWrite": "None",
+            "launchBrowser": true,
+            "enableSqlInformationDebugger": true,
+            "enableLongRunningSqlStatements": true,
+            "longRunningSqlStatementsThreshold": 500, 
+            "numberOfSqlStatements": 10,
+            "tenant": "default",
+            "usePublicURLFromServer": true
+        },
+        {
+            "name": "BC25 DEV (Attach)",
+            "type": "al",
+            "request": "attach",
+            "environmentType": "OnPrem",
+            "server": "https://bcdev.originalstyle.com",
+            "serverInstance": "bc25",
+            "port" : 7049,
+            "authentication": "Windows",
+            "breakOnError": "All",
+            "breakOnRecordWrite": "None",
+            "enableSqlInformationDebugger": true,
+            "enableLongRunningSqlStatements": true,
+            "longRunningSqlStatementsThreshold": 500,  
+            "numberOfSqlStatements": 10,
+            "breakOnNext": "WebServiceClient",
+            "tenant": "default"
+        },
+        {
+            "name": "BC25 DEV (Snapshot Debug)",
+            "type": "al",
+            "request": "snapshotInitialize",
+            "environmentType": "OnPrem",
+            "server": "https://bcdev.originalsytyle.com",
+            "serverInstance": "bc25",
+            "port" : 7083,
+            "authentication": "Windows",
+            "breakOnNext": "WebClient",
+            "executionContext": "DebugAndProfile"
+        }
+    ]
+}

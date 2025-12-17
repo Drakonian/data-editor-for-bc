@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 //
 // Original author — Volodymyr Dvernytskyi (Data Editor Tool)
-permissionset 81000 "DET Data Editor Tool"
+permissionset 50000 "DET Data Editor Tool"
 {
     Assignable = true;
     Caption = 'Data Editor Tool';
