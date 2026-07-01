@@ -5138,6 +5138,26 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DET Select Fields - Action Clear Included - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 971391312 - Action 3340327436 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Clear the Included mark for all fields except primary key fields.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Select Fields - Action Deselect All - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 971391312 - Action 3340327436 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deselect All</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Select Fields - Action Deselect All - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 971391312 - Action 1924145123 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Mark all fields as included.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Select Fields - Action Select All - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 971391312 - Action 1924145123 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Select All</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DET Select Fields - Action Select All - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 971391312 - Action 3170972806 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Set Included</source>
           <note from="Developer" annotates="general" priority="2"></note>
