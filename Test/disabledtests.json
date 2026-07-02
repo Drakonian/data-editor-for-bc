@@ -1,6 +1,6 @@
 [
     {
-        "bug":  "Need to set isolation disabled test runner. Currently not supported by CICD.",
+        "bug":  "Need to set isolation disabled test runner. Currently not supported by AL-Go.",
         "codeunitId":  81101,
         "codeunitName":  "VDVT Basic Operations",
         "method":  "LoadTableInParallel"
