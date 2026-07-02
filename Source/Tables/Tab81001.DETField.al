@@ -14,6 +14,7 @@ table 81001 "DET Field"
         {
             Caption = 'Field Id';
             DataClassification = CustomerContent;
+            Editable = false;
         }
         field(2; Name; Text[2048])
         {

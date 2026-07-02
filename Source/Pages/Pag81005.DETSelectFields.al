@@ -5,7 +5,7 @@
 page 81005 "DET Select Fields"
 {
     Caption = 'Select Fields';
-    PageType = List;
+    PageType = Worksheet;
     SourceTable = "DET Field";
     SourceTableTemporary = true;
     InsertAllowed = false;
@@ -92,6 +92,34 @@ page 81005 "DET Select Fields"
                     CurrPage.Update(false);
                 end;
             }
+            action("Select All")
+            {
+                Caption = 'Select All';
+                ToolTip = 'Mark all fields as included.';
+                Image = AllLines;
+                Visible = not OneFieldMode;
+                trigger OnAction()
+                begin
+                    Rec.Reset();
+                    Rec.ModifyAll(Included, true);
+                    CurrPage.Update(false);
+                end;
+            }
+            action("Deselect All")
+            {
+                Caption = 'Deselect All';
+                ToolTip = 'Clear the Included mark for all fields except primary key fields.';
+                Image = CancelAllLines;
+                Visible = not OneFieldMode;
+                trigger OnAction()
+                begin
+                    Rec.Reset();
+                    Rec.SetRange(IsPartOfPrimaryKey, false);
+                    Rec.ModifyAll(Included, false);
+                    Rec.Reset();
+                    CurrPage.Update(false);
+                end;
+            }
         }
         area(Promoted)
         {
@@ -101,6 +129,12 @@ page 81005 "DET Select Fields"
                 {
                 }
                 actionref("Clear Included_Promoted"; "Clear Included")
+                {
+                }
+                actionref("Select All_Promoted"; "Select All")
+                {
+                }
+                actionref("Deselect All_Promoted"; "Deselect All")
                 {
                 }
             }
@@ -172,4 +206,3 @@ page 81005 "DET Select Fields"
         FilterOnlyNormalFields: Boolean;
         ShowOnlyFilteredFields: Boolean;
 }
-
