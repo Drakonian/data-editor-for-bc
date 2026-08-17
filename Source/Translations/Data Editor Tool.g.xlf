@@ -2329,12 +2329,12 @@
           <note from="Xliff Generator" annotates="general" priority="3">Page VDV Data Editor - Control CustomTableViewField - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 3968369447 - Control 3522160761 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Exclude FlowField's from loading. For best performance, always exclude FlowField's.</source>
+          <source>Exclude FlowFields from loading. For best performance, always exclude FlowFields.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page VDV Data Editor - Control ExcludeFlowFieldsField - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 3968369447 - Control 3522160761 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Exclude FlowField's</source>
+          <source>Exclude FlowFields</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page VDV Data Editor - Control ExcludeFlowFieldsField - Property Caption</note>
         </trans-unit>

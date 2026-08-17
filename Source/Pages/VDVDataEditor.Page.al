@@ -112,8 +112,8 @@ page 72995576 "VDV Data Editor"
                 field(ExcludeFlowFieldsField; ExcludeFlowFields)
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Exclude FlowField''s from loading. For best performance, always exclude FlowField''s.';
-                    Caption = 'Exclude FlowField''s';
+                    ToolTip = 'Exclude FlowFields from loading. For best performance, always exclude FlowFields.';
+                    Caption = 'Exclude FlowFields';
 
                     trigger OnValidate()
                     begin
