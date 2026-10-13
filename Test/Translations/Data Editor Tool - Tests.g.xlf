@@ -53,6 +53,11 @@
           <note from="Developer" annotates="general" priority="2">%1 = Entry No.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET Data Editor Permissions - NamedType VendorLedgerEntryPKLbl</note>
         </trans-unit>
+        <trans-unit id="Codeunit 2060600315 - NamedType 143447115" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Warning: you are opening a table with posted historical entries in a production environment.\\Changing, inserting, or deleting these records bypasses the standard posting logic and can break data consistency between ledgers, which is very difficult to reverse.\\Proceed only if you fully understand the consequences.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit TDET Historical Table Warning - NamedType HistoricalTableWarningMsg</note>
+        </trans-unit>
         <trans-unit id="Codeunit 1731800726 - NamedType 3844598882" size-unit="char" translate="yes" xml:space="preserve">
           <source>You cannot create records in the temporary table.</source>
           <note from="Developer" annotates="general" priority="2"></note>
