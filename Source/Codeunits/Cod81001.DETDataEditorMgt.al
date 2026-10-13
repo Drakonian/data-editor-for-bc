@@ -1015,8 +1015,11 @@ codeunit 81001 "DET Data Editor Mgt."
     procedure ShowProductionHistoricalTableWarning(TableNo: Integer)
     var
         EnvironmentInformation: Codeunit "Environment Information";
+        IsProduction: Boolean;
     begin
-        if not EnvironmentInformation.IsProduction() then
+        IsProduction := EnvironmentInformation.IsProduction();
+        OnAfterIsProduction(IsProduction);
+        if not IsProduction then
             exit;
 
         if not IsHistoricalTable(TableNo) then
@@ -1024,6 +1027,11 @@ codeunit 81001 "DET Data Editor Mgt."
 
         if GuiAllowed() then
             Message(HistoricalTableWarningMsg);
+    end;
+
+    [BusinessEvent(false)]
+    local procedure OnAfterIsProduction(var IsProduction: Boolean)
+    begin
     end;
 
     var
