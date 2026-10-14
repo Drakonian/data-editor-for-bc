@@ -997,6 +997,43 @@ codeunit 72995576 "VDV Data Editor Mgt."
             RecRef.SystemCreatedByNo(), RecRef.SystemModifiedAtNo(), RecRef.SystemModifiedByNo()]);
     end;
 
+    procedure IsHistoricalTable(TableNo: Integer): Boolean
+    begin
+        if TableNo in [Database::"Vendor Ledger Entry", Database::"FA Ledger Entry", Database::"Job Ledger Entry", Database::"Item Ledger Entry",
+            Database::"Res. Ledger Entry", Database::"Check Ledger Entry", Database::"Cust. Ledger Entry", Database::"Service Ledger Entry",
+            Database::"Capacity Ledger Entry", Database::"Employee Ledger Entry", Database::"Warranty Ledger Entry", Database::"Maintenance Ledger Entry",
+            Database::"Bank Account Ledger Entry", Database::"Ins. Coverage Ledger Entry", Database::"Payable Vendor Ledger Entry", Database::"Phys. Inventory Ledger Entry",
+            Database::"Payable Employee Ledger Entry", Database::"Detailed Employee Ledger Entry", Database::"Detailed Cust. Ledg. Entry", Database::"Detailed Vendor Ledg. Entry",
+            Database::"G/L Entry", Database::"Approval Entry", Database::"Warehouse Entry", Database::"Value Entry", Database::"VAT Entry", Database::"Dimension Set Entry",
+            Database::"G/L Entry - VAT Entry Link", Database::"Item Application Entry", Database::"Item Application Entry History",
+            Database::"Change Log Entry", Database::"Posted Approval Entry", Database::"Post Value Entry to G/L",
+            Database::"Reminder/Fin. Charge Entry", Database::"Inventory Adjmt. Entry (Order)"]
+        then
+            exit(true);
+    end;
+
+    procedure ShowProductionHistoricalTableWarning(TableNo: Integer)
+    var
+        EnvironmentInformation: Codeunit "Environment Information";
+        IsProduction: Boolean;
+    begin
+        IsProduction := EnvironmentInformation.IsProduction();
+        OnAfterIsProduction(IsProduction);
+        if not IsProduction then
+            exit;
+
+        if not IsHistoricalTable(TableNo) then
+            exit;
+
+        if GuiAllowed() then
+            Message(HistoricalTableWarningMsg);
+    end;
+
+    [BusinessEvent(false)]
+    local procedure OnAfterIsProduction(var IsProduction: Boolean)
+    begin
+    end;
+
     var
         DataOperations: Codeunit "VDV Data Operations";
         ImportFinishedLbl: Label 'Import is finished.';
@@ -1008,4 +1045,5 @@ codeunit 72995576 "VDV Data Editor Mgt."
         JSONFilterLbl: Label 'JSON files (*.json, *.txt)|*.json;*.txt', Locked = true;
         ExcelFilterLbl: Label 'Excel files (*.xlsx)|*.xlsx', Locked = true;
         TableNotEditableErr: Label 'This table is protected from editing.';
+        HistoricalTableWarningMsg: Label 'Warning: you are opening a table with posted historical entries in a production environment.\\Changing, inserting, or deleting these records bypasses the standard posting logic and can break data consistency between ledgers, which is very difficult to reverse.\\Proceed only if you fully understand the consequences.';
 }

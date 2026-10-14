@@ -6577,6 +6577,13 @@ page 72995575 "VDV Data Editor Buffer"
         OnPageInitialization(IsTestMode);
     end;
 
+    trigger OnOpenPage()
+    var
+        DataEditorMgt: Codeunit "VDV Data Editor Mgt.";
+    begin
+        DataEditorMgt.ShowProductionHistoricalTableWarning(TableNumber);
+    end;
+
     trigger OnDeleteRecord(): Boolean
     begin
         DeleteSourceRecord(Rec."Source Record ID");
@@ -6828,6 +6835,8 @@ page 72995575 "VDV Data Editor Buffer"
         FieldRec.FilterGroup(10);
         FieldRec.SetFilter("No.", FieldFilter);
         FieldRec.FilterGroup(0);
+
+        TableNumber := TableNo;
 
         //By +5 we will loop through system fields as well
         for FieldID := 1 to (RecRef.FieldCount() + 5) do begin
@@ -7988,6 +7997,7 @@ page 72995575 "VDV Data Editor Buffer"
         CustomTableView: text;
         FieldFilter: text;
         InitLoadDateTime: DateTime;
+        TableNumber: Integer;
         GenFieldInfoDict: Dictionary of [Integer, Dictionary of [Integer, Text]];
         CaptionDictionary: Dictionary of [Integer, Text];
         LoadFieldNoList: List of [Integer];
