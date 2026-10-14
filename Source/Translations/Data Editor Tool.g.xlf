@@ -2253,6 +2253,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table VDV Query Preset - Field Preset Json - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Codeunit 1395172623 - NamedType 143447115" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Warning: you are opening a table with posted historical entries in a production environment.\\Changing, inserting, or deleting these records bypasses the standard posting logic and can break data consistency between ledgers, which is very difficult to reverse.\\Proceed only if you fully understand the consequences.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit VDV Data Editor Mgt. - NamedType HistoricalTableWarningMsg</note>
+        </trans-unit>
         <trans-unit id="Codeunit 1395172623 - NamedType 3552429591" size-unit="char" translate="yes" xml:space="preserve">
           <source>Import is finished.</source>
           <note from="Developer" annotates="general" priority="2"></note>
